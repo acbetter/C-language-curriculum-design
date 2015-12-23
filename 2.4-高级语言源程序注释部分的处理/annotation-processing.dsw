@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "main"=".\main.dsp" - Package Owner=<4>
+Project: "annotation-processing"=".\annotation-processing.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
