@@ -5,13 +5,11 @@
 输出其可能的组合式。
 */
 
-#include <stdio.h>
-#include <time.h>
-#include <math.h>
-#include <windows.h>
-#include <stdlib.h>
-
-#define N 24
+#include<stdio.h>
+#include<time.h>
+#include<math.h>
+#include<windows.h>
+#include<stdlib.h>
 
 float calc(float n1, float n2, char o) {
 
@@ -19,18 +17,13 @@ float calc(float n1, float n2, char o) {
         case '+': return (n1+n2);
         case '-': return (n1-n2);
         case '*': return (n1*n2);
-        case '/': 
-			if(n2==0)
-				return -30000;
-			else
-				return (n1/n2);
+        case '/': return (n1/n2);
 		default: exit(-1);
     }
 }
 
 
 int i;
-int a,b,c;
 
 int low=1;//下限为1
 int high=13;//上限为13
@@ -38,9 +31,7 @@ int high=13;//上限为13
 char op[4]={'+','-','*','/'};
 float T=0;//T用来存放临时结果
 
-float arr[4]={0};//arr用来存放计算结果
-float cur[4]={0};//cur用来存放当前数组
-float con[4]={0};//con用来存放原始数据
+float arr[4]={0};
 
 void randomGet(int arr[]) {
 
@@ -97,25 +88,9 @@ void userGet(int arr[]) {
 	}
 }
 
-void e_print_1() {
-	
-	printf("arr[i]
-}
-
 void s_first() {
 
-	i=0;
-	a=b=c=0;
-
-	arr[i]=calc(arr[i],arr[i+1],op[a]);
-	i++;
-	arr[i]=calc(arr[i],arr[i+1],op[b]);
-	i++;
-	arr[i]=calc(arr[i],arr[i+1],op[c]);
-	i++;
-	if(arr[i]==N)
-		
-	
+	T=0;
 
 }
 
@@ -127,10 +102,8 @@ int main(void)
 	//float arr[4]={0};已经全局定义
 	randomGet(pai);
 	//userGet(pai);
-	for(i=0;i<4;i++) {
+	for(i=0;i<4;i++)
 		arr[i]=(float)pai[i];//转换为浮点数组方便除法运算.避免用户输入浮点数
-		cur[i]=con[i]=arr[i];
-	}
 	system("pause");
 
 
