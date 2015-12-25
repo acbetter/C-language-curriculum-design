@@ -6,33 +6,11 @@
 --------------------Configuration: annotation-processing - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\user\AppData\Local\Temp\RSPBFF9.tmp" with contents
-[
-/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/annotation-processing.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp"
-]
-Creating command line "cl.exe @C:\Users\user\AppData\Local\Temp\RSPBFF9.tmp" 
-Creating temporary file "C:\Users\user\AppData\Local\Temp\RSPBFFA.tmp" with contents
-[
-kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/annotation-processing.pdb" /debug /machine:I386 /out:"Debug/annotation-processing.exe" /pdbtype:sept 
-".\Debug\annotation-processing.obj"
-]
-Creating command line "link.exe @C:\Users\user\AppData\Local\Temp\RSPBFFA.tmp"
-<h3>Output Window</h3>
-Compiling...
-annotation-processing.cpp
-F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp(77) : error C2143: syntax error : missing ')' before ','
-F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp(77) : error C2660: 'fopen' : function does not take 0 parameters
-F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp(77) : error C2143: syntax error : missing ';' before '=='
-F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp(77) : error C2059: syntax error : ')'
-F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp(77) : error C2143: syntax error : missing ';' before '{'
-F:\C语言之课程设计\2.4-高级语言源程序注释部分的处理\annotation-processing.cpp(83) : error C2044: illegal continue
-执行 cl.exe 时出错.
 
 
 
 <h3>Results</h3>
-annotation-processing.exe - 1 error(s), 0 warning(s)
+annotation-processing.exe - 0 error(s), 0 warning(s)
 </pre>
 </body>
 </html>
