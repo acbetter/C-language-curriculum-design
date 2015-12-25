@@ -29,7 +29,7 @@ float calc(float n1, float n2, char o) {
 }
 
 
-int i;
+
 int a,b,c;
 
 int low=1;//下限为1
@@ -42,12 +42,22 @@ float arr[4]={0};//arr用来存放计算结果
 float cur[4]={0};//cur用来存放当前数组
 float con[4]={0};//con用来存放原始数据
 
+void initAllFromCon() {
+
+	int i;
+	for(i=0;i<4;i++) {
+		arr[i]=con[i];
+		cur[i]=con[i];
+	}
+}
+
 void randomGet(int arr[]) {
 
 	srand((unsigned)time(NULL));
 	
 	printf("随机输出的四张牌分别是 ");
 
+	int i;
 	for(i=0;i<4;i++)
 	{
 		arr[i]=rand()%high+low;
@@ -60,7 +70,7 @@ void randomGet(int arr[]) {
 
 void userGet(int arr[]) {
 
-	int sign;
+	int i,sign;
 	int temp=0;
 
 	while(1)
@@ -97,26 +107,60 @@ void userGet(int arr[]) {
 	}
 }
 
-void e_print_1() {
+void printResult_1(int a,int b,int c) {
+
 	
-	printf("arr[i]
+	if( (a==0||a==1)&&(b==2||b==3) )
+		printf("(%g%c%g)%c%g%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
+	else if ( (b==0||b==1)&&(c==2||c==3) )
+		printf("(%g%c%g%c%g)%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
+	else
+		printf("%g%c%g%c%g%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
 }
+
+void initArrFromCur() {
+
+	int g;
+	for(g=0;g<4;g++)
+		arr[g]=cur[g];
+
+}
+
 
 void s_first() {
 
-	i=0;
-	a=b=c=0;
+	int i,j,k;
 
-	arr[i]=calc(arr[i],arr[i+1],op[a]);
-	i++;
-	arr[i]=calc(arr[i],arr[i+1],op[b]);
-	i++;
-	arr[i]=calc(arr[i],arr[i+1],op[c]);
-	i++;
-	if(arr[i]==N)
-		
-	
+	int sort[4][4]={
+			{1,2,3,4},
+			{2,3,4,1},
+			{2,3,1,4},
+			{3,4,2,1},
+		};
+	//模拟平衡二叉树之单挂
+	for(j=0;j<4;j++) {
 
+		for(k=0;k<4;k++) 
+			cur[k]=con[sort[j][k]-1];
+
+		for(a=0;a<4;a++)  {
+			for(b=0;b<4;b++) {
+				for(c=0;c<4;c++) {
+
+				initArrFromCur();
+
+				i=0;
+				arr[1]=calc(arr[i],arr[i+1],op[a]);
+				i++;
+				arr[2]=calc(arr[i],arr[i+1],op[b]);
+				i++;
+				arr[3]=calc(arr[i],arr[i+1],op[c]);
+				if(fabs(arr[3]-N)<=0.1)
+					printResult_1(a,b,c);
+				}
+			}
+		}
+	}
 }
 
 
@@ -125,13 +169,16 @@ int main(void)
 {
 	int pai[4]={0};
 	//float arr[4]={0};已经全局定义
-	randomGet(pai);
-	//userGet(pai);
-	for(i=0;i<4;i++) {
-		arr[i]=(float)pai[i];//转换为浮点数组方便除法运算.避免用户输入浮点数
-		cur[i]=con[i]=arr[i];
-	}
-	system("pause");
+	//randomGet(pai);
+	userGet(pai);
+	int i;
+	for(i=0;i<4;i++)
+		con[i]=(float)pai[i];//转换为浮点数组方便除法运算.避免用户输入浮点数
+
+	initAllFromCon();
+	
+	//system("pause");
+	s_first();
 
 
 
