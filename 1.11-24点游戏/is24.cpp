@@ -13,6 +13,23 @@
 
 #define N 24
 
+struct {
+	int mode;//当前模式 1.帮我计算(容许小数) 2.练习模式(无尽模式) 3.天梯模式 4.双人模式 0.exit
+	int isPrint;//是否输出结果 1.输出 0.不输出
+	int inputMode;//切换帮我计算中输入模式 1.single 逐个输入 2.linear 单行输入所有数据
+	int saveSettings;//是否保存当前设置
+
+}settings;
+
+void initSettings() {
+
+	settings.mode=666;
+	settings.isPrint=0;
+	settings.inputMode=2;
+	settings.saveSettings=1;
+
+}
+
 float calc(float n1, float n2, char o) {
 
     switch(o) {
@@ -51,7 +68,7 @@ void initAllFromCon() {
 	}
 }
 
-void randomGet(int arr[]) {
+void randomGet() {
 
 	srand((unsigned)time(NULL));
 	
@@ -60,18 +77,17 @@ void randomGet(int arr[]) {
 	int i;
 	for(i=0;i<4;i++)
 	{
-		arr[i]=rand()%high+low;
-		printf("%d ",arr[i]);
+		con[i]=(float)(rand()%high+low);
+		printf("%g ",arr[i]);
 	}
 
 	printf("随机生成四张牌成功！\n");
 
 }
 
-void userGet(int arr[]) {
+void userGetLinear() {
 
 	int i,sign;
-	int temp=0;
 
 	while(1)
 	{
@@ -82,7 +98,7 @@ void userGet(int arr[]) {
 		
 		fflush(stdin);
 		for(i=0;i<4;i++)
-			scanf("%5d",&arr[i]);
+			scanf("%f",&con[i]);
 		//这种写法在输入 ^ & ( ) 后会出现死循环 !@#$%^&...
 	
 		printf("您输入的四张牌是: ");
@@ -90,15 +106,17 @@ void userGet(int arr[]) {
 		{
 			if(arr[i]>=low&&arr[i]<=high)
 			{
-				printf("%d ",arr[i]);
+				printf("%g ",arr[i]);
 				sign++;
 			}
 			else
 			{
 				printf("?\n第%d张牌输入有误，",i+1);
+				sign=-1;
 				break;
 			}
-			sign=i+1;
+			if(sign=-1)
+				break;
 		}
 		if(sign==4)
 			break;
@@ -117,10 +135,12 @@ void printResult_1(int a,int b,int c) {
 		printf("%g%c%g%c%g%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
 }
 
+
 void printResult_2(int a,int b,int c) {
 	
 		printf("(%g%c%g)%c(%g%c%g)=%d\n",cur[0],op[a],cur[1],op[c],cur[2],op[b],cur[3],N);
 }
+
 
 void initArrFromCur() {
 
@@ -131,7 +151,10 @@ void initArrFromCur() {
 }
 
 
-void s_first() {
+//模拟平衡二叉树之单挂
+int s_first() {
+
+	int result = 0;
 
 	int j,k;
 
@@ -141,7 +164,7 @@ void s_first() {
 			{2,3,1,4},
 			{3,4,2,1},
 		};
-	//模拟平衡二叉树之单挂
+
 	for(j=0;j<4;j++) {
 
 		for(k=0;k<4;k++) 
@@ -156,18 +179,25 @@ void s_first() {
 				arr[1]=calc(arr[0],arr[1],op[a]);
 				arr[2]=calc(arr[1],arr[2],op[b]);
 				arr[3]=calc(arr[2],arr[3],op[c]);
-				if(fabs(arr[3]-N)<=0.1)
+				if(fabs(arr[3]-N)<=0.1) {
+					result=1;
 					printResult_1(a,b,c);
+				}
+
 				}
 			}
 		}
 	}
 
 	initAllFromCon();
+	return result;
 }
 
 
-void s_second() {
+//模拟平衡二叉树之双链
+int s_second() {
+
+	int result = 0;
 
 	int j,k;
 
@@ -176,7 +206,7 @@ void s_second() {
 			{1,3,2,4},
 			{1,4,2,3},
 		};
-	//模拟平衡二叉树之双链
+
 	for(j=0;j<3;j++) {
 
 		for(k=0;k<4;k++) 
@@ -191,33 +221,71 @@ void s_second() {
 				arr[1]=calc(arr[0],arr[1],op[a]);
 				arr[2]=calc(arr[2],arr[3],op[b]);
 				arr[3]=calc(arr[1],arr[2],op[c]);
-				if(fabs(arr[3]-N)<=0.1)
+				if(fabs(arr[3]-N)<=0.1) {
+					result=1;
 					printResult_2(a,b,c);
+				}
+
 				}
 			}
 		}
 	}
 
 	initAllFromCon();
+	return result;
 }
 
-int main(void)
+int test(void)
 {
-	int pai[4]={0};
-	//float arr[4]={0};已经全局定义
-	//randomGet(pai);
-	userGet(pai);
-	int i;
-	for(i=0;i<4;i++)
-		con[i]=(float)pai[i];//转换为浮点数组方便除法运算.避免用户输入浮点数
-
+	
+	randomGet();
+	
+	
+	
 	initAllFromCon();
 	
 	//system("pause");
 	s_first();
 	s_second();
 
+	return 0;
+}
+
+int main(void) {
+
+	initSettings();
 
 
 	return 0;
 }
+
+
+
+char ch;
+FILE *fp;
+fp=fopen("asc.txt","w");
+if(fp==NULL)
+{printf("cannot open");
+exit (0);
+}
+while(!feof(fp)).........（为什么要有这个）
+{ch=fgetc(fp);
+putchar(ch);}
+fclose(fp);}
+
+
+
+ fflush(stdin); //清除缓存数据 
+    char key;
+    key = getch();
+
+int tf = 1;
+
+if (key == 72)
+        tf = movup();
+    else if (key == 80)
+        tf = movdow();
+    else if (key == 75)
+        tf = movlif();
+    else if (key == 77)
+        tf = movri();
