@@ -108,7 +108,6 @@ void userGet(int arr[]) {
 }
 
 void printResult_1(int a,int b,int c) {
-
 	
 	if( (a==0||a==1)&&(b==2||b==3) )
 		printf("(%g%c%g)%c%g%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
@@ -116,6 +115,11 @@ void printResult_1(int a,int b,int c) {
 		printf("(%g%c%g%c%g)%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
 	else
 		printf("%g%c%g%c%g%c%g=%d\n",cur[0],op[a],cur[1],op[b],cur[2],op[c],cur[3],N);
+}
+
+void printResult_2(int a,int b,int c) {
+	
+		printf("(%g%c%g)%c(%g%c%g)=%d\n",cur[0],op[a],cur[1],op[c],cur[2],op[b],cur[3],N);
 }
 
 void initArrFromCur() {
@@ -129,7 +133,7 @@ void initArrFromCur() {
 
 void s_first() {
 
-	int i,j,k;
+	int j,k;
 
 	int sort[4][4]={
 			{1,2,3,4},
@@ -149,21 +153,53 @@ void s_first() {
 
 				initArrFromCur();
 
-				i=0;
-				arr[1]=calc(arr[i],arr[i+1],op[a]);
-				i++;
-				arr[2]=calc(arr[i],arr[i+1],op[b]);
-				i++;
-				arr[3]=calc(arr[i],arr[i+1],op[c]);
+				arr[1]=calc(arr[0],arr[1],op[a]);
+				arr[2]=calc(arr[1],arr[2],op[b]);
+				arr[3]=calc(arr[2],arr[3],op[c]);
 				if(fabs(arr[3]-N)<=0.1)
 					printResult_1(a,b,c);
 				}
 			}
 		}
 	}
+
+	initAllFromCon();
 }
 
 
+void s_second() {
+
+	int j,k;
+
+	int sort[3][4]={
+			{1,2,3,4},
+			{1,3,2,4},
+			{1,4,2,3},
+		};
+	//模拟平衡二叉树之双链
+	for(j=0;j<3;j++) {
+
+		for(k=0;k<4;k++) 
+			cur[k]=con[sort[j][k]-1];
+
+		for(a=0;a<2;a++)  {
+			for(b=0;b<2;b++) {
+				for(c=2;c<4;c++) {
+
+				initArrFromCur();
+
+				arr[1]=calc(arr[0],arr[1],op[a]);
+				arr[2]=calc(arr[2],arr[3],op[b]);
+				arr[3]=calc(arr[1],arr[2],op[c]);
+				if(fabs(arr[3]-N)<=0.1)
+					printResult_2(a,b,c);
+				}
+			}
+		}
+	}
+
+	initAllFromCon();
+}
 
 int main(void)
 {
@@ -179,6 +215,7 @@ int main(void)
 	
 	//system("pause");
 	s_first();
+	s_second();
 
 
 
