@@ -6,71 +6,27 @@
 --------------------Configuration: is24 - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP784.tmp" with contents
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP7346.tmp" with contents
 [
 /nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/is24.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "D:\C语言之课程设计\1.11-24点游戏\is24.cpp"
 ]
-Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSP784.tmp" 
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP785.tmp" with contents
+Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSP7346.tmp" 
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP7356.tmp" with contents
 [
 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/is24.pdb" /debug /machine:I386 /out:"Debug/is24.exe" /pdbtype:sept 
 ".\Debug\is24.obj"
 ]
-Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSP785.tmp"
+Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSP7356.tmp"
 <h3>Output Window</h3>
 Compiling...
 is24.cpp
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(266) : error C2501: 'fp' : missing storage-class or type specifiers
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(266) : error C2040: 'fp' : 'int' differs in levels of indirection from 'struct _iobuf *'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(266) : error C2440: 'initializing' : cannot convert from 'struct _iobuf *' to 'int'
-        This conversion requires a reinterpret_cast, a C-style cast or function-style cast
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(267) : error C2143: syntax error : missing ';' before 'if'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(268) : error C2143: syntax error : missing ';' before '{'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(268) : error C2447: missing function header (old-style formal list?)
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2143: syntax error : missing ';' before 'while'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xa3'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xa8'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xce'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xaa'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xca'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xb2'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xc3'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xb4'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xd2'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xaa'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xd3'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xd0'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xd5'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xe2'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xb8'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xf6'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xa3'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(271) : error C2018: unknown character '0xa9'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(272) : error C2143: syntax error : missing ';' before '{'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(272) : error C2447: missing function header (old-style formal list?)
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(274) : error C2501: 'fclose' : missing storage-class or type specifiers
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(274) : error C2373: 'fclose' : redefinition; different type modifiers
-        c:\vc98\include\stdio.h(285) : see declaration of 'fclose'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(274) : error C2440: 'initializing' : cannot convert from 'struct _iobuf *' to 'int'
-        This conversion requires a reinterpret_cast, a C-style cast or function-style cast
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(274) : error C2143: syntax error : missing ';' before '}'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(274) : error C2143: syntax error : missing ';' before '}'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(274) : error C2143: syntax error : missing ';' before '}'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(280) : error C2501: 'key' : missing storage-class or type specifiers
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(280) : error C2371: 'key' : redefinition; different basic types
-        D:\C语言之课程设计\1.11-24点游戏\is24.cpp(279) : see declaration of 'key'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(280) : error C2065: 'getch' : undeclared identifier
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(284) : error C2143: syntax error : missing ';' before 'if'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(286) : error C2143: syntax error : missing ';' before 'else'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(288) : error C2143: syntax error : missing ';' before 'else'
-D:\C语言之课程设计\1.11-24点游戏\is24.cpp(290) : error C2143: syntax error : missing ';' before 'else'
-Error executing cl.exe.
+Linking...
 
 
 
 <h3>Results</h3>
-is24.exe - 40 error(s), 0 warning(s)
+is24.exe - 0 error(s), 0 warning(s)
 </pre>
 </body>
 </html>

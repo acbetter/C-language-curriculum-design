@@ -5,27 +5,80 @@
 输出其可能的组合式。
 */
 
+//由于调用getch()和fflush(stdin),程序的移植性较差,请尽量在vc++6.0中编译运行.
+
 #include <stdio.h>
 #include <time.h>
 #include <math.h>
 #include <windows.h>
 #include <stdlib.h>
+#include <conio.h>
 
-#define N 24
+//------------------------------------------
 
-struct {
-	int mode;//当前模式 1.帮我计算(容许小数) 2.练习模式(无尽模式) 3.天梯模式 4.双人模式 0.exit
+
+
+struct set{
+	int mode;//当前模式 1.帮我计算(容许小数) 2.练习模式(无尽模式) 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
 	int isPrint;//是否输出结果 1.输出 0.不输出
-	int inputMode;//切换帮我计算中输入模式 1.single 逐个输入 2.linear 单行输入所有数据
 	int saveSettings;//是否保存当前设置
 
-}settings;
+};
+
+struct set settings;
+
+int N = 24;
+
+int a,b,c;
+
+int low=1;//下限为1
+int high=13;//上限为13
+
+char op[4]={'+','-','*','/'};
+float T=0;//T用来存放临时结果
+
+float arr[4]={0};//arr用来存放计算结果
+float cur[4]={0};//cur用来存放当前数组
+float con[4]={0};//con用来存放原始数据
+
+
+//------------------------------------------
+
+void initSettings();
+float calc(float n1, float n2, char o);
+void initAllFromCon();
+void randomGet();
+int isJQK(char *p);
+void userGet();
+void printResult_1(int a,int b,int c);
+void printResult_2(int a,int b,int c);
+void initArrFromCur();
+
+int s_first();	//模拟平衡二叉树之单挂
+int s_second();	//模拟平衡二叉树之双链
+
+int test(void);
+void menuPrint();
+
+int move() ;
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------
+
 
 void initSettings() {
 
-	settings.mode=666;
+	settings.mode=1;
 	settings.isPrint=0;
-	settings.inputMode=2;
 	settings.saveSettings=1;
 
 }
@@ -47,18 +100,6 @@ float calc(float n1, float n2, char o) {
 
 
 
-int a,b,c;
-
-int low=1;//下限为1
-int high=13;//上限为13
-
-char op[4]={'+','-','*','/'};
-float T=0;//T用来存放临时结果
-
-float arr[4]={0};//arr用来存放计算结果
-float cur[4]={0};//cur用来存放当前数组
-float con[4]={0};//con用来存放原始数据
-
 void initAllFromCon() {
 
 	int i;
@@ -72,8 +113,6 @@ void randomGet() {
 
 	srand((unsigned)time(NULL));
 	
-	printf("随机输出的四张牌分别是 ");
-
 	int i;
 	for(i=0;i<4;i++)
 	{
@@ -81,49 +120,48 @@ void randomGet() {
 		printf("%g ",arr[i]);
 	}
 
-	printf("随机生成四张牌成功！\n");
-
 }
 
-void userGetLinear() {
+int isJQK(char *p) {
+	if(*p=='j'||*p=='J')
+		return 11;
+	else if(*p=='q'||*p=='Q')
+		return 12;
+	else if(*p=='k'||*p=='K')
+		return 13;
+	else
+		return 0;
+}
+void userGet() {
 
-	int i,sign;
+	while (1) {
+		system("cls");
+		int i;
+		int sign=0;
+		char input[4][10];
+		for(i=0;i<4;i++)
+			memset(input[i],0,sizeof(char)*10);
+		//经典模式或科学计算模式
+		fflush(stdin); //清除缓存数据
+		printf("请输入四张牌,并用空格隔开.\n");
+		scanf("%10s%10s%10s%10s",input[0],input[1],input[2],input[3]);
+		for(i=0;i<4;i++)
+			con[i]=isJQK(input[i])+(float)(atof(input[i]));
 
-	while(1)
-	{
-		sign=0;//输入检测
-		
-		printf("请输入四张牌，每张牌之间用空格隔开，按回车键完成输入。\n输入样例：4 12 5 1 回车\n");
-		printf("请输入: ");
-		
-		fflush(stdin);
-		for(i=0;i<4;i++)
-			scanf("%f",&con[i]);
-		//这种写法在输入 ^ & ( ) 后会出现死循环 !@#$%^&...
-	
-		printf("您输入的四张牌是: ");
-		for(i=0;i<4;i++)
-		{
-			if(arr[i]>=low&&arr[i]<=high)
-			{
-				printf("%g ",arr[i]);
-				sign++;
-			}
-			else
-			{
-				printf("?\n第%d张牌输入有误，",i+1);
-				sign=-1;
-				break;
-			}
-			if(sign=-1)
-				break;
-		}
-		if(sign==4)
-			break;
+		initAllFromCon();
+		if(s_first())
+			sign=1;
+		if(s_second())
+			sign=1;
+		if(sign)
+			printf("计算完成!\n");
 		else
-			continue;
+			printf("噫,算不出来哦\n");
+		printf("是否返回主菜单?");
+		break;//未完成
 	}
 }
+
 
 void printResult_1(int a,int b,int c) {
 	
@@ -251,41 +289,93 @@ int test(void)
 	return 0;
 }
 
-int main(void) {
+void menuPrint() {
 
+	system("cls");
+	char name[10][sizeof(char)*15]={
+		"exit.txt",
+		"menu_1.txt",
+		"menu_2.txt",
+		"menu_3.txt",
+		"menu_4.txt",
+		"menu_5.txt",
+		"menu_6.txt",
+	};
+
+	char ch;
+	FILE *fp;
+	fp=fopen(name[settings.mode],"r");
+
+	if(fp==NULL) {
+		printf("cannot open %s\n",name[settings.mode]);
+		exit (0);
+	}
+	while(!feof(fp)) {
+		ch=fgetc(fp);
+		putchar(ch);
+	}
+	fclose(fp);
+}
+
+int move() {
+	
+	char key = 0;
+
+	while (1) {
+
+		fflush(stdin); //清除缓存数据 
+		key = getch();
+		if(key==0||key==-32)
+			key = getch();
+		if (key==72)
+			settings.mode--;//down
+		else if (key==80)
+			settings.mode++;
+		else if (key>=49&&key<=52)
+			return key-48;
+		else if (key==48) {
+			printf("\n\t\t正在退出游戏...");
+			exit(0);
+		}
+		else if (key==13)
+			if(settings.mode)
+				return settings.mode;
+			else {
+				printf("\n\t\t正在退出游戏...");
+				exit(0);
+			}
+		else
+			key=0;
+		
+		if(settings.mode<0)
+			settings.mode=settings.mode+5;
+		if(settings.mode>4)
+			settings.mode=settings.mode-5;
+		
+		menuPrint();
+	}
+
+	return settings.mode;
+}
+
+void main(void) {
+
+	system("color 47");
 	initSettings();
+	int a;
+	
+	while (1) {
 
-
-	return 0;
+		menuPrint();
+		a=move();
+		switch (a) {
+			//1.帮我计算(容许小数) 2.练习模式(无尽模式) 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
+			case 1:userGet();break;
+			default:break;
+		}
+	}
 }
 
 
 
-char ch;
-FILE *fp;
-fp=fopen("asc.txt","w");
-if(fp==NULL)
-{printf("cannot open");
-exit (0);
-}
-while(!feof(fp)).........（为什么要有这个）
-{ch=fgetc(fp);
-putchar(ch);}
-fclose(fp);}
 
-
-
- fflush(stdin); //清除缓存数据 
-    char key;
-    key = getch();
-
-int tf = 1;
-
-if (key == 72)
-        tf = movup();
-    else if (key == 80)
-        tf = movdow();
-    else if (key == 75)
-        tf = movlif();
-    else if (key == 77)
-        tf = movri();
