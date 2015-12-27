@@ -18,7 +18,7 @@
 
 struct temp_set {
 	int mode;//当前模式 1.帮我计算(容许小数) 2.练习模式(无尽模式) 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
-	int isPrint;//是否输出结果 1.输出 0.不输出
+	//int isPrint;//是否输出结果 1.输出 0.不输出
 };
 
 struct temp_set settings;
@@ -45,6 +45,7 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
+char key_to_char(int key);
 void read_settings();
 void save_settings();
 void print_settings();
@@ -55,7 +56,6 @@ void initSettings_temp();
 float calc(float n1, float n2, char o);
 void initAllFromCon();
 void randomGet();
-int isJQK(char *p);
 void userGet();
 int userGetIn();
 void printResult_1(int a,int b,int c);
@@ -65,8 +65,8 @@ void exercise();
 void change_settings(int num);
 
 
-int s_first();	//模拟平衡二叉树之单挂
-int s_second();	//模拟平衡二叉树之双链
+int s_first(int isPrint);	//模拟平衡二叉树之单挂
+int s_second(int isPrint);	//模拟平衡二叉树之双链
 
 int test(void);
 void menuPrint();
@@ -181,7 +181,6 @@ void exitGame(void) {
 
 void userGet() {
 
-	settings.isPrint=1;
 	int a=1;
 	//如果userGetIn()的返回值为0则返回主菜单,否则继续执行userGetIn()
 	while (a) {
@@ -280,14 +279,12 @@ void save_settings() {
 void initSettings_temp() {
 
 	settings.mode=1;
-	settings.isPrint=0;
 
 }
 
 void resetting() {
 
 	settings.mode=1;//模式 帮我计算
-	settings.isPrint=0;
 	saved.low=1;//下限为1
 	saved.high=13;//上限为13
 	saved.saveSettings=0;//是否保存当前设置
@@ -384,13 +381,11 @@ void randomGet() {
 	int i;
 	while (1) {
 		
-		settings.isPrint=0;
 		for(i=0;i<4;i++)
 			con[i]=(float)(rand()%saved.high+saved.low);
-		if(s_first()||s_second()) {
+		if(s_first(0)||s_second(0)) {
 			for(i=0;i<4;i++)
 				printf("%g ",con[i]);
-			settings.isPrint=1;
 			break;
 		}
 		else
@@ -398,19 +393,6 @@ void randomGet() {
 	
 	}
 
-}
-
-int isJQK(char *p) {
-	if(*p=='j'||*p=='J')
-		return 11;
-	else if(*p=='q'||*p=='Q')
-		return 12;
-	else if(*p=='k'||*p=='K')
-		return 13;
-	else if(*p=='a'||*p=='A')
-		return 1;
-	else
-		return 0;
 }
 
 
@@ -434,7 +416,7 @@ void printResult_2(int a,int b,int c) {
 
 //模拟平衡二叉树之单挂
 
-int s_first() {
+int s_first(int isPrint) {
 
 	int result = 0;
 
@@ -464,7 +446,7 @@ int s_first() {
 				arr[3]=calc(arr[2],arr[3],op[c]);
 				if(fabs(arr[3]-N)<=0.1) {
 					result=1;
-					if(settings.isPrint)
+					if(isPrint)
 						printResult_1(a,b,c);
 					else
 						return result;
@@ -482,7 +464,7 @@ int s_first() {
 
 //模拟平衡二叉树之双链
 
-int s_second() {
+int s_second(int isPrint) {
 
 	int result = 0;
 
@@ -511,7 +493,7 @@ int s_second() {
 				arr[3]=calc(arr[1],arr[2],op[c]);
 				if(fabs(arr[3]-N)<=0.1) {
 					result=1;
-					if(settings.isPrint)
+					if(isPrint)
 						printResult_2(a,b,c);
 					else
 						return result;
@@ -537,12 +519,13 @@ int userGetIn() {
 		memset(input[i],0,sizeof(char)*10);
 	//雕虫小技,下面有个 可以识别 JQKA jqka space enter 的函数,让使用着随心输入
 	fflush(stdin); //清除缓存数据
-	printf("请输入四张牌,并用空格隔开.\n");
-	for(i=0;i<4;i++) {
-		key=getch();
-		scanf("%10s",input[i]);
-		if(key==27)
+	printf("请输入四张牌,并用空格隔开.按esc键返回主菜单,按其他键开始输入");
+	key=getch();
+	if(key==27)
 			return 0;
+	printf("\n请输入: ");
+	for(i=0;i<4;i++) {
+		scanf("%10s",input[i]);
 	}
 	for(i=0;i<4;i++) {
 		con[i]=poker_to_number(input[i]);
@@ -555,9 +538,9 @@ int userGetIn() {
 
 
 	initAllFromCon();
-	if(s_first())
+	if(s_first(1))
 		sign=1;
-	if(s_second())
+	if(s_second(1))
 		sign=1;
 	if(sign)
 		printf("计算完成!\n");
@@ -565,10 +548,45 @@ int userGetIn() {
 		printf("噫,算不出来哦\n");
 	printf("是否继续帮我计算%d点?",N);
 	fflush(stdin);
+	Sleep(1000);
 
 	//未完成
 	return 0;
 }
+
+
+//------------------------------------------逗比函数
+
+char key_to_char(int key) {
+
+	if(key>=48&&key<=57)
+		return '0'+key-48;//键盘数字0->9
+	else if(key>=96&&key<=105)
+		return '0'+key-96;//小键盘数字0->9
+	else if(key>=65&&key<=90)
+		return 'A'+key-65;//小键盘数字0->9
+	else if(key>=97&&key<=122)
+		return 'a'+key-97;//小键盘数字0->9
+	else if(key==43)
+		return '+';
+	else if(key==45)
+		return '-';
+	else if(key==42)
+		return '*';
+	else if(key==47)
+		return '/';
+	else if(key==61)
+		return '=';
+	else if(key==40)
+		return '(';
+	else if(key==41)
+		return ')';
+	else
+		return NULL;
+
+}
+
+
 
 
 //------------------------------------------测试函数
@@ -578,13 +596,11 @@ int test(void)
 	
 	randomGet();
 	
-	
-	
 	initAllFromCon();
 	
-	//system("pause");
-	s_first();
-	s_second();
+	s_first(1);
+	s_second(1);
+	system("pause");
 
 	return 0;
 }
