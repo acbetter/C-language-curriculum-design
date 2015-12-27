@@ -16,19 +16,25 @@
 
 //------------------------------------------全局变量
 
-struct set{
+struct temp_set {
 	int mode;//当前模式 1.帮我计算(容许小数) 2.练习模式(无尽模式) 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
 	int isPrint;//是否输出结果 1.输出 0.不输出
-	int saveSettings;//是否保存当前设置
-
 };
 
-struct set settings;
+struct temp_set settings;
+
+struct saved_set {
+	int low;//下限为1
+	int high;//上限为13
+	int saveSettings;//是否保存当前设置
+};
+
+struct saved_set saved;
+
 
 int N = 24;
 
-int low=1;//下限为1
-int high=13;//上限为13
+
 
 char op[4]={'+','-','*','/'};
 
@@ -39,7 +45,7 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
-void initSettings();
+void initSettings_temp();
 float calc(float n1, float n2, char o);
 void initAllFromCon();
 void randomGet();
@@ -68,8 +74,8 @@ void exitGame(void);
 void main(void) {
 
 	
-	system("color 47");
-	initSettings();
+	system("color 0A");
+	initSettings_temp();
 	srand((unsigned)time(NULL));
 	int a;
 	
@@ -125,7 +131,7 @@ int move() {
 		if(key==0||key==-32)
 			key = getch();
 		if (key==72)
-			settings.mode--;//down
+			settings.mode--;//...
 		else if (key==80)
 			settings.mode++;
 		else if (key>=49&&key<=52)
@@ -141,9 +147,9 @@ int move() {
 			key=0;
 		
 		if(settings.mode<0)
-			settings.mode=settings.mode+5;
-		if(settings.mode>4)
-			settings.mode=settings.mode-5;
+			settings.mode=settings.mode+7;
+		if(settings.mode>6)
+			settings.mode=settings.mode-7;
 		
 		menuPrint();
 	}
@@ -154,6 +160,7 @@ int move() {
 void exitGame(void) {
 	
 	printf("\n\t\t正在退出游戏...");
+	Sleep(1000);
 	exit(0);
 
 }
@@ -182,16 +189,36 @@ void exercise() {
 	system("pause");
 }
 
+void change_settings() {
+
+}
+
 
 //------------------------------------------二级函数
 
+void print_settings() {
 
-void initSettings() {
+
+}
+
+void save_settings() {
+
+}
+
+void initSettings_temp() {
 
 	settings.mode=1;
 	settings.isPrint=0;
-	settings.saveSettings=1;
 
+}
+
+void resetting() {
+
+	settings.mode=1;//模式 帮我计算
+	settings.isPrint=0;
+	saved.low=1;//下限为1
+	saved.high=13;//上限为13
+	saved.saveSettings=1;//是否保存当前设置
 }
 
 
@@ -237,7 +264,7 @@ void randomGet() {
 		
 		settings.isPrint=0;
 		for(i=0;i<4;i++)
-			con[i]=(float)(rand()%high+low);
+			con[i]=(float)(rand()%saved.high+saved.low);
 		if(s_first()||s_second()) {
 			for(i=0;i<4;i++)
 				printf("%g ",con[i]);
@@ -391,7 +418,7 @@ int userGetIn() {
 	scanf("%10s%10s%10s%10s",input[0],input[1],input[2],input[3]);
 	for(i=0;i<4;i++) {
 		con[i]=isJQK(input[i])+(float)(atof(input[i]));
-		if(con[i]<low||con[i]>high) {
+		if(con[i]<saved.low||con[i]>saved.high) {
 			printf("第%d组数据输入失败!请重新输入四张牌\n",i+1);
 			system("pause");
 			return -1;
