@@ -45,6 +45,8 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
+void resetting();
+char* number_to_poker(float number);
 void initSettings_temp();
 float calc(float n1, float n2, char o);
 void initAllFromCon();
@@ -75,6 +77,7 @@ void main(void) {
 
 	
 	system("color 0A");
+	resetting();
 	initSettings_temp();
 	srand((unsigned)time(NULL));
 	int a;
@@ -191,6 +194,16 @@ void exercise() {
 
 void change_settings() {
 
+	int num=0;
+	char poker[5];
+	memset(poker,0,sizeof(char)*5);
+	fflush(stdin);
+	scanf("%d",&num);
+	switch (num) {
+		case 1:
+			printf("请输入当前下限(最小的扑克牌):");
+				}
+
 }
 
 
@@ -198,7 +211,49 @@ void change_settings() {
 
 void print_settings() {
 
+	char isSave[2][10]={"是","否"};
+		
+	printf("由于 C 语言 写出界面比较繁琐,这个设置界面不支持上下滑动及回车选中,请输入1~9修改设置项,输入0即可回到主菜单\n");
+	printf("1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low)));
+	printf("2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high)));
+	//printf("3.%d\n",);
+	printf("9.是否保存当前设置:%s\n",isSave[saved.saveSettings]);
 
+}
+
+char * number_to_poker(float number) {
+
+	char temp[2];
+	memset(temp,0,sizeof(char)*2);
+
+	if(number==1)
+		return "A";
+	else if(number==11)
+		return "J";
+	else if(number==12)
+		return "Q";
+	else if(number==13)
+		return "K";
+	else if(number==10)
+		return "10";
+	else if(number>1&&number<10)
+		return itoa((int)number,temp,10);
+	else
+		return NULL;
+}
+
+float poker_to_number(char *poker) {
+
+	if(*poker=='j'||*poker=='J')
+		return 11;
+	else if(*poker=='q'||*poker=='Q')
+		return 12;
+	else if(*poker=='k'||*poker=='K')
+		return 13;
+	else if(*poker=='a'||*poker=='A')
+		return 1;
+	else
+		return (float)(atof(poker));
 }
 
 void save_settings() {
@@ -417,7 +472,7 @@ int userGetIn() {
 	printf("请输入四张牌,并用空格隔开.\n");
 	scanf("%10s%10s%10s%10s",input[0],input[1],input[2],input[3]);
 	for(i=0;i<4;i++) {
-		con[i]=isJQK(input[i])+(float)(atof(input[i]));
+		con[i]=poker_to_number(input[i]);
 		if(con[i]<saved.low||con[i]>saved.high) {
 			printf("第%d组数据输入失败!请重新输入四张牌\n",i+1);
 			system("pause");
