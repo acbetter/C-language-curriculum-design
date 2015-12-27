@@ -24,8 +24,8 @@ struct temp_set {
 struct temp_set settings;
 
 struct saved_set {
-	int low;//下限为1
-	int high;//上限为13
+	int low;//下限
+	int high;//上限
 	int saveSettings;//是否保存当前设置
 };
 
@@ -45,6 +45,10 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
+void read_settings();
+void save_settings();
+void print_settings();
+float poker_to_number(char *poker);
 void resetting();
 char* number_to_poker(float number);
 void initSettings_temp();
@@ -58,6 +62,7 @@ void printResult_1(int a,int b,int c);
 void printResult_2(int a,int b,int c);
 void initArrFromCur();
 void exercise();
+void change_settings(int num);
 
 
 int s_first();	//模拟平衡二叉树之单挂
@@ -78,6 +83,7 @@ void main(void) {
 	
 	system("color 0A");
 	resetting();
+	read_settings();
 	initSettings_temp();
 	srand((unsigned)time(NULL));
 	int a;
@@ -90,6 +96,7 @@ void main(void) {
 			//1.帮我计算 2.练习模式 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
 			case 1:userGet();continue;
 			case 2:exercise();continue;
+			case 5:print_settings();continue;
 			default:break;
 		}
 	}
@@ -137,9 +144,9 @@ int move() {
 			settings.mode--;//...
 		else if (key==80)
 			settings.mode++;
-		else if (key>=49&&key<=52)
+		else if (key>=49&&key<=54)
 			return key-48;
-		else if (key==48) 
+		else if (key==48||key==27) 
 			exitGame();
 		else if (key==13)
 			if(settings.mode)
@@ -163,6 +170,8 @@ int move() {
 void exitGame(void) {
 	
 	printf("\n\t\t正在退出游戏...");
+	if(saved.saveSettings)
+		save_settings();
 	Sleep(1000);
 	exit(0);
 
@@ -192,39 +201,117 @@ void exercise() {
 	system("pause");
 }
 
-void change_settings() {
 
-	int num=0;
-	char poker[5];
-	memset(poker,0,sizeof(char)*5);
-	fflush(stdin);
-	scanf("%d",&num);
-	switch (num) {
-		case 1:
-			printf("请输入当前下限(最小的扑克牌):");
-				}
+void print_settings() {
 
+	char isSave[2][10]={"否","是"};
+
+	int key=0;
+	while (1) {
+
+		system("cls");
+		printf("\n\n");
+		printf("\t由于 C 语言 写出界面比较繁琐\n");
+		printf("\t这个设置界面暂时不支持上下滑动及回车选中\n");
+		printf("\t请输入1~9修改设置项,输入0即可回到主菜单\n");
+		printf("\t1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low)));
+		printf("\t2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high)));
+		//printf("3.%d\n",);
+		printf("\t8.重置所有设置(程序有bug时也可以重置)\n");
+		printf("\t9.下次运行游戏是否载入当前设置:%s\n",isSave[saved.saveSettings]);
+		printf("\t0.返回菜单\n\t");
+
+
+		fflush(stdin);
+		key = getch();
+		if (key>=49&&key<=59)
+			change_settings(key-48);
+		else if(key==48)
+			return ;//esc未加入
+		else
+			;
+	}
 }
 
 
 //------------------------------------------二级函数
 
-void print_settings() {
 
-	char isSave[2][10]={"是","否"};
-		
-	printf("由于 C 语言 写出界面比较繁琐,这个设置界面不支持上下滑动及回车选中,请输入1~9修改设置项,输入0即可回到主菜单\n");
-	printf("1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low)));
-	printf("2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high)));
-	//printf("3.%d\n",);
-	printf("9.是否保存当前设置:%s\n",isSave[saved.saveSettings]);
+void change_settings(int num) {
+
+	char poker[5];
+	memset(poker,0,sizeof(char)*5);
+	fflush(stdin);
+	switch (num) {
+		case 1:
+			printf("请输入当前下限(最小的扑克牌):");
+			scanf("%s",poker);
+			saved.low=(int)(poker_to_number(poker));
+			break;
+		case 2:
+			printf("请输入当前上限(最大的扑克牌):");
+			scanf("%s",poker);
+			saved.high=(int)(poker_to_number(poker));
+			break;
+		case 8:
+			resetting();
+			save_settings();
+			break;
+		case 9:
+			if(saved.saveSettings)
+				saved.saveSettings=0;
+			else
+				saved.saveSettings=1;
+			break;
+		default:
+			break;
+	}
 
 }
 
+void save_settings() {
+
+	FILE *fp;
+	if( (fp=fopen("is24.set","w"))!=NULL )
+		fwrite(&saved,sizeof(struct saved_set),1,fp);
+
+}
+
+void initSettings_temp() {
+
+	settings.mode=1;
+	settings.isPrint=0;
+
+}
+
+void resetting() {
+
+	settings.mode=1;//模式 帮我计算
+	settings.isPrint=0;
+	saved.low=1;//下限为1
+	saved.high=13;//上限为13
+	saved.saveSettings=0;//是否保存当前设置
+}
+
+void read_settings() {
+
+	FILE *fp;
+	resetting();
+	if( (fp=fopen("is24.set","r"))==NULL ) {
+		save_settings();
+		//未完成->显示帮助界面
+	} else {
+		if( (fread(&saved,sizeof(saved_set),1,fp) )!=1 )
+			resetting();
+	}
+
+}
+
+
 char * number_to_poker(float number) {
 
-	char temp[2];
-	memset(temp,0,sizeof(char)*2);
+	char temp[11];
+	memset(temp,0,sizeof(char)*11);
 
 	if(number==1)
 		return "A";
@@ -254,26 +341,6 @@ float poker_to_number(char *poker) {
 		return 1;
 	else
 		return (float)(atof(poker));
-}
-
-void save_settings() {
-
-}
-
-void initSettings_temp() {
-
-	settings.mode=1;
-	settings.isPrint=0;
-
-}
-
-void resetting() {
-
-	settings.mode=1;//模式 帮我计算
-	settings.isPrint=0;
-	saved.low=1;//下限为1
-	saved.high=13;//上限为13
-	saved.saveSettings=1;//是否保存当前设置
 }
 
 
@@ -463,14 +530,20 @@ int userGetIn() {
 	
 	system("cls");
 	int i;
+	int key=0;
 	int sign=0;
 	char input[4][10];
 	for(i=0;i<4;i++)
 		memset(input[i],0,sizeof(char)*10);
-	//雕虫小技,写了一个 可以识别 JQKA jqka space enter 的函数,让使用着随心输入
+	//雕虫小技,下面有个 可以识别 JQKA jqka space enter 的函数,让使用着随心输入
 	fflush(stdin); //清除缓存数据
 	printf("请输入四张牌,并用空格隔开.\n");
-	scanf("%10s%10s%10s%10s",input[0],input[1],input[2],input[3]);
+	for(i=0;i<4;i++) {
+		key=getch();
+		scanf("%10s",input[i]);
+		if(key==27)
+			return 0;
+	}
 	for(i=0;i<4;i++) {
 		con[i]=poker_to_number(input[i]);
 		if(con[i]<saved.low||con[i]>saved.high) {
