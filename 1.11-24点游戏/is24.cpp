@@ -63,6 +63,7 @@ void printResult_2(int a,int b,int c);
 void initArrFromCur();
 void exercise();
 void change_settings(int num);
+void help();
 
 
 int s_first(int isPrint);	//模拟平衡二叉树之单挂
@@ -97,6 +98,7 @@ void main(void) {
 			case 1:userGet();continue;
 			case 2:exercise();continue;
 			case 5:print_settings();continue;
+			case 6:help();continue;
 			default:break;
 		}
 	}
@@ -115,7 +117,9 @@ void menuPrint() {
 		"menu_6.txt",
 	};
 
-	char ch;
+	
+	char arr[1000];//这里1000最为合适~2333
+	memset(arr,0,sizeof(char)*1000);
 	FILE *fp;
 	fp=fopen(name[settings.mode],"r");
 
@@ -123,10 +127,20 @@ void menuPrint() {
 		printf("cannot open %s\n",name[settings.mode]);
 		exit (0);
 	}
+	/*
+	char ch;
 	while(!feof(fp)) {
 		ch=fgetc(fp);
 		putchar(ch);
 	}
+	由于闪屏,所以不采用本段代码
+	*/
+	int h=0;
+	while(!feof(fp)) {
+		fread(arr+h,sizeof(char),1,fp);
+		h++;
+	}
+	printf("%s",arr);//本段代码优化于2015-12-28 11:24:45
 	fclose(fp);
 }
 
@@ -212,6 +226,7 @@ void print_settings() {
 		printf("\n\n");
 		printf("\t由于 C 语言 写出界面比较繁琐\n");
 		printf("\t这个设置界面暂时不支持上下滑动及回车选中\n");
+		printf("\t也不支持更改当前主题\n");
 		printf("\t请输入1~9修改设置项,输入0即可回到主菜单\n");
 		printf("\t1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low)));
 		printf("\t2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high)));
@@ -225,11 +240,48 @@ void print_settings() {
 		key = getch();
 		if (key>=49&&key<=59)
 			change_settings(key-48);
-		else if(key==48)
-			return ;//esc未加入
+		else if(key==48||key==27) {
+			settings.mode=1;//退出设置界面时光标移动到 1.帮我计算
+			return ;
+		}
 		else
 			;
 	}
+	
+}
+
+void help() {
+
+	system("cls");
+	printf("\n");
+	printf("                  -                                  4\n");
+	printf("                22222                               44\n");
+	printf("            22        222               44          44\n");
+	printf("         22              22             44          44\n");
+	printf("                           22           44          44\n");
+	printf("                          22            44          44\n");
+	printf("                        22              44          44\n");
+	printf("                      22                44          44\n");
+	printf("                   22                   4444444444444444444444444\n");
+	printf("                22                                  44\n");
+	printf("             22                                     44\n");
+	printf("          22                                        44\n");
+	printf("         222222222222222222222                      44\n");
+	
+	printf("\n");
+	printf("\tHello,This is a little game written by Reigning.\n");
+	printf("\tIf you want to have a look on source code,\n");
+	printf("\tPlease invite https://Reigning.GitHub.io\n");
+	printf("\t花了三天时间用c语言写出来了一个凑合的界面\n");
+	printf("\t原来c语言写界面这么...\n");
+	printf("\t好了,不吐槽了~2333\n");
+	printf("\t2015年12月28日12:20:27 更新日志\n");
+	printf("\t1.菜单界面既可以支持方向键(上下)+回车,也可以直接输入1.2.3.4.5.6.\n");
+	printf("\t2.其实不仅可以按 0 退出,而且可以按ESC退出\n");
+	printf("\t3.帮我计算可是支持小数的哦~亲\n");
+	printf("\t4.这个游戏不仅仅是计算24点,其他点数也可以哦,不过其他点数不能是小数撒\n");
+	printf("\t5.程序还有些许隐藏Bug,由于课程设计时间紧迫,没有时间一一测试修复,以后会持续更新\n");
+	system("pause");
 }
 
 
@@ -519,11 +571,8 @@ int userGetIn() {
 		memset(input[i],0,sizeof(char)*10);
 	//雕虫小技,下面有个 可以识别 JQKA jqka space enter 的函数,让使用着随心输入
 	fflush(stdin); //清除缓存数据
-	printf("请输入四张牌,并用空格隔开.按esc键返回主菜单,按其他键开始输入");
-	key=getch();
-	if(key==27)
-			return 0;
-	printf("\n请输入: ");
+	printf("请输入四张牌,并用空格隔开.");
+	printf("请输入: ");
 	for(i=0;i<4;i++) {
 		scanf("%10s",input[i]);
 	}
@@ -546,16 +595,29 @@ int userGetIn() {
 		printf("计算完成!\n");
 	else
 		printf("噫,算不出来哦\n");
-	printf("是否继续帮我计算%d点?",N);
+	printf("是否继续帮我计算%d点?\n",N);
+	printf("按ESC或0返回主菜单,按其他键继续\n");
 	fflush(stdin);
-	Sleep(1000);
+	key=getch();
+	if(key==27||key==48)
+		return 0;
+	else
+		userGetIn();
 
-	//未完成
+	//这里使用了递归 未做负载测试
 	return 0;
 }
 
 
 //------------------------------------------逗比函数
+
+char * keyControl_to_charPointer(int key) {
+
+	int key_2=0;
+	if(key==224)
+		key_2=getch();
+	return NULL;//未完成
+}
 
 char key_to_char(int key) {
 
