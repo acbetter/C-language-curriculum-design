@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
+
+
 char token;
 void match(char expectedToken) /*对当前的标志进行匹配*/
 {
@@ -12,9 +11,9 @@ void match(char expectedToken) /*对当前的标志进行匹配*/
 	}
 }
 
-int main()
+float c()
 {   
-	int result;  /*运算的结果*/
+	float result;  /*运算的结果*/
 	int low();
 	printf("*****************************************\n");
 	printf("**Welcome to use this simple calculator**\n"); 
@@ -34,10 +33,10 @@ int main()
 	scanf("%d",result);
 	return 0;
 }
-int low(void)/*用于计算表达式中级别最低的运算*/
+float low(void)/*用于计算表达式中级别最低的运算*/
 {
-	int mid();
-	int result=mid(); /*计算比加减运算优先级别高的部分*/
+	float mid();
+	float result=mid(); /*计算比加减运算优先级别高的部分*/
 	while((token=='+')||(token=='-'))
 		if (token=='+')
 		{
@@ -53,7 +52,7 @@ int low(void)/*用于计算表达式中级别最低的运算*/
 		}
 		return result;
 }
-int mid(void)
+float mid(void)
 {
 	int div;
 	int high();
@@ -70,10 +69,8 @@ int mid(void)
 			match('/');
 			div=high();
 			if(div==0)
-			{
-				printf("除数为零.\n");
-				exit(1);
-			}
+				printf("亲,除数不能为0哦");
+				return -3000;
 			result/=div;
 			break;
 		}
@@ -102,3 +99,5 @@ int high( void )/*用于计算表达式中级别最高的运算，即带（）的运算*/
 	}
 	return result;
 }
+
+
