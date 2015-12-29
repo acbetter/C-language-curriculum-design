@@ -210,13 +210,9 @@ int second(void) {
 	
 	//输入代码
 
-	FILE * fp;
-
 	int i,j;
 	int quit = 1;
 	char ch=' ';
-	char name[70];
-	memset(name,0,sizeof(char)*70);
 	
 	char first[MAX_READ];//first用来存放文件数据
 	memset(first,0,sizeof(char)*MAX_READ);
@@ -234,16 +230,7 @@ int second(void) {
 
 	
 
-	printf("正在读取 %s ...\n",name);
-
-	for (i=0; (!feof(fp))&&i<MAX_READ; i++) {
-
-		if(fread(first+i, sizeof(char), 1, fp)!=1) {
-            printf("共计读取%d个字符\n",i+1);
-		}
-	}
-	fclose(fp);
-	
+	printf("正在读取...\n");
 
 
 /****************************************************************/
@@ -470,4 +457,5 @@ int main(void) {
 
 	}
 
+	return 0;
 }

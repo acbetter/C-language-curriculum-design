@@ -254,19 +254,19 @@ void help() {
 
 	system("cls");
 	printf("\n");
-	printf("                  -                                  4\n");
-	printf("                22222                               44\n");
-	printf("            22        222               44          44\n");
-	printf("         22              22             44          44\n");
-	printf("                           22           44          44\n");
-	printf("                          22            44          44\n");
-	printf("                        22              44          44\n");
-	printf("                      22                44          44\n");
-	printf("                   22                   4444444444444444444444444\n");
-	printf("                22                                  44\n");
-	printf("             22                                     44\n");
-	printf("          22                                        44\n");
-	printf("         222222222222222222222                      44\n");
+	printf("                  -                                 4\n");
+	printf("                22222                              44\n");
+	printf("            22        222              44          44\n");
+	printf("         22              22            44          44\n");
+	printf("                           22          44          44\n");
+	printf("                          22           44          44\n");
+	printf("                        22             44          44\n");
+	printf("                      22               44          44\n");
+	printf("                   22                  4444444444444444444444444\n");
+	printf("                22                                 44\n");
+	printf("             22                                    44\n");
+	printf("          22                                       44\n");
+	printf("         222222222222222222222                     44\n");
 	
 	printf("\n");
 	printf("\tHello,This is a little game written by Reigning.\n");
@@ -281,7 +281,10 @@ void help() {
 	printf("\t3.帮我计算可是支持小数的哦~亲\n");
 	printf("\t4.这个游戏不仅仅是计算24点,其他点数也可以哦,不过其他点数不能是小数撒\n");
 	printf("\t5.程序还有些许隐藏Bug,由于课程设计时间紧迫,没有时间一一测试修复,以后会持续更新\n");
-	system("pause");
+	printf("\t请按任意键继续...");
+	fflush(stdin);
+	int key;
+	key=getch();
 }
 
 

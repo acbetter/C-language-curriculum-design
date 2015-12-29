@@ -3,21 +3,21 @@
 <pre>
 <h1>Build Log</h1>
 <h3>
---------------------Configuration: keyTest - Win32 Debug--------------------
+--------------------Configuration: keyTest - Win32 Release--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP5AC6.tmp" with contents
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP104E.tmp" with contents
 [
-/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/keyTest.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+/nologo /ML /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Release/keyTest.pch" /YX /Fo"Release/" /Fd"Release/" /FD /c 
 "D:\C语言之课程设计\1.11-24点游戏的子程序-键值检测\keyTest.cpp"
 ]
-Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSP5AC6.tmp" 
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP5AC7.tmp" with contents
+Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSP104E.tmp" 
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP104F.tmp" with contents
 [
-kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/keyTest.pdb" /debug /machine:I386 /out:"Debug/keyTest.exe" /pdbtype:sept 
-".\Debug\keyTest.obj"
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:no /pdb:"Release/keyTest.pdb" /machine:I386 /out:"Release/keyTest.exe" 
+".\Release\keyTest.obj"
 ]
-Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSP5AC7.tmp"
+Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSP104F.tmp"
 <h3>Output Window</h3>
 Compiling...
 keyTest.cpp
