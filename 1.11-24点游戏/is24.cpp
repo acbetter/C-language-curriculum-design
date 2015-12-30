@@ -45,6 +45,9 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
+int zhabi();
+float cal_value(char exp[]);
+void translate(char str[],char exp[]);
 char key_to_char(int key);
 void read_settings();
 void save_settings();
@@ -207,12 +210,51 @@ void userGet() {
 
 void exercise() {
 
+	int key=10;
 	system("cls");
-	randomGet();
-	
-	//这里有个控制菜单
-	system("pause");
+	printf("请通过4张牌之间的+-*/和(),计算出%d点\n",N);
+	printf("按空格(Space键)继续,按其他键返回主菜单\n");
+	fflush(stdin);
+	if((key=getch())==32)
+		;
+	else
+		return ;
+
+	while (1) {
+
+		system("cls");
+		randomGet();
+		printf("请输入算式: ");
+		if(zhabi()) {
+			printf("计算成功!\n");
+			printf("按空格(Space键)继续练习,按其他键返回主菜单\n");
+			fflush(stdin);
+			if((key=getch())==32)
+				;
+			else
+				return ;
+		} else {
+			printf("计算失败!\n");
+			printf("按空格(Space键)正确结果,按其他键返回主菜单\n");
+			fflush(stdin);
+			if((key=getch())==32) {
+				s_first(1);
+				s_second(1);
+
+			}else
+				return ;
+		
+			printf("按空格(Space键)继续练习,按其他键返回主菜单");
+			fflush(stdin);
+			if((key=getch())==32)
+				;
+			else
+				return ;
+		}
+		//这里有个控制菜单
+	}
 }
+
 
 
 void print_settings() {
@@ -669,3 +711,150 @@ int test(void)
 
 //------------------------------------------渣比函数
 
+void translate(char str[],char exp[])  
+{
+       struct
+       {
+              char data[100];
+              int top;                 
+       }op;                            
+       char ch;                    
+       int i = 0,t = 0;
+       op.top = -1;
+       ch = str[i];                      
+       i++;
+       while(ch != '\0')                 
+       {
+              switch(ch)
+              {
+              case '(':                
+                   op.top++;op.data[op.top]=ch;
+                     break;
+              case ')':              
+                   while(op.data[op.top] != '(')    
+                {
+                            exp[t]=op.data[op.top];
+                            op.top--;
+                            t++;
+                     }
+                     op.top--;
+                     break;
+              case '+':
+              case '-':
+                     while(op.top != -1&&op.data[op.top] != '(')
+                     {
+                            exp[t] = op.data[op.top];
+                            op.top--;
+                            t++;
+                     }
+                     op.top++;           
+                     op.data[op.top] = ch;
+                     break;
+              case '*':
+              case '/':
+                     while(op.top == '/'||op.top == '*')      
+                     {
+                            exp[t] = op.data[op.top];
+                            op.top--;
+                            t++;
+                     }
+                     op.top++;
+                     op.data[op.top] = ch;
+                     break;
+              case ' ':                        
+                     break;
+              default:
+                     while(ch >= '0'&&ch <= '9')
+                     {
+                            exp[t] = ch;t++;
+                            ch = str[i];i++;
+                     }
+                     i--;
+                     exp[t] = '#';         
+                     t++;
+              }
+              ch = str[i];
+              i++;
+       }
+       while(op.top != -1)                  
+       {
+              exp[t] = op.data[op.top];
+              t++;
+              op.top--;
+       }
+       exp[t] = '\0';                        
+}
+float cal_value(char exp[])
+{
+       struct
+       {
+              float data[100];
+              int top;
+       }st;                               
+       float d;
+       char ch;
+       int t = 0;
+       st.top = -1;
+       ch = exp[t];
+       t++;
+       while(ch != '\0')
+       {
+              switch(ch)                 
+              {
+               case '+':
+                      st.data[st.top-1] = st.data[st.top-1]+st.data[st.top];
+                      st.top--;
+                      break;
+               case '-':
+                      st.data[st.top-1] = st.data[st.top-1]-st.data[st.top];
+                      st.top--;
+                      break;
+               case '*':
+                      st.data[st.top-1] = st.data[st.top-1]*st.data[st.top];
+                      st.top--;
+                      break;
+               case '/':
+                       if(st.data[st.top] != 0)
+                              st.data[st.top-1]=st.data[st.top-1]/st.data[st.top];
+                       else
+                       {
+                              printf("\n\t除0是错误的");
+                              st.data[st.top-1]=-3000;
+                       }
+                       st.top--;
+                       break;
+               default:
+                      d=0;
+                      while(ch >= '0'&&ch <= '9')   
+                      {
+                             d = 10*d+ch-'0';
+                             ch = exp[t];
+                             t++;
+                      }
+                      st.top++;
+                      st.data[st.top] = d;
+            }
+            ch = exp[t];
+            t++;
+       }
+       return st.data[st.top];
+}
+int zhabi()
+{
+       char str[100],exp[100];      
+       fflush(stdin);
+	   memset(str,0,sizeof(char)*100);
+	   scanf("%99s",str);
+	   char *p=str;
+	   while(*p!='\0'){
+		   if(*p=='=') *p='\0';
+		   p++;
+	   }
+       translate(str,exp);    
+	   float a=cal_value(exp);
+       printf("计算结果:%g\n",a);
+	   //system("pause");
+	   if(a==N)
+		   return 1;
+       return 0;
+}

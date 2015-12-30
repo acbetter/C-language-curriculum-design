@@ -109,7 +109,7 @@ float cal_value(char exp[])
                        else
                        {
                               printf("\n\t³ý0ÊÇ´íÎóµÄ");
-                              exit(0);
+                              st.data[st.top-1]=-3000;
                        }
                        st.top--;
                        break;
