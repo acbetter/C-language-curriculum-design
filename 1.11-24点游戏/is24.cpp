@@ -45,6 +45,8 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
+void goto_pos(int x, int y);
+void tianti();
 int zhabi();
 float cal_value(char exp[]);
 void translate(char str[],char exp[]);
@@ -68,7 +70,7 @@ void exercise();
 void change_settings(int num);
 void help();
 
-
+void pk();
 int s_first(int isPrint);	//模拟平衡二叉树之单挂
 int s_second(int isPrint);	//模拟平衡二叉树之双链
 
@@ -84,7 +86,7 @@ void exitGame(void);
 
 void main(void) {
 
-	
+	system("mode con cols=67 lines=29");
 	system("color 0A");
 	resetting();
 	read_settings();
@@ -100,6 +102,8 @@ void main(void) {
 			//1.帮我计算 2.练习模式 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
 			case 1:userGet();continue;
 			case 2:exercise();continue;
+			case 3:tianti();continue;
+			case 4:pk();continue;
 			case 5:print_settings();continue;
 			case 6:help();continue;
 			default:break;
@@ -144,6 +148,10 @@ void menuPrint() {
 		h++;
 	}
 	printf("%s",arr);//本段代码优化于2015-12-28 11:24:45
+	//光标移动2015-12-31 15:28:56
+
+	int a=(settings.mode==0?7:settings.mode);
+	goto_pos(52,3+a*3);
 	fclose(fp);
 }
 
@@ -186,10 +194,12 @@ int move() {
 
 void exitGame(void) {
 	
-	printf("\n\t\t正在退出游戏...");
+	system("cls");
+	goto_pos(25,13);
+	printf("正在退出游戏...\n\t\t   ");
 	if(saved.saveSettings)
 		save_settings();
-	Sleep(1000);
+	Sleep(700);
 	exit(0);
 
 }
@@ -256,6 +266,111 @@ void exercise() {
 }
 
 
+void tianti() {
+
+
+	int lever=0;
+	int key=10;
+	system("cls");
+	printf("请通过4张牌之间的+-*/和(),计算出%d点\n",N);
+	printf("按空格(Space键)开始挑战,按其他键返回主菜单\n");
+	fflush(stdin);
+	if((key=getch())==32)
+		;
+	else
+		return ;
+
+	while (1) {
+
+		system("cls");
+		printf("当前关卡: lever %d\n",lever);
+		randomGet();
+		printf("请输入算式: ");
+		if(zhabi()) {
+			printf("计算成功!\n");
+			printf("按空格(Space键)继续挑战下一关,按其他键返回主菜单\n");
+			fflush(stdin);
+			if((key=getch())==32)
+				;
+			else
+				return ;
+		} else {
+			printf("计算失败!\n");
+			printf("按空格(Space键)正确结果\n");
+			fflush(stdin);
+			if((key=getch())==32) {
+				s_first(1);
+				s_second(1);
+				printf("\n按任意键返回主菜单...");
+				key=getch();
+
+			}else
+				return ;
+		
+			printf("按空格(Space键)继续练习,按其他键返回主菜单");
+			fflush(stdin);
+			if((key=getch())==32)
+				;
+			else
+				return ;
+		}
+		//这里有个控制菜单
+	}
+
+}
+
+void pk() {
+
+	system("cls");
+	int a=0,b=0,key,sign;
+	char A[20]={0};
+	char B[20]={0};
+	printf("pk模式!\n");
+
+	printf("请输入用户A的名字:");
+	fflush(stdin);
+	scanf("%s",A);
+	printf("请输入用户B的名字:");
+	fflush(stdin);
+	scanf("%s",B);
+	printf("按任意键开始 P K !!!\n");
+	key=getch();
+
+	while (1) {
+
+		printf("当前分数 A:%d B:%d\n",a,b);
+
+		randomGet();
+		fflush(stdin);
+		printf("\n%s先算出来请按空格,\n%s先算出来请按回车,\n跳过此题请按其他任意键\n",A,B);
+		if( (key=getch())==32)
+			sign=1;
+		else if(key==13)
+			sign=2;
+		else
+			sign=0;
+
+		if(sign==1) {
+			printf("请%s输入算式: ",A);
+			if(zhabi()) a++;
+			else {printf("不为%d点!计算失败,要扣%s 1分哦\n",N,A); a--;}
+		} else if(sign==2) {
+			printf("请%s输入算式: ",B);
+			if(zhabi()) b++;
+			else {printf("不为%d点!计算失败,要扣%s 1分哦\n",N,B); b--;}
+		} else
+			;
+
+		printf("要继续PK吗?继续请按空格或回车,结束PK请按其他键\n");
+		key=getch();
+		if(key==13||key==32)
+			;
+		else
+			break;
+
+	}
+}
+
 
 void print_settings() {
 
@@ -292,7 +407,11 @@ void print_settings() {
 	
 }
 
+
+
+
 void help() {
+
 
 	system("cls");
 	printf("\n");
@@ -314,15 +433,13 @@ void help() {
 	printf("\tHello,This is a little game written by Reigning.\n");
 	printf("\tIf you want to have a look on source code,\n");
 	printf("\tPlease invite https://Reigning.GitHub.io\n");
-	printf("\t花了三天时间用c语言写出来了一个凑合的界面\n");
-	printf("\t原来c语言写界面这么...\n");
+	printf("\t原来c语言写界面这么...");
 	printf("\t好了,不吐槽了~2333\n");
-	printf("\t2015年12月28日12:20:27 更新日志\n");
-	printf("\t1.菜单界面既可以支持方向键(上下)+回车,也可以直接输入1.2.3.4.5.6.\n");
+	printf("\t1.菜单界面既可以支持方向键(上下)+回车\n\t  也可以直接输入1.2.3.4.5.6.\n");
 	printf("\t2.其实不仅可以按 0 退出,而且可以按ESC退出\n");
 	printf("\t3.帮我计算可是支持小数的哦~亲\n");
-	printf("\t4.这个游戏不仅仅是计算24点,其他点数也可以哦,不过其他点数不能是小数撒\n");
-	printf("\t5.程序还有些许隐藏Bug,由于课程设计时间紧迫,没有时间一一测试修复,以后会持续更新\n");
+	printf("\t4.这个游戏不仅仅是计算24点,其他点数也可以哦,\n\t  不过其他点数不能是小数撒\n");
+	printf("\t5.程序还有些许隐藏Bug,由于课程设计时间紧迫,\n\t  没有时间一一测试修复,以后会持续更新\n");
 	printf("\t请按任意键继续...");
 	fflush(stdin);
 	int key;
@@ -839,6 +956,7 @@ float cal_value(char exp[])
        }
        return st.data[st.top];
 }
+
 int zhabi()
 {
        char str[100],exp[100];      
@@ -857,4 +975,12 @@ int zhabi()
 	   if(a==N)
 		   return 1;
        return 0;
+}
+
+
+void goto_pos(int x, int y) {
+
+	COORD coord = {x,y};
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+
 }
