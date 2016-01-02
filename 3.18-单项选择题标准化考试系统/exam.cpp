@@ -44,7 +44,7 @@ struct information {
 
 
 
-void menuPrint();
+void menuPrint(int a);
 int move();
 
 //------------------------------------------主函数及菜单函数
@@ -52,13 +52,28 @@ int move();
 
 void main(void) {
 
-	system("mode con cols=67 lines=29");
+	system("mode con cols=57 lines=30");
 	system("color 0A");
+
 	srand((unsigned)time(NULL));
+	int a=1;
 	
+	while (1) {
+
+		menuPrint(a);
+		a=move();
+		switch (a) {
+			//1.
+			case 1:;continue;
+			case 2:;continue;
+			case 3:;continue;	
+			case 6:;continue;
+			default:break;
+		}
+	}
 }
 
-void menuPrint(int i) {
+void menuPrint(int a) {
 
 	system("cls");
 	char name[10][sizeof(char)*15]={
@@ -72,13 +87,13 @@ void menuPrint(int i) {
 	};
 
 	
-	char arr[1000];//这里1000最为合适~2333
-	memset(arr,0,sizeof(char)*1000);
+	char arr[1500];//这里1000最为合适~2333
+	memset(arr,0,sizeof(char)*1500);
 	FILE *fp;
-	fp=fopen(name[i],"r");
+	fp=fopen(name[a],"r");
 
 	if(fp==NULL) {
-		printf("cannot open %s\n",name[i]);
+		printf("cannot open %s\n",name[a]);
 		exit (0);
 	}
 
@@ -101,7 +116,30 @@ int move() {
 
 		fflush(stdin); //清除缓存数据 
 		key = getch();
+		if(key==0||key==-32)
+			key = getch();
+		if (key==72)
+			i--;//...
+		else if (key==80)
+			i++;
+		else if (key>=49&&key<=54)
+			return key-48;
+		else if (key==48||key==27) 
+			exit(0);
+		else if (key==13)
+			if(i)
+				return i;
+			else
+				exit(0);
+		else
+			key=0;
 		
+		if(i<0)
+			i=i+7;
+		if(i>6)
+			i=i-7;
+		
+		menuPrint(i);
 	}
 
 	return i;
