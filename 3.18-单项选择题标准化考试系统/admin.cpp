@@ -74,9 +74,10 @@ void admin() {
 		a = move_1(5,menuPrint_2);
 		switch (a) {
 			//1.
-			case 1:;continue;
-			case 2:;continue;
-			case 3:;continue;
+			case 1:question_admin();continue;
+			case 2:auto_paper();continue;
+			case 3:user_admin();continue;
+			case 4:situation_analysis();continue;
 			case 6:;continue;
 			case 0:
 			default:break;
@@ -128,6 +129,7 @@ void menuPrint_2(int a) {
 
 void question_admin() {
 
+	question(); // ->question.cpp
 
 }
 

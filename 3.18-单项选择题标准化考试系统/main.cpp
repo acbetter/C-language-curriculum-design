@@ -19,7 +19,6 @@
 #include "all.h"
 
 
-
 void main(void) {
 
 	printf("正在载入程序,请稍候...");

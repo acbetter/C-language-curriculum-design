@@ -18,22 +18,21 @@
 #define C 3
 #define D 4
 
-struct information {
-    
-    int no;//题目编号
-    int lever;//题目难度
-	int score;//题目分数
-    char timeAdd[20];//题目添加的时间
-    char timeModify[20];//最后修改时间
-    char statement[1000];//题目描述
-    char keyWords[5][40];//每道题有5个关键字
-
+struct info {
+	int no;//题目编号
+	int lever;//题目难度1-10
+	int score;//题目分数1-5
+	int rightAnswer;//正确选项
+	time_t timeAdd;//题目添加的时间
+	time_t timeModify;//最后修改时间
+	
+	char keyWords[5][40];//每道题有5个关键字
 	char options[4][100];//题目的四个选项
-    int rightAnswer;//正确选项
-    char answers[4][300];//每个选项的错误原因
-	struct information * next;
+	char answers[4][300];//每个选项的错误原因
+	char statement[1000];//题目描述
+	
+	struct info * next;
 };
-
 
 
 
@@ -52,4 +51,6 @@ void user_admin();
 void situation_analysis();
 void menuPrint_2(int a);
 
-
+//question.cpp
+void question();
+void menuPrint_3(int a);
