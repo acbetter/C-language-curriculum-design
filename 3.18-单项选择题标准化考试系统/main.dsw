@@ -1,9 +1,9 @@
 Microsoft Developer Studio Workspace File, Format Version 6.00
-# 警告: 不能编辑或删除该工作区文件！
+# WARNING: DO NOT EDIT OR DELETE THIS WORKSPACE FILE!
 
 ###############################################################################
 
-Project: "exam"=".\exam.dsp" - Package Owner=<4>
+Project: "main"=".\main.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{

@@ -1,24 +1,24 @@
-# Microsoft Developer Studio Project File - Name="exam" - Package Owner=<4>
+# Microsoft Developer Studio Project File - Name="main" - Package Owner=<4>
 # Microsoft Developer Studio Generated Build File, Format Version 6.00
 # ** DO NOT EDIT **
 
 # TARGTYPE "Win32 (x86) Console Application" 0x0103
 
-CFG=exam - Win32 Debug
+CFG=main - Win32 Debug
 !MESSAGE This is not a valid makefile. To build this project using NMAKE,
 !MESSAGE use the Export Makefile command and run
 !MESSAGE 
-!MESSAGE NMAKE /f "exam.mak".
+!MESSAGE NMAKE /f "main.mak".
 !MESSAGE 
 !MESSAGE You can specify a configuration when running NMAKE
 !MESSAGE by defining the macro CFG on the command line. For example:
 !MESSAGE 
-!MESSAGE NMAKE /f "exam.mak" CFG="exam - Win32 Debug"
+!MESSAGE NMAKE /f "main.mak" CFG="main - Win32 Debug"
 !MESSAGE 
 !MESSAGE Possible choices for configuration are:
 !MESSAGE 
-!MESSAGE "exam - Win32 Release" (based on "Win32 (x86) Console Application")
-!MESSAGE "exam - Win32 Debug" (based on "Win32 (x86) Console Application")
+!MESSAGE "main - Win32 Release" (based on "Win32 (x86) Console Application")
+!MESSAGE "main - Win32 Debug" (based on "Win32 (x86) Console Application")
 !MESSAGE 
 
 # Begin Project
@@ -28,7 +28,7 @@ CFG=exam - Win32 Debug
 CPP=cl.exe
 RSC=rc.exe
 
-!IF  "$(CFG)" == "exam - Win32 Release"
+!IF  "$(CFG)" == "main - Win32 Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
@@ -51,7 +51,7 @@ LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
 
-!ELSEIF  "$(CFG)" == "exam - Win32 Debug"
+!ELSEIF  "$(CFG)" == "main - Win32 Debug"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 1
@@ -78,11 +78,19 @@ LINK32=link.exe
 
 # Begin Target
 
-# Name "exam - Win32 Release"
-# Name "exam - Win32 Debug"
+# Name "main - Win32 Release"
+# Name "main - Win32 Debug"
 # Begin Source File
 
-SOURCE=.\exam.cpp
+SOURCE=.\admin.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\all.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\main.cpp
 # End Source File
 # End Target
 # End Project
