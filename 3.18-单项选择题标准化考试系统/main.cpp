@@ -23,15 +23,16 @@
 void main(void) {
 
 	printf("正在载入程序,请稍候...");
-	system("mode con cols=57 lines=20");
-	system("color 0A");
 
 	srand((unsigned)time(NULL));
 	int a;
 	
 	while (1) {
 
-		a = move(6,menuPrint);
+		system("mode con cols=57 lines=20");
+		system("color 0A");
+
+		a = move_1(6,menuPrint);
 		switch (a) {
 			//1.
 			case 1:admin();continue;
@@ -45,7 +46,7 @@ void main(void) {
 }
 
 
-int move(int num,void (*p)(int) ) {
+int move_1(int num,void (*p)(int) ) {
 
 	int a = 1;
 	int key = 1;

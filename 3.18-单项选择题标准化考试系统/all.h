@@ -39,7 +39,7 @@ struct information {
 
 //main.cpp
 void main(void);
-int move(int num,void *p);
+int move_1(int num,void (*p)(int) );
 void menuPrint(int a);
 void printLaugh(int x, int y);
 void goto_pos(int x, int y);
@@ -50,5 +50,6 @@ void question_admin();
 void auto_paper();
 void user_admin();
 void situation_analysis();
+void menuPrint_2(int a);
 
 
