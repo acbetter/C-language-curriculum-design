@@ -54,3 +54,10 @@ void menuPrint_2(int a);
 //question.cpp
 void question();
 void menuPrint_3(int a);
+struct info * solo_info();
+void input_info(struct info * tail);
+struct info * find_info_tail(struct info * head);
+void add_info(struct info * head);
+void write_info(struct info * head);
+void read_info(struct info * head);
+void free_info(struct info * head);

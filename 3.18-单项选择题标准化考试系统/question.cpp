@@ -13,7 +13,10 @@
 void question() {
 		
 	int a;
+	struct info * head = NULL;
 	struct info * tail = NULL;
+	head = solo_info();
+	read_info(head);
 
 	while (1) {
 
@@ -24,7 +27,7 @@ void question() {
 		switch (a) {
 			//1.
 			case 1:;continue;
-			case 2:;continue;
+			case 2:tail=find_info_tail(head);add_info(tail);continue;
 			case 3:;continue;
 			case 4:;continue;
 			case 6:;continue;
@@ -33,8 +36,8 @@ void question() {
 		}
 		break;
 	}
-	//save
-
+	write_info(head);
+	free_info(head);  //save
 }
 
 void menuPrint_3(int a) {
@@ -77,7 +80,7 @@ void menuPrint_3(int a) {
 
 //带头结点的尾插法
 
-struct info * solo() {
+struct info * solo_info() {
 
     struct info * node = NULL;
     node = (struct info *)malloc(sizeof(struct info));
@@ -85,16 +88,19 @@ struct info * solo() {
     if (node == NULL) {
         printf("申请内存失败!");
         exit(-1);
-    }
+    }else{
+		node->next=NULL;
+	}
     return node;
 }
 
 void input_info(struct info * tail) {
 
-	int i;
+	int i,j;
+	char ch;
 	struct info * node = NULL;
 	
-	node = solo();
+	node = solo_info();
 
 	system("mode con cols=50 lines=40");
 	system("color 0F");
@@ -130,7 +136,25 @@ void input_info(struct info * tail) {
 	printf("     ---------------------\n");
 	printf("      请输入题目描述:\n");
 	fflush(stdin);
-	scanf("%1000s",node->statement);
+	for(j=0;j<1000;j++) {
+		ch=getchar();
+		if(ch!='\n')
+			node->statement[j]=ch;
+		else
+			break;
+	}
+
+	for(i=0;i<4;i++) {
+		printf("请输入%c选项内容",'A'+i);
+		fflush(stdin);
+		for(j=0;j<100;j++) {
+			ch=getchar();
+			if(ch!='\n')
+				node->options[i][j]=ch;
+			else
+				break;
+		}
+	}
 
 	printf("请输入5个关键字,并用空格隔开,或以 @+回车 结束关键字的输入.\n");
 	for(i=0;i<4;i++) {
@@ -158,10 +182,84 @@ void input_info(struct info * tail) {
 
 }
 
-void add(struct info * tail) {
+struct info * find_info_tail(struct info * head) {
+
+	struct info * tail = head;
+	while(tail->next!=NULL)
+		tail = tail->next;
+	return tail;
+	
+}
+
+void add_info(struct info * head) {
+
+	struct info * tail = head;
+	while(tail->next!=NULL)
+		tail = tail->next;
 
 	struct info * node = NULL;
-	input_info(tail);
-	
+	node = solo_info();
+	input_info(node);
 
+	tail->next = node;
+}
+
+void write_info(struct info * head) {
+
+	FILE * fp;
+	if ((fp = fopen("test.txt", "w")) == NULL) {
+		printf("打开文件失败");
+		exit(-2);
+	}
+    printf("写入文件中");
+    while(head!=NULL)
+    {
+        printf(".");
+        if(fwrite(head, sizeof(struct info), 1, fp)!=1) {
+            printf("写入文件失败");
+            exit(-2);
+        }
+		head = head->next;
+    }
+    printf("写入完成\n");
+	fclose(fp);
+}
+
+
+void read_info(struct info * head) {
+
+	int i = 0;
+	FILE * fp;
+	struct info * node = NULL;
+	struct info * tail = head;
+	if ((fp = fopen("info.txt", "rb")) == NULL) {
+		system("cls");
+		printf("读取文件失败");
+		exit(-3);
+	}
+
+	while(!feof(fp)) {
+		node=solo_info();
+		if(fread(node, sizeof(struct info),1 , fp)!=1) {
+			free(node);
+			node = NULL;
+		}else{
+			tail->next = node;
+			tail = node;
+		}
+	}
+
+	fclose(fp);
+	return ;
+}
+
+void free_info(struct info * head) {
+    
+    struct info * p = NULL;
+    while (head!=NULL) {
+        p = head->next;
+        free(head);
+        head = p;
+    }
+    return ;
 }
