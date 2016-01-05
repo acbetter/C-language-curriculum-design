@@ -14,8 +14,6 @@ void question() {
 		
 	int a;
 	struct info * head = NULL;
-	struct info * tail = NULL;
-	head = solo_info();
 	read_info(head);
 
 	while (1) {
@@ -23,13 +21,14 @@ void question() {
 		system("mode con cols=57 lines=20");
 		system("color 3F");
 
-		a = move_1(5,menuPrint_3);
+		a = move_1(6,menuPrint_3);
 		switch (a) {
 			//1.
 			case 1:;continue;
-			case 2:tail=find_info_tail(head);add_info(tail);continue;
+			case 2:input_info(head);continue;
 			case 3:;continue;
 			case 4:;continue;
+			case 5:print_info(head);continue;
 			case 6:;continue;
 			case 0:
 			default:break;
@@ -78,7 +77,7 @@ void menuPrint_3(int a) {
 	
 }
 
-//带头结点的尾插法
+//不带头结点的尾插法
 
 struct info * solo_info() {
 
@@ -94,13 +93,17 @@ struct info * solo_info() {
     return node;
 }
 
-void input_info(struct info * tail) {
+void input_info(struct info * head) {
 
 	int i,j;
 	char ch;
 	struct info * node = NULL;
+	struct info * tail = head;
 	
 	node = solo_info();
+	while(tail->next!=NULL)
+		tail = tail->next;
+	tail->next = node;
 
 	system("mode con cols=50 lines=40");
 	system("color 0F");
@@ -108,27 +111,33 @@ void input_info(struct info * tail) {
 	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 	printf("       输入题目信息\n\n");
 	printf("     ---------------------\n");
-	printf("     | 难度(1-10): |           |\n");
+	printf("     | 难度(1-10): |     |\n");
 	printf("     ---------------------\n");
 	printf("\n");
 	printf("     ---------------------\n");
-	printf("     | 分值 (1-5): |           |\n");
+	printf("     | 分值 (1-5): |     |\n");
 	printf("     ---------------------\n");
 	printf("\n");
 	printf("     ---------------------\n");
-	printf("     | 正确选项:  |       |\n");
-	printf("     |   A---D	|       |\n");
+	printf("     | 正确选项: |       |\n");
+	printf("     |   A---D   |       |\n");
 	printf("     ---------------------\n");
 	printf("\n");
 	
 	node->no = tail->no+1;
 
 	fflush(stdin);
-	goto_pos(16,7);
-	scanf("%d",node->lever);
+	goto_pos(22,6);
+	scanf("%2d",&node->lever);
+
 	fflush(stdin);
-	goto_pos(16,11);
-	scanf("%d",node->score);
+	goto_pos(22,10);
+	scanf("%2d",&node->score);
+
+	fflush(stdin);
+	goto_pos(22,14);
+	ch=getchar();
+	node->rightAnswer=ch-'A';
 
 	system("cls");
 	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
@@ -157,9 +166,16 @@ void input_info(struct info * tail) {
 	}
 
 	printf("请输入5个关键字,并用空格隔开,或以 @+回车 结束关键字的输入.\n");
+	fflush(stdin);
 	for(i=0;i<4;i++) {
-		scanf("%40s",node->keyWords[i]);
-		if( *(node->keyWords[i])=='@' )
+		for(j=0;j<40;j++) {
+			ch=getchar();
+			if(ch!='\n'&&ch!=' ')
+				node->keyWords[i][j]=ch;
+			else
+				break;
+		}
+		if(node->keyWords[i][0]=='@')
 			break;
 	}
 
@@ -167,7 +183,7 @@ void input_info(struct info * tail) {
 	fflush(stdin);
 	scanf("%300s",node->answers[node->rightAnswer]);
 
-	for(i=0;i<3;i++) {
+	for(i=0;i<4;i++) {
 		if(i==node->rightAnswer)
 			continue;
 		printf("请输入%c选项的错误原因:\n",'A'+i);
@@ -177,27 +193,28 @@ void input_info(struct info * tail) {
 
 	node->timeAdd=node->timeModify=time(NULL);
 
-	
-
+	printf("添加试题成功!正在返回主菜单...");
+	Sleep(1300);
 
 }
 
+//已废
 struct info * find_info_tail(struct info * head) {
 
-	struct info * tail = head;
-	while(tail->next!=NULL)
-		tail = tail->next;
-	return tail;
-	
+	struct info * node = NULL;
+	node = solo_info();
+	while(head->next!=NULL)
+		head = head->next;
+	head->next = node;
+	return node;
+
 }
 
-void add_info(struct info * head) {
+//已废
+void add_info(struct info * node) {
 
-	struct info * tail = head;
-	while(tail->next!=NULL)
-		tail = tail->next;
-
-	struct info * node = NULL;
+	struct info * tail = NULL;
+	//struct info * node = NULL;
 	node = solo_info();
 	input_info(node);
 
@@ -207,50 +224,52 @@ void add_info(struct info * head) {
 void write_info(struct info * head) {
 
 	FILE * fp;
-	if ((fp = fopen("test.txt", "w")) == NULL) {
+	if ((fp = fopen("info.txt", "w")) == NULL) {
 		printf("打开文件失败");
 		exit(-2);
 	}
     printf("写入文件中");
-    while(head!=NULL)
+    while(head->next!=NULL)
     {
         printf(".");
+		head = head->next;
         if(fwrite(head, sizeof(struct info), 1, fp)!=1) {
             printf("写入文件失败");
             exit(-2);
         }
-		head = head->next;
+		
     }
-    printf("写入完成\n");
+    //printf("写入完成\n");
 	fclose(fp);
 }
 
-
 void read_info(struct info * head) {
 
-	int i = 0;
+	int i=0;
 	FILE * fp;
 	struct info * node = NULL;
-	struct info * tail = head;
-	if ((fp = fopen("info.txt", "rb")) == NULL) {
+	struct info * tail = NULL;
+
+	//head=solo_info();
+
+	if ((fp = fopen("info.txt", "r")) == NULL) {
 		system("cls");
 		printf("读取文件失败");
 		exit(-3);
 	}
+	tail=head=solo_info();
+	while(!feof(fp)){
 
-	while(!feof(fp)) {
 		node=solo_info();
-		if(fread(node, sizeof(struct info),1 , fp)!=1) {
-			free(node);
-			node = NULL;
-		}else{
-			tail->next = node;
-			tail = node;
+		if(fread(node, sizeof(struct info),1 , fp)==1){
+			tail->next=node;
+			tail=node;
 		}
 	}
 
+	//!@#$%^&*()_)(*&^%$#@!@#$%^&*())(*&^%$#@!#$%^&*()(*&^%$#@
+
 	fclose(fp);
-	return ;
 }
 
 void free_info(struct info * head) {
@@ -262,4 +281,24 @@ void free_info(struct info * head) {
         head = p;
     }
     return ;
+}
+
+void print_info(struct info * head) {
+
+	system("cls");
+	printf("正在读取数据...\n");
+	if (head->next==NULL) {
+		printf("当前题库为空!");
+	}else{
+		struct info * p = head->next;
+		while (p!=NULL) {
+
+			printf("试题编号: %3d",p->no);
+			printf("题目难度: %2d",p->lever);
+
+			p=p->next;
+		}
+	}
+	printf("\n请按任意键返回菜单...");
+	getch();
 }
