@@ -12,13 +12,16 @@
 
 //------------------------------------------
 
+
 //A=0,B=1,C=2,D=3;
+
 #define A 1
 #define B 2
 #define C 3
 #define D 4
 
 struct info {
+
 	int no;//题目编号
 	int lever;//题目难度1-10
 	int score;//题目分数1-5
@@ -35,13 +38,13 @@ struct info {
 };
 
 
-
 //main.cpp
 void main(void);
 int move_1(int num,void (*p)(int) );
 void menuPrint(int a);
 void printLaugh(int x, int y);
 void goto_pos(int x, int y);
+
 
 //admin.cpp
 void admin();
@@ -50,6 +53,7 @@ void auto_paper();
 void user_admin();
 void situation_analysis();
 void menuPrint_2(int a);
+
 
 //question.cpp
 void question();
@@ -66,3 +70,10 @@ void print_info(struct info * head);
 
 //time.cpp
 void print_time(long lt);
+
+
+//find_info.cpp
+void find_info();
+void menuPrint_4(int a);
+struct info * find_info_key(struct info * head);
+

@@ -24,7 +24,7 @@ void question() {
 		a = move_1(6,menuPrint_3);
 		switch (a) {
 			//1.
-			case 1:;continue;
+			case 1:find_info();continue;
 			case 2:input_info(head);continue;
 			case 3:;continue;
 			case 4:;continue;
@@ -92,6 +92,8 @@ struct info * solo_info() {
 	}
     return node;
 }
+
+
 
 void input_info(struct info * head) {
 
@@ -197,29 +199,6 @@ void input_info(struct info * head) {
 	printf("添加试题成功!正在返回主菜单...");
 	Sleep(1300);
 
-}
-
-//已废
-struct info * find_info_tail(struct info * head) {
-
-	struct info * node = NULL;
-	node = solo_info();
-	while(head->next!=NULL)
-		head = head->next;
-	head->next = node;
-	return node;
-
-}
-
-//已废
-void add_info(struct info * node) {
-
-	struct info * tail = NULL;
-	//struct info * node = NULL;
-	node = solo_info();
-	input_info(node);
-
-	tail->next = node;
 }
 
 void write_info(struct info * head) {

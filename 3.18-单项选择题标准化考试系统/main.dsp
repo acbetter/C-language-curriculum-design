@@ -90,6 +90,10 @@ SOURCE=.\all.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\find_info.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\main.cpp
 # End Source File
 # Begin Source File
