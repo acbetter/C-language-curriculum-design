@@ -96,5 +96,9 @@ SOURCE=.\main.cpp
 
 SOURCE=.\question.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\time.cpp
+# End Source File
 # End Target
 # End Project

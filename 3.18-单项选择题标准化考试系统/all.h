@@ -59,6 +59,10 @@ void input_info(struct info * head);
 struct info * find_info_tail(struct info * head);
 void add_info(struct info * node);
 void write_info(struct info * head);
-void read_info(struct info * head);
+struct info * read_info(void);
 void free_info(struct info * head);
 void print_info(struct info * head);
+
+
+//time.cpp
+void print_time(long lt);

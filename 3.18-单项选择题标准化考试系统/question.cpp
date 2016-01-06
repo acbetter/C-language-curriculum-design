@@ -14,7 +14,7 @@ void question() {
 		
 	int a;
 	struct info * head = NULL;
-	read_info(head);
+	head=read_info();
 
 	while (1) {
 
@@ -105,7 +105,7 @@ void input_info(struct info * head) {
 		tail = tail->next;
 	tail->next = node;
 
-	system("mode con cols=50 lines=40");
+	system("mode con cols=30 lines=20");
 	system("color 0F");
 
 	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
@@ -127,23 +127,24 @@ void input_info(struct info * head) {
 	node->no = tail->no+1;
 
 	fflush(stdin);
-	goto_pos(22,6);
+	goto_pos(22,7);
 	scanf("%2d",&node->lever);
 
 	fflush(stdin);
-	goto_pos(22,10);
+	goto_pos(22,11);
 	scanf("%2d",&node->score);
 
 	fflush(stdin);
-	goto_pos(22,14);
+	goto_pos(22,15);
 	ch=getchar();
 	node->rightAnswer=ch-'A';
 
 	system("cls");
-	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-	printf("       输入题目信息\n\n");
-	printf("     ---------------------\n");
-	printf("      请输入题目描述:\n");
+	system("mode con cols=50 lines=40");
+	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+	printf("                  输入题目信息\n\n");
+	printf("              ---------------------\n\n");
+	printf("请输入题目描述:\n");
 	fflush(stdin);
 	for(j=0;j<1000;j++) {
 		ch=getchar();
@@ -167,7 +168,7 @@ void input_info(struct info * head) {
 
 	printf("请输入5个关键字,并用空格隔开,或以 @+回车 结束关键字的输入.\n");
 	fflush(stdin);
-	for(i=0;i<4;i++) {
+	for(i=0;i<5;i++) {
 		for(j=0;j<40;j++) {
 			ch=getchar();
 			if(ch!='\n'&&ch!=' ')
@@ -243,10 +244,11 @@ void write_info(struct info * head) {
 	fclose(fp);
 }
 
-void read_info(struct info * head) {
+struct info * read_info() {
 
 	int i=0;
 	FILE * fp;
+	struct info * head = NULL;
 	struct info * node = NULL;
 	struct info * tail = NULL;
 
@@ -270,6 +272,7 @@ void read_info(struct info * head) {
 	//!@#$%^&*()_)(*&^%$#@!@#$%^&*())(*&^%$#@!#$%^&*()(*&^%$#@
 
 	fclose(fp);
+	return head;
 }
 
 void free_info(struct info * head) {
@@ -285,6 +288,7 @@ void free_info(struct info * head) {
 
 void print_info(struct info * head) {
 
+	int i;
 	system("cls");
 	printf("正在读取数据...\n");
 	if (head->next==NULL) {
@@ -292,9 +296,35 @@ void print_info(struct info * head) {
 	}else{
 		struct info * p = head->next;
 		while (p!=NULL) {
+			printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+			printf(" no:%3d ",p->no);
+			printf(" lever:%2d ",p->lever);
+			printf(" score:%d ",p->score);
+			printf("\n statement:\n\t%s\n\n",p->statement);
 
-			printf("试题编号: %3d",p->no);
-			printf("题目难度: %2d",p->lever);
+			printf(" keyWords:");
+			for(i=0;i<5;i++)
+				if(p->keyWords[i][0]!='@')
+					printf("%s",p->answers[i]);
+				else
+					break;
+			printf("\n");
+
+			printf(" A:%s\t",p->options[0]);
+			printf(" B:%s\t",p->options[1]);
+			printf(" C:%s\t",p->options[2]);
+			printf(" D:%s\t\n",p->options[3]);
+			//printf("rightAnswer:%c",'A'+p->rightAnswer);
+			printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
+			for(i=0;i<4;i++) {
+				if(i==p->rightAnswer)
+					continue;
+				printf(" %c wrong,because %s\n",'A'+i,p->answers[i]);
+			}
+			printf(" timeAdd:   ");
+			print_time(p->timeAdd);
+			printf(" timeModify:");
+			print_time(p->timeModify);
 
 			p=p->next;
 		}
