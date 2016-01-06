@@ -24,12 +24,11 @@ void question() {
 		a = move_1(6,menuPrint_3);
 		switch (a) {
 			//1.
-			case 1:find_info();continue;
+			case 1:find_info(head);continue;
 			case 2:input_info(head);continue;
-			case 3:;continue;
-			case 4:;continue;
+			case 3:find_info(head);continue;
+			case 4:find_info(head);continue;
 			case 5:print_info(head);continue;
-			case 6:;continue;
 			case 0:
 			default:break;
 		}

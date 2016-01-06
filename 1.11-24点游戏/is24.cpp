@@ -87,7 +87,7 @@ void exitGame(void);
 void main(void) {
 
 	system("mode con cols=67 lines=29");
-	system("color 0A");
+	system("color 3E");
 	resetting();
 	read_settings();
 	initSettings_temp();
@@ -288,6 +288,7 @@ void tianti() {
 		printf("请输入算式: ");
 		if(zhabi()) {
 			printf("计算成功!\n");
+			lever++;
 			printf("按空格(Space键)继续挑战下一关,按其他键返回主菜单\n");
 			fflush(stdin);
 			if((key=getch())==32)
@@ -384,13 +385,13 @@ void print_settings() {
 		printf("\t由于 C 语言 写出界面比较繁琐\n");
 		printf("\t这个设置界面暂时不支持上下滑动及回车选中\n");
 		printf("\t也不支持更改当前主题\n");
-		printf("\t请输入1~9修改设置项,输入0即可回到主菜单\n");
+		printf("\t请输入1~9修改设置项,输入0即可回到主菜单\n\n");
 		printf("\t1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low)));
 		printf("\t2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high)));
-		//printf("3.%d\n",);
+		printf("\t3.is %d点(该项设置不会在下次游戏开启时载入...)\n",N);
 		printf("\t8.重置所有设置(程序有bug时也可以重置)\n");
 		printf("\t9.下次运行游戏是否载入当前设置:%s\n",isSave[saved.saveSettings]);
-		printf("\t0.返回菜单\n\t");
+		printf("\t0.返回菜单\n\n\t");
 
 
 		fflush(stdin);
@@ -465,6 +466,10 @@ void change_settings(int num) {
 			printf("请输入当前上限(最大的扑克牌):");
 			scanf("%s",poker);
 			saved.high=(int)(poker_to_number(poker));
+			break;
+		case 3:
+			printf("请输入当前点数(默认为24):");
+			scanf("%d",&N);
 			break;
 		case 8:
 			resetting();

@@ -2,9 +2,10 @@
 
 #include "all.h"
 
-void find_info() {
+struct info * find_info(struct info * head) {
 
 	int a;
+	struct info * find = NULL;
 		
 	while (1) {
 
@@ -14,8 +15,8 @@ void find_info() {
 		a = move_1(3,menuPrint_4);
 		switch (a) {
 			//1.
-			case 1:;continue;
-			case 2:;continue;
+			case 1:find=find_info_key(head);continue;
+			case 2:find=find_info_no(head);continue;
 			case 3:;continue;
 			case 4:;continue;
 			case 5:;continue;
@@ -25,7 +26,7 @@ void find_info() {
 		}
 		break;
 	}
-
+	return find;
 }
 
 void menuPrint_4(int a) {
@@ -68,12 +69,30 @@ void menuPrint_4(int a) {
 
 struct info * find_info_key(struct info * head) {
 
+	int count=0,sign=0;
+	struct info * node = head;
 	char key[20]={'0'};
+
 	printf(" 请输入关键字:\n");
 	printf(" 正在查找...\n");
-	while(head!=NULL);//
-
-	return head;
+	while(node->next!=NULL){
+		if(fuzzy_search(node->next->statement,key)){
+			print_info(node);
+			sign++;
+		}
+		count++;
+		node=node->next;
+	}
+	printf(" 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
+	if(sign==1)
+		return node;
+	else if(sign>1)
+		find=find_info_no(head);
+	else{
+		printf(" 没有找到结果,正在返回上一级菜单...")
+		find = NULL;
+	}
+	return find;
 }
 
 int fuzzy_search(char str[] , char str2[]) {
@@ -102,5 +121,108 @@ int fuzzy_search(char str[] , char str2[]) {
 			}
 		} else//如果n = 0，找到
 			return 1;
+	}
+}
+
+void delete_info_no(struct info * find) {
+
+	int num;
+	struct info * node = find->next;
+	num=node->no;
+	find=find->next->next;
+	free(node);
+	node=NULL;
+	printf(" 删除题目%d成功!\n",num);
+}
+
+struct info * find_info_no(struct info * head) {
+
+	int num;
+	struct info * node = NULL;
+
+	printf(" 请输入题号:\n");
+	printf(" 正在定位...\n");
+	while(node->next!=NULL){
+		if(node->next->no==num){
+			print_info(node);
+			return node;
+		}
+		node=node->next;
+	}
+	return NULL;
+}
+
+void change_info(struct info * node) {
+
+	int s = 2;
+	char ch;
+	node=node->next;
+	while (s!=0) {
+
+		printf(" 请输入相应的数字,按回车结束...\n");
+		printf(" 1.lever -> 修改题目难度\n");
+		printf(" 2.score -> 修改题目分数\n");
+		printf(" 3.rightAnswer -> 修改题目正确答案\n");
+		printf(" 4.options -> 修改题目选项\n");
+		printf(" 5.answers -> 修改选项答案错误/正确原因\n");
+		printf(" 6.statement -> 修改题目描述\n");
+
+		printf(" 0.return -> 返回菜单\n");
+
+		fflush(stdin);
+		scanf("%d", &s);
+		fflush(stdin);
+		switch (s) {
+			case 1:
+				printf("请输入题目难度: ");
+				scanf("%2d",&node->lever);
+				break;
+			case 2:
+				printf("请输入题目分数: ");
+				scanf("%2d",&node->score);
+				break;
+			case 3:
+				printf("请输入题目正确答案: ");
+				ch=getchar();
+				node->rightAnswer=ch-'A';
+				break;
+			case 4:
+				printf("请输入选项: ");
+				ch=getchar(); 
+				scanf("%2d",&node->lever);
+				break;
+			case 2:
+				printf("请输入题目难度: ");
+				scanf("%2d",&node->lever);
+				break;
+			case 2:
+				printf("请输入题目难度: ");
+				scanf("%2d",&node->lever);
+				break;
+			default:break;
+		}
+
+
+	}
+}
+
+
+void find_info_next(struct info * node) {
+
+	int s = 2;
+	while (s!=0) {
+
+		printf(" 请输入相应的数字,按回车结束...\n");
+		printf(" 1.change -> 修改\n");
+		printf(" 2.delete -> 删除\n");
+		printf(" 0.return -> 返回菜单\n");
+
+		fflush(stdin);
+		scanf("%d", &s);
+		switch (s) {
+			case 1:node=node->next;p=traversal_1(); break;
+			case 2:delete_info_no(node); break;
+			default:break;
+		}
 	}
 }

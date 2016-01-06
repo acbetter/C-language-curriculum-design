@@ -73,7 +73,8 @@ void print_time(long lt);
 
 
 //find_info.cpp
-void find_info();
+struct info * find_info(struct info * head);
 void menuPrint_4(int a);
 struct info * find_info_key(struct info * head);
+int fuzzy_search(char str[] , char str2[]);
 

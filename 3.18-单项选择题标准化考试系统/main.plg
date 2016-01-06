@@ -6,31 +6,41 @@
 --------------------Configuration: main - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSPBB59.tmp" with contents
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSPBCC0.tmp" with contents
 [
 /nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/main.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp"
 ]
-Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSPBB59.tmp" 
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSPBB5A.tmp" with contents
+Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSPBCC0.tmp" 
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSPBCC1.tmp" with contents
 [
 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/main.pdb" /debug /machine:I386 /out:"Debug/main.exe" /pdbtype:sept 
 ".\Debug\admin.obj"
+".\Debug\find_info.obj"
 ".\Debug\main.obj"
 ".\Debug\question.obj"
 ".\Debug\time.obj"
-".\Debug\find_info.obj"
 ]
-Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSPBB5A.tmp"
+Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSPBCC1.tmp"
 <h3>Output Window</h3>
 Compiling...
 find_info.cpp
-Linking...
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(19) : error C2065: 'find_info_no' : undeclared identifier
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(19) : error C2440: '=' : cannot convert from 'int' to 'struct info *'
+        Conversion from integral type to pointer type requires reinterpret_cast, C-style cast or function-style cast
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(90) : error C2065: 'find' : undeclared identifier
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(93) : error C2146: syntax error : missing ';' before identifier 'find'
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(138) : error C2373: 'find_info_no' : redefinition; different type modifiers
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(194) : error C2196: case value '2' already used
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(198) : error C2196: case value '2' already used
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(223) : error C2065: 'p' : undeclared identifier
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_info.cpp(223) : error C2065: 'traversal_1' : undeclared identifier
+Error executing cl.exe.
 
 
 
 <h3>Results</h3>
-main.exe - 0 error(s), 0 warning(s)
+main.exe - 9 error(s), 0 warning(s)
 </pre>
 </body>
 </html>
