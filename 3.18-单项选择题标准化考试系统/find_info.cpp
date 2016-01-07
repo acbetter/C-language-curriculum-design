@@ -18,9 +18,8 @@ struct info * find_info(struct info * head) {
 			case 1:find=find_info_key(head);break;
 			case 2:find=find_info_no(head);break;
 			case 3:find=find_info_lever(head);break;
-			case 4:;continue;
-			case 5:;continue;
-			case 6:;continue;
+			case 4:find=find_info_score(head);break;
+			case 5:find=find_info_time(head);break;
 			case 0:
 			default:break;
 		}
@@ -39,11 +38,11 @@ struct info * find_info(struct info * head) {
 
                2.按题号查找     
 
-               3.(按难度查找)
+               3.按难度查找
 
-               4.(按时间查找)
+               4.按分值查找
 
-               5.(按分值查找)    
+               5.最近添加/修改   
 
                0.返回上一层
 */
@@ -296,6 +295,73 @@ struct info * find_info_lever(struct info * head) {
 	system("mode con cols=80 lines=1000");
 	while(node->next!=NULL){
 		if(node->next->lever==lev){
+			print_info_solo(node->next);
+			find=node;
+			sign++;
+		}
+		count++;
+		node=node->next;
+	}
+	printf("\n 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
+	if(sign==1)
+		return find;
+	else if(sign>1)
+		return find_info_no(head);
+	else{
+		printf(" 没有找到结果,正在返回上一级菜单...");
+		Sleep(3000);
+		return NULL;
+	}
+	return NULL;
+}
+
+
+struct info * find_info_score(struct info * head) {
+
+	int count=0,sign=0;
+	struct info * node = head;
+	struct info * find = NULL;
+	int lev;
+
+	system("cls");
+	printf(" 请输入题目难度:\n");
+	fflush(stdin);
+	scanf("%2d",&lev);
+	printf(" 正在查找...\n");
+	system("mode con cols=80 lines=1000");
+	while(node->next!=NULL){
+		if(node->next->score==lev){
+			print_info_solo(node->next);
+			find=node;
+			sign++;
+		}
+		count++;
+		node=node->next;
+	}
+	printf("\n 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
+	if(sign==1)
+		return find;
+	else if(sign>1)
+		return find_info_no(head);
+	else{
+		printf(" 没有找到结果,正在返回上一级菜单...");
+		Sleep(3000);
+		return NULL;
+	}
+	return NULL;
+}
+
+struct info * find_info_time(struct info * head) {
+
+	int count=0,sign=0;
+	struct info * node = head;
+	struct info * find = NULL;
+
+	system("cls");
+	printf(" 正在查找...\n");
+	system("mode con cols=80 lines=1000");
+	while(node->next!=NULL){
+		if( (time(NULL)-node->next->timeModify)<=250942){
 			print_info_solo(node->next);
 			find=node;
 			sign++;

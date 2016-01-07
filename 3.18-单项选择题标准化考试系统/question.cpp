@@ -371,9 +371,7 @@ void print_info_solo(struct info * node) {
 			printf(" timeAdd:   ");
 			print_time(p->timeAdd);
 			printf(" timeModify:");
-			print_time(p->timeModify);
-
-			
+			print_time(p->timeModify);			
 		
 	}
 }

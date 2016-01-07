@@ -83,3 +83,8 @@ struct info * find_info_no(struct info * head);
 void change_info(struct info * node);
 void find_info_next(struct info * node);
 struct info * find_info_lever(struct info * head);
+struct info * find_info_score(struct info * head);
+struct info * find_info_time(struct info * head);
+
+
+
