@@ -17,7 +17,7 @@ struct info * find_info(struct info * head) {
 			//1.
 			case 1:find=find_info_key(head);break;
 			case 2:find=find_info_no(head);break;
-			case 3:;continue;
+			case 3:find=find_info_lever(head);break;
 			case 4:;continue;
 			case 5:;continue;
 			case 6:;continue;
@@ -116,6 +116,7 @@ struct info * find_info_key(struct info * head) {
 		return find_info_no(head);
 	else{
 		printf(" 没有找到结果,正在返回上一级菜单...");
+		Sleep(3000);
 		return NULL;
 	}
 	return NULL;
@@ -286,16 +287,15 @@ struct info * find_info_lever(struct info * head) {
 	struct info * node = head;
 	struct info * find = NULL;
 	int lev;
-	memset(key,0,sizeof(char)*20);
 
 	system("cls");
 	printf(" 请输入题目难度:\n");
 	fflush(stdin);
-	scanf("%19s",key);
+	scanf("%2d",&lev);
 	printf(" 正在查找...\n");
 	system("mode con cols=80 lines=1000");
 	while(node->next!=NULL){
-		if(fuzzy_search(node->next->statement,key)){
+		if(node->next->lever==lev){
 			print_info_solo(node->next);
 			find=node;
 			sign++;
@@ -310,6 +310,7 @@ struct info * find_info_lever(struct info * head) {
 		return find_info_no(head);
 	else{
 		printf(" 没有找到结果,正在返回上一级菜单...");
+		Sleep(3000);
 		return NULL;
 	}
 	return NULL;
