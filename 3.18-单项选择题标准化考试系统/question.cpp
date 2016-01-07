@@ -28,7 +28,11 @@ void question() {
 			case 2:input_info(head);continue;
 			case 3:find_info(head);continue;
 			case 4:find_info(head);continue;
-			case 5:print_info(head);continue;
+			case 5:
+				system("cls");
+				print_info(head->next);
+				system("pause");
+				continue;
 			case 0:
 			default:break;
 		}
@@ -37,6 +41,23 @@ void question() {
 	write_info(head);
 	free_info(head);  //save
 }
+
+/*
+ 试题管理界面       admin
+
+
+               1.查找试题
+
+               2.添加试题     
+
+               3.删除试题
+
+               4.修改试题
+
+               5.浏览试题    
+
+               0.保存并退出
+*/
 
 void menuPrint_3(int a) {
 
@@ -194,6 +215,7 @@ void input_info(struct info * head) {
 	}
 
 	node->timeAdd=node->timeModify=time(NULL);
+	node->next=NULL;
 
 	printf("添加试题成功!正在返回主菜单...");
 	Sleep(1300);
@@ -264,15 +286,16 @@ void free_info(struct info * head) {
     return ;
 }
 
-void print_info(struct info * head) {
+void print_info(struct info * node) {
 
 	int i;
-	system("cls");
+	system("mode con cols=80 lines=1000");
+	
 	printf("正在读取数据...\n");
-	if (head->next==NULL) {
+	if (node==NULL) {
 		printf("当前题库为空!");
 	}else{
-		struct info * p = head->next;
+		struct info * p = node;
 		while (p!=NULL) {
 			printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 			printf(" no:%3d ",p->no);
@@ -283,7 +306,7 @@ void print_info(struct info * head) {
 			printf(" keyWords:");
 			for(i=0;i<5;i++)
 				if(p->keyWords[i][0]!='@')
-					printf("%s",p->answers[i]);
+					printf("%s ",p->answers[i]);
 				else
 					break;
 			printf("\n");
@@ -307,6 +330,50 @@ void print_info(struct info * head) {
 			p=p->next;
 		}
 	}
-	printf("\n请按任意键返回菜单...");
-	getch();
+}
+
+
+void print_info_solo(struct info * node) {
+
+	int i;
+
+	
+	if (node==NULL) {
+		printf("当前结点为空!");
+	}else{
+		struct info * p = node;
+		
+			printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+			printf(" no:%3d ",p->no);
+			printf(" lever:%2d ",p->lever);
+			printf(" score:%d ",p->score);
+			printf("\n statement:\n\t%s\n\n",p->statement);
+
+			printf(" keyWords:");
+			for(i=0;i<5;i++)
+				if(p->keyWords[i][0]!='@')
+					printf("%s ",p->answers[i]);
+				else
+					break;
+			printf("\n");
+
+			printf(" A:%s\t",p->options[0]);
+			printf(" B:%s\t",p->options[1]);
+			printf(" C:%s\t",p->options[2]);
+			printf(" D:%s\t\n",p->options[3]);
+			//printf("rightAnswer:%c",'A'+p->rightAnswer);
+			printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
+			for(i=0;i<4;i++) {
+				if(i==p->rightAnswer)
+					continue;
+				printf(" %c wrong,because %s\n",'A'+i,p->answers[i]);
+			}
+			printf(" timeAdd:   ");
+			print_time(p->timeAdd);
+			printf(" timeModify:");
+			print_time(p->timeModify);
+
+			
+		
+	}
 }

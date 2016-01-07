@@ -66,6 +66,7 @@ void write_info(struct info * head);
 struct info * read_info(void);
 void free_info(struct info * head);
 void print_info(struct info * head);
+void print_info_solo(struct info * node);
 
 
 //time.cpp
@@ -77,4 +78,8 @@ struct info * find_info(struct info * head);
 void menuPrint_4(int a);
 struct info * find_info_key(struct info * head);
 int fuzzy_search(char str[] , char str2[]);
-
+void delete_info_no(struct info * find);
+struct info * find_info_no(struct info * head);
+void change_info(struct info * node);
+void find_info_next(struct info * node);
+struct info * find_info_lever(struct info * head);

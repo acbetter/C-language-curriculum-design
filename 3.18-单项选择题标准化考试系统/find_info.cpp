@@ -15,8 +15,8 @@ struct info * find_info(struct info * head) {
 		a = move_1(3,menuPrint_4);
 		switch (a) {
 			//1.
-			case 1:find=find_info_key(head);continue;
-			case 2:find=find_info_no(head);continue;
+			case 1:find=find_info_key(head);break;
+			case 2:find=find_info_no(head);break;
 			case 3:;continue;
 			case 4:;continue;
 			case 5:;continue;
@@ -24,10 +24,29 @@ struct info * find_info(struct info * head) {
 			case 0:
 			default:break;
 		}
+		if(find!=NULL)
+			find_info_next(find);
 		break;
 	}
 	return find;
 }
+
+/*
+               查找试题界面       admin
+
+
+               1.按关键字查找
+
+               2.按题号查找     
+
+               3.(按难度查找)
+
+               4.(按时间查找)
+
+               5.(按分值查找)    
+
+               0.返回上一层
+*/
 
 void menuPrint_4(int a) {
 
@@ -71,28 +90,35 @@ struct info * find_info_key(struct info * head) {
 
 	int count=0,sign=0;
 	struct info * node = head;
-	char key[20]={'0'};
+	struct info * find = NULL;
+	char key[20];
+	memset(key,0,sizeof(char)*20);
 
+	system("cls");
 	printf(" 请输入关键字:\n");
+	fflush(stdin);
+	scanf("%19s",key);
 	printf(" 正在查找...\n");
+	system("mode con cols=80 lines=1000");
 	while(node->next!=NULL){
 		if(fuzzy_search(node->next->statement,key)){
-			print_info(node);
+			print_info_solo(node->next);
+			find=node;
 			sign++;
 		}
 		count++;
 		node=node->next;
 	}
-	printf(" 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
+	printf("\n 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
 	if(sign==1)
-		return node;
+		return find;
 	else if(sign>1)
-		find=find_info_no(head);
+		return find_info_no(head);
 	else{
-		printf(" 没有找到结果,正在返回上一级菜单...")
-		find = NULL;
+		printf(" 没有找到结果,正在返回上一级菜单...");
+		return NULL;
 	}
-	return find;
+	return NULL;
 }
 
 int fuzzy_search(char str[] , char str2[]) {
@@ -129,7 +155,7 @@ void delete_info_no(struct info * find) {
 	int num;
 	struct info * node = find->next;
 	num=node->no;
-	find=find->next->next;
+	find->next=node->next;
 	free(node);
 	node=NULL;
 	printf(" 删除题目%d成功!\n",num);
@@ -138,13 +164,15 @@ void delete_info_no(struct info * find) {
 struct info * find_info_no(struct info * head) {
 
 	int num;
-	struct info * node = NULL;
+	struct info * node = head;
 
 	printf(" 请输入题号:\n");
+	scanf("%4d",&num);
 	printf(" 正在定位...\n");
+	system("mode con cols=80 lines=30");
 	while(node->next!=NULL){
 		if(node->next->no==num){
-			print_info(node);
+			print_info_solo(node->next);
 			return node;
 		}
 		node=node->next;
@@ -154,12 +182,13 @@ struct info * find_info_no(struct info * head) {
 
 void change_info(struct info * node) {
 
+	int j;
 	int s = 2;
-	char ch;
+	char ch,ch1;
 	node=node->next;
 	while (s!=0) {
 
-		printf(" 请输入相应的数字,按回车结束...\n");
+		printf("\n 请输入相应的数字,按回车结束...\n");
 		printf(" 1.lever -> 修改题目难度\n");
 		printf(" 2.score -> 修改题目分数\n");
 		printf(" 3.rightAnswer -> 修改题目正确答案\n");
@@ -167,7 +196,7 @@ void change_info(struct info * node) {
 		printf(" 5.answers -> 修改选项答案错误/正确原因\n");
 		printf(" 6.statement -> 修改题目描述\n");
 
-		printf(" 0.return -> 返回菜单\n");
+		printf(" 0.return -> 返回菜单\n\t\t");
 
 		fflush(stdin);
 		scanf("%d", &s);
@@ -189,19 +218,42 @@ void change_info(struct info * node) {
 			case 4:
 				printf("请输入选项: ");
 				ch=getchar(); 
-				scanf("%2d",&node->lever);
+				printf("您输入的选项是%c,请输入新的内容:",ch);
+				for(j=0;j<100;j++) {
+					ch1=getchar();
+					if(ch1!='\n')
+						node->options[ch-'A'][j]=ch;
+					else
+						break;
+				}
 				break;
-			case 2:
-				printf("请输入题目难度: ");
-				scanf("%2d",&node->lever);
+			case 5:
+				printf("请输入选项: ");
+				ch=getchar(); 
+				printf("您输入的选项是%c,请输入新的正确/错误原因:",ch);
+				for(j=0;j<300;j++) {
+					ch1=getchar();
+					if(ch1!='\n')
+						node->answers[ch-'A'][j]=ch;
+					else
+						break;
+				}
 				break;
-			case 2:
-				printf("请输入题目难度: ");
-				scanf("%2d",&node->lever);
+			case 6:
+				printf("请输入题目描述: ");
+				for(j=0;j<1000;j++) {
+					ch=getchar();
+					if(ch!='\n')
+						node->statement[j]=ch;
+					else
+						break;
+				}
 				break;
 			default:break;
 		}
 
+		node->timeModify=time(NULL);
+		print_info_solo(node);
 
 	}
 }
@@ -212,17 +264,53 @@ void find_info_next(struct info * node) {
 	int s = 2;
 	while (s!=0) {
 
-		printf(" 请输入相应的数字,按回车结束...\n");
+		printf("\n 请输入相应的数字,按回车结束...\n");
 		printf(" 1.change -> 修改\n");
 		printf(" 2.delete -> 删除\n");
-		printf(" 0.return -> 返回菜单\n");
+		printf(" 0.return -> 返回菜单\n\t\t");
 
 		fflush(stdin);
 		scanf("%d", &s);
 		switch (s) {
-			case 1:node=node->next;p=traversal_1(); break;
+			case 1:change_info(node); break;
 			case 2:delete_info_no(node); break;
 			default:break;
 		}
 	}
+}
+
+
+struct info * find_info_lever(struct info * head) {
+
+	int count=0,sign=0;
+	struct info * node = head;
+	struct info * find = NULL;
+	int lev;
+	memset(key,0,sizeof(char)*20);
+
+	system("cls");
+	printf(" 请输入题目难度:\n");
+	fflush(stdin);
+	scanf("%19s",key);
+	printf(" 正在查找...\n");
+	system("mode con cols=80 lines=1000");
+	while(node->next!=NULL){
+		if(fuzzy_search(node->next->statement,key)){
+			print_info_solo(node->next);
+			find=node;
+			sign++;
+		}
+		count++;
+		node=node->next;
+	}
+	printf("\n 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
+	if(sign==1)
+		return find;
+	else if(sign>1)
+		return find_info_no(head);
+	else{
+		printf(" 没有找到结果,正在返回上一级菜单...");
+		return NULL;
+	}
+	return NULL;
 }
