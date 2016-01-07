@@ -166,11 +166,11 @@ void input_info(struct info * head) {
 	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 	printf("                  输入题目信息\n\n");
 	printf("              ---------------------\n\n");
-	printf("请输入题目描述:\n");
+	printf("请输入题目描述(支持换行,请用@结束输入):\n");
 	fflush(stdin);
 	for(j=0;j<1000;j++) {
 		ch=getchar();
-		if(ch!='\n')
+		if(ch!='@')
 			node->statement[j]=ch;
 		else
 			break;
@@ -297,7 +297,7 @@ void print_info(struct info * node) {
 	}else{
 		struct info * p = node;
 		while (p!=NULL) {
-			printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+			printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 			printf(" no:%3d ",p->no);
 			printf(" lever:%2d ",p->lever);
 			printf(" score:%d ",p->score);
@@ -306,15 +306,15 @@ void print_info(struct info * node) {
 			printf(" keyWords:");
 			for(i=0;i<5;i++)
 				if(p->keyWords[i][0]!='@')
-					printf("%s ",p->answers[i]);
+					printf("%s ",p->keyWords[i]);
 				else
 					break;
 			printf("\n");
 
 			printf(" A:%s\t",p->options[0]);
-			printf(" B:%s\t",p->options[1]);
+			printf(" B:%s\n",p->options[1]);
 			printf(" C:%s\t",p->options[2]);
-			printf(" D:%s\t\n",p->options[3]);
+			printf(" D:%s\n",p->options[3]);
 			//printf("rightAnswer:%c",'A'+p->rightAnswer);
 			printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
 			for(i=0;i<4;i++) {
@@ -343,7 +343,7 @@ void print_info_solo(struct info * node) {
 	}else{
 		struct info * p = node;
 		
-			printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+			printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 			printf(" no:%3d ",p->no);
 			printf(" lever:%2d ",p->lever);
 			printf(" score:%d ",p->score);
@@ -352,15 +352,15 @@ void print_info_solo(struct info * node) {
 			printf(" keyWords:");
 			for(i=0;i<5;i++)
 				if(p->keyWords[i][0]!='@')
-					printf("%s ",p->answers[i]);
+					printf("%s ",p->keyWords[i]);
 				else
 					break;
 			printf("\n");
 
 			printf(" A:%s\t",p->options[0]);
-			printf(" B:%s\t",p->options[1]);
+			printf(" B:%s\n",p->options[1]);
 			printf(" C:%s\t",p->options[2]);
-			printf(" D:%s\t\n",p->options[3]);
+			printf(" D:%s\n",p->options[3]);
 			//printf("rightAnswer:%c",'A'+p->rightAnswer);
 			printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
 			for(i=0;i<4;i++) {

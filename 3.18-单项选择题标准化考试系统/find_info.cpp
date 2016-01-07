@@ -13,6 +13,7 @@ struct info * find_info(struct info * head) {
 		system("color 47");
 
 		a = move_1(3,menuPrint_4);
+		system("cls");
 		switch (a) {
 			//1.
 			case 1:find=find_info_key(head);break;
@@ -166,7 +167,7 @@ struct info * find_info_no(struct info * head) {
 	int num;
 	struct info * node = head;
 
-	printf(" 请输入题号:\n");
+	printf(" 请输入题号(输入0则退出):\n");
 	scanf("%4d",&num);
 	printf(" 正在定位...\n");
 	system("mode con cols=80 lines=30");
@@ -218,11 +219,12 @@ void change_info(struct info * node) {
 			case 4:
 				printf("请输入选项: ");
 				ch=getchar(); 
+				fflush(stdin);
 				printf("您输入的选项是%c,请输入新的内容:",ch);
 				for(j=0;j<100;j++) {
 					ch1=getchar();
 					if(ch1!='\n')
-						node->options[ch-'A'][j]=ch;
+						node->options[ch-'A'][j]=ch1;
 					else
 						break;
 				}
@@ -230,11 +232,12 @@ void change_info(struct info * node) {
 			case 5:
 				printf("请输入选项: ");
 				ch=getchar(); 
+				fflush(stdin);
 				printf("您输入的选项是%c,请输入新的正确/错误原因:",ch);
 				for(j=0;j<300;j++) {
 					ch1=getchar();
 					if(ch1!='\n')
-						node->answers[ch-'A'][j]=ch;
+						node->answers[ch-'A'][j]=ch1;
 					else
 						break;
 				}

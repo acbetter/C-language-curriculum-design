@@ -13,13 +13,6 @@
 //------------------------------------------
 
 
-//A=0,B=1,C=2,D=3;
-
-#define A 1
-#define B 2
-#define C 3
-#define D 4
-
 struct info {
 
 	int no;//ÌâÄ¿±àºÅ
@@ -53,7 +46,8 @@ void auto_paper();
 void user_admin();
 void situation_analysis();
 void menuPrint_2(int a);
-
+struct info * find_info_num(struct info * head,int num);
+struct info * find_info_score_num(struct info * head,int lev);
 
 //question.cpp
 void question();

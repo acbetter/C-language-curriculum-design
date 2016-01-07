@@ -59,6 +59,23 @@ int sign_in() {
 	return -1;
 }
 
+/*
+               管理员控制界面     admin
+
+
+               1.试题管理(增删改查)
+
+               2.组卷功能           
+
+               3.用户账号管理
+
+               4.用户答题情况管理
+
+               ---------------     
+
+               0.注销登录
+*/
+
 void admin() {
 
 	if(sign_in()==-1)//如果登录失败则退出
@@ -135,6 +152,58 @@ void question_admin() {
 
 void auto_paper() {
 
+	system("mode con cols=30 lines=12");
+	system("color 0F");
+	
+	struct info * head = NULL;
+	head=read_info();
+	struct info * node = head;
+	struct info * temp = NULL;
+	if(node==NULL) {
+		printf("当前题库为空!");
+		return ;
+	}
+
+	fflush(stdin);
+	int num,score;
+	printf("请输入题目数:");
+	scanf("%2d",&num);
+	printf("请输入总分:");
+	scanf("%3d",&score);
+
+	int i,j;
+	int *no;
+	no=(int *)malloc(sizeof(int)*num);
+	if(no==NULL)
+		exit(-1);
+	int count,success=1,time=0;
+	while(success){
+		time++;//尝试生成次数
+		i=0,j=0,count=0;//count为随机生成的题号
+		while(i<sum)
+		{
+			while(j<=score-5)
+			{
+				count++;
+				if(rand()%2==0)
+					if( (temp=find_info_num(head,count))!=NULL )
+					{
+						no[i++]=temp->no;
+						j+=temp->score;
+					}
+			}
+
+		}
+		if(i==num&&j==score)
+			success=0;
+	}
+
+	FILE * fp;
+	fp=fopen("paper.txt","r");
+	if(fp==NULL) {
+		printf("cannot open %s\n",name);
+		exit (0);
+	}
 
 }
 
@@ -148,4 +217,29 @@ void situation_analysis() {
 
 }
 
+//------------------------------------------
 
+struct info * find_info_num(struct info * head,int num) {
+
+	struct info * node = head;
+
+	while(node->next!=NULL){
+		if(node->next->no==num)
+			return node;
+		node=node->next;
+	}
+	return NULL;
+}
+
+
+struct info * find_info_score_num(struct info * head,int lev) {
+
+	struct info * node = head;
+
+	while(node->next!=NULL){
+		if(node->next->score==lev)
+			return node->next;
+		node=node->next;
+	}
+	return NULL;
+}
