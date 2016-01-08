@@ -14,7 +14,7 @@ void admin_user() {
 		
 	int a;
 	struct user * head = NULL;
-	//head=read_user();
+	head=read_user();
 
 	while (1) {
 
@@ -25,12 +25,12 @@ void admin_user() {
 		switch (a) {
 			//1.
 			//case 1:find_user(head);continue;
-			//case 2:input_user(head);continue;
+			case 2:input_user(head);continue;
 			//case 3:find_user(head);continue;
 			//case 4:find_user(head);continue;
 			case 5:
 				system("cls");
-			//	print_user(head->next);
+				print_user(head->next);
 				system("pause");
 				continue;
 			case 0:
@@ -38,8 +38,8 @@ void admin_user() {
 		}
 		break;
 	}
-	//write_user(head);
-	//free_user(head);  //save
+	write_user(head);
+	free_user(head);  //save
 }
 
 /*
@@ -119,8 +119,7 @@ struct user * solo_user() {
 
 void input_user(struct user * head) {
 
-	int i,j;
-	char ch;
+	int i;
 	struct user * node = NULL;
 	struct user * tail = head;
 	
@@ -129,48 +128,59 @@ void input_user(struct user * head) {
 		tail = tail->next;
 	tail->next = node;
 
-	system("mode con cols=30 lines=22");
+	system("mode con cols=37 lines=27");
 	system("color 3A");
 
 	//char name[10]={"admin"},password[10]={"admin"};
 
 	for(i=0;i<3;i++) {
 		system("cls");
-		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+		printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
 		printf("           学生注册\n\n");
-		printf("     ---------------------\n");
-		printf("     | 学号: |           |\n");
-		printf("     ---------------------\n");
+		printf("     --------------------------\n");
+		printf("     | 学号: |                |\n");
+		printf("     --------------------------\n");
 		printf("\n");
-		printf("     ---------------------\n");
-		printf("     | 密码: |           |\n");
-		printf("     ---------------------\n");
+		printf("     --------------------------\n");
+		printf("     | 密码: |                |\n");
+		printf("     --------------------------\n");
 		printf("\n");
-		printf("     ---------------------\n");
-		printf("     | 学号必须是10位数字|\n");
-		printf("     | 密码之间不能有空格|\n");
-		printf("     | 按回车键完成输入..|\n");
-		printf("     ---------------------\n");
-		printf("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		printf("     --------------------------\n");
+		printf("       | 学号必须是10位数字|\n");
+		printf("       | 密码之间不能有空格|\n");
+		printf("       | 按回车键完成输入..|\n");
+		printf("     --------------------------\n");
+		printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		fflush(stdin);
-		goto_pos(16,7);
-		scanf("%10s",);
+		goto_pos(16,6);
+		scanf("%20s",node->no);
 		fflush(stdin);
-		goto_pos(16,11);
-		scanf("%10s",get_2);
+		goto_pos(16,10);
+		scanf("%30s",node->password);
 		
-		if(strlen(node->no)==11&&strlen(){
-			goto_pos(11,17);
+		if(strlen(node->no)==11&&strlen(node->password)>=6) {
+			goto_pos(11,21);
 			printf("注册成功!");
+			{
+				//开始初始化学生个人信息
+
+
+
+			}
 			Sleep(1800);
 			return ;
 		}else{
-			goto_pos(11,17);
-			printf("注册失败\n    请重新注册 (剩余次数:%d)",2-i);
-			free(node);
-			Sleep(1300);
+			goto_pos(13,21);
+			printf("注册失败\n      请重新注册 (剩余次数:%d)",2-i);
+			goto_pos(9,23);
+			if(strlen(node->no)!=11)
+				printf("学号不是11位,无效!");
+			else
+				printf("密码过于简单!");
+			Sleep(2100);
 		}
 	}
+	free(node);
 }
 
 void write_user(struct user * head) {
@@ -239,17 +249,17 @@ void free_user(struct user * head) {
 
 void print_user(struct user * node) {
 
-	int i;
 	system("mode con cols=80 lines=1000");
 	
 	printf("正在读取数据...\n");
 	if (node==NULL) {
 		printf("没有任何学生信息!");
 	}else{
+		printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		struct user * p = node;
 		while (p!=NULL) {
-
-
+			print_user_solo(p);
+			p=p->next;
 		}
 	}
 }
@@ -257,17 +267,48 @@ void print_user(struct user * node) {
 
 void print_user_solo(struct user * node) {
 
-	int i;
 
-	
 	if (node==NULL) {
 		printf("当前结点为空!");
 	}else{
 		struct user * p = node;
+		{	//基本信息		
+			printf(" 学号:%s ",p->no);
+			printf(" password:%s ",p->password);
+			printf("\n");
+		}
+		{	//练习信息
+			printf("用户练习次数:%d\t",p->exerciseTime);
+			printf("总计练习题目数量:%d\t",p->exercise);
+			printf("正确数量:%d\t",p->exerciseRight);
+			printf("正确率:%.1f%%\t",((p->exerciseRight+0.0)/p->exercise)*100);
+		}
+		{	//考试信息
+			printf("用户考试次数:%d\t",p->examTime);
+			printf("总计考试题目数量:%d\t",p->exam);
 		
-			printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-			printf(" no:%3d ",p->no);
-			printf(" lever:%2d ",p->lever);
+		int right,i;
+		for(i=0,right=0;(p->examRight[i][0]+p->examRight[i][1])!=0;i++){
+			right+=p->examRight[i][0];
+		}
+			printf("正确数量:%d\t",right);
+			printf("正确率:%.1f%%\t",((right+0.0)/p->exam)*100);
+
+			printf("用户历次考试分数:\n");
+		int j
+		for(i=0;
+			int examScore[300];//用户考试每次考试分数
+	
+
+			time_t timeAdd;//用户注册时间
+			time_t timeOnline;//用户在线时间
+			time_t timeLogin;//用户最后登录时间
+			time_t timeLogout;//用户最后登出时间
+			int last;//最后一次访问的是练习系统还是考试系统,练习为1,考试为2
+			
+			int errorHistory[300];//错误历史题号
+			int errorTime[300];//易错点栽了几次跟头
+			char error[300][40];//每错一道题,题目的几个关键字会自动算入用户易错点
 			
 	}
 }

@@ -6,13 +6,13 @@
 --------------------Configuration: main - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP8252.tmp" with contents
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP68DA.tmp" with contents
 [
 /nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/main.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
 "D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp"
 ]
-Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSP8252.tmp" 
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP8253.tmp" with contents
+Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSP68DA.tmp" 
+Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSP68DB.tmp" with contents
 [
 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/main.pdb" /debug /machine:I386 /out:"Debug/main.exe" /pdbtype:sept 
 ".\Debug\admin.obj"
@@ -22,22 +22,20 @@ kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32
 ".\Debug\question.obj"
 ".\Debug\time.obj"
 ]
-Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSP8253.tmp"
+Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSP68DB.tmp"
 <h3>Output Window</h3>
 Compiling...
 admin_user.cpp
-D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(157) : error C2059: syntax error : ')'
-D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(160) : error C2065: 'get_2' : undeclared identifier
-D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(162) : error C2660: 'strlen' : function does not take 0 parameters
-D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(162) : error C2143: syntax error : missing ')' before '{'
-D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(270) : error C2039: 'lever' : is not a member of 'user'
-        d:\c语言之课程设计\3.18-单项选择题标准化考试系统\all.h(33) : see declaration of 'user'
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(299) : error C2143: syntax error : missing ';' before 'for'
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(300) : error C2144: syntax error : missing ';' before type 'int'
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(300) : error C2144: syntax error : missing ')' before type 'int'
+D:\C语言之课程设计\3.18-单项选择题标准化考试系统\admin_user.cpp(324) : fatal error C1004: unexpected end of file found
 Error executing cl.exe.
 
 
 
 <h3>Results</h3>
-main.exe - 5 error(s), 0 warning(s)
+main.exe - 4 error(s), 0 warning(s)
 </pre>
 </body>
 </html>
