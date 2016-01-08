@@ -3,7 +3,7 @@
 
 	用户管理：对用户信息进行添加、删除、修改、查询、保存、浏览等操作。
 
-	用户答题情况管理：指定用户，统计其做试卷的总次数，以及每次所得的总分。
+	(用户答题情况管理：指定用户，统计其做试卷的总次数，以及每次所得的总分。)
 */
 
 //admin_user.cpp created time 2016-1-8 10:06:12
@@ -13,24 +13,24 @@
 void admin_user() {
 		
 	int a;
-	struct info * head = NULL;
-	head=read_info();
+	struct user * head = NULL;
+	//head=read_user();
 
 	while (1) {
 
 		system("mode con cols=57 lines=20");
 		system("color 3F");
 
-		a = move_1(6,menuPrint_3);
+		a = move_1(6,menuPrint_5);
 		switch (a) {
 			//1.
-			case 1:find_info(head);continue;
-			case 2:input_info(head);continue;
-			case 3:find_info(head);continue;
-			case 4:find_info(head);continue;
+			//case 1:find_user(head);continue;
+			//case 2:input_user(head);continue;
+			//case 3:find_user(head);continue;
+			//case 4:find_user(head);continue;
 			case 5:
 				system("cls");
-				print_info(head->next);
+			//	print_user(head->next);
 				system("pause");
 				continue;
 			case 0:
@@ -38,31 +38,33 @@ void admin_user() {
 		}
 		break;
 	}
-	write_info(head);
-	free_info(head);  //save
+	//write_user(head);
+	//free_user(head);  //save
 }
 
 /*
- 试题管理界面       admin
+
+            学生信息管理界面       admin
 
 
-               1.查找试题
+               1.查找学生
 
-               2.添加试题     
+               2.添加学生     
 
-               3.删除试题
+               3.移除学生信息(请先查找)
 
-               4.修改试题
+               4.修改学生信息(请先查找)
 
-               5.浏览试题    
+               5.浏览学生信息    
 
                0.保存并退出
+                       
 */
 
-void menuPrint_3(int a) {
+void menuPrint_5(int a) {
 
 	system("cls");
-	char name[15]={"menu_3.txt"};
+	char name[15]={"menu_5.txt"};
 
 	
 	char arr[1500];//这里1000最为合适~2333
@@ -99,11 +101,11 @@ void menuPrint_3(int a) {
 
 //不带头结点的尾插法
 
-struct info * solo_info() {
+struct user * solo_user() {
 
-    struct info * node = NULL;
-    node = (struct info *)malloc(sizeof(struct info));
-    memset(node, 0, sizeof(struct info));
+    struct user * node = NULL;
+    node = (struct user *)malloc(sizeof(struct user));
+    memset(node, 0, sizeof(struct user));
     if (node == NULL) {
         printf("申请内存失败!");
         exit(-1);
@@ -115,117 +117,66 @@ struct info * solo_info() {
 
 
 
-void input_info(struct info * head) {
+void input_user(struct user * head) {
 
 	int i,j;
 	char ch;
-	struct info * node = NULL;
-	struct info * tail = head;
+	struct user * node = NULL;
+	struct user * tail = head;
 	
-	node = solo_info();
+	node = solo_user();
 	while(tail->next!=NULL)
 		tail = tail->next;
 	tail->next = node;
 
-	system("mode con cols=30 lines=20");
-	system("color 0F");
+	system("mode con cols=30 lines=22");
+	system("color 3A");
 
-	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-	printf("       输入题目信息\n\n");
-	printf("     ---------------------\n");
-	printf("     | 难度(1-10): |     |\n");
-	printf("     ---------------------\n");
-	printf("\n");
-	printf("     ---------------------\n");
-	printf("     | 分值 (1-5): |     |\n");
-	printf("     ---------------------\n");
-	printf("\n");
-	printf("     ---------------------\n");
-	printf("     | 正确选项: |       |\n");
-	printf("     |   A---D   |       |\n");
-	printf("     ---------------------\n");
-	printf("\n");
-	
-	node->no = tail->no+1;
+	//char name[10]={"admin"},password[10]={"admin"};
 
-	fflush(stdin);
-	goto_pos(22,7);
-	scanf("%2d",&node->lever);
-
-	fflush(stdin);
-	goto_pos(22,11);
-	scanf("%2d",&node->score);
-
-	fflush(stdin);
-	goto_pos(22,15);
-	ch=getchar();
-	node->rightAnswer=ch-'A';
-
-	system("cls");
-	system("mode con cols=50 lines=40");
-	printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
-	printf("                  输入题目信息\n\n");
-	printf("              ---------------------\n\n");
-	printf("请输入题目描述(支持换行,请用@结束输入):\n");
-	fflush(stdin);
-	for(j=0;j<1000;j++) {
-		ch=getchar();
-		if(ch!='@')
-			node->statement[j]=ch;
-		else
-			break;
-	}
-
-	for(i=0;i<4;i++) {
-		printf("请输入%c选项内容",'A'+i);
+	for(i=0;i<3;i++) {
+		system("cls");
+		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+		printf("           学生注册\n\n");
+		printf("     ---------------------\n");
+		printf("     | 学号: |           |\n");
+		printf("     ---------------------\n");
+		printf("\n");
+		printf("     ---------------------\n");
+		printf("     | 密码: |           |\n");
+		printf("     ---------------------\n");
+		printf("\n");
+		printf("     ---------------------\n");
+		printf("     | 学号必须是10位数字|\n");
+		printf("     | 密码之间不能有空格|\n");
+		printf("     | 按回车键完成输入..|\n");
+		printf("     ---------------------\n");
+		printf("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		fflush(stdin);
-		for(j=0;j<100;j++) {
-			ch=getchar();
-			if(ch!='\n')
-				node->options[i][j]=ch;
-			else
-				break;
+		goto_pos(16,7);
+		scanf("%10s",);
+		fflush(stdin);
+		goto_pos(16,11);
+		scanf("%10s",get_2);
+		
+		if(strlen(node->no)==11&&strlen(){
+			goto_pos(11,17);
+			printf("注册成功!");
+			Sleep(1800);
+			return ;
+		}else{
+			goto_pos(11,17);
+			printf("注册失败\n    请重新注册 (剩余次数:%d)",2-i);
+			free(node);
+			Sleep(1300);
 		}
 	}
-
-	printf("请输入5个关键字,并用空格隔开,或以 @+回车 结束关键字的输入.\n");
-	fflush(stdin);
-	for(i=0;i<5;i++) {
-		for(j=0;j<40;j++) {
-			ch=getchar();
-			if(ch!='\n'&&ch!=' ')
-				node->keyWords[i][j]=ch;
-			else
-				break;
-		}
-		if(node->keyWords[i][0]=='@')
-			break;
-	}
-
-	printf("请输入%c选项的正确原因:\n",'A'+node->rightAnswer);
-	fflush(stdin);
-	scanf("%300s",node->answers[node->rightAnswer]);
-
-	for(i=0;i<4;i++) {
-		if(i==node->rightAnswer)
-			continue;
-		printf("请输入%c选项的错误原因:\n",'A'+i);
-		fflush(stdin);
-		scanf("%300s",node->answers[i]);
-	}
-
-	node->timeAdd=node->timeModify=time(NULL);
-	node->next=NULL;
-
-	printf("添加试题成功!正在返回主菜单...");
-	Sleep(1300);
-
 }
 
-void write_info(struct info * head) {
+void write_user(struct user * head) {
 
 	FILE * fp;
-	if ((fp = fopen("info.txt", "w")) == NULL) {
+	if ((fp = fopen("user.txt", "w")) == NULL) {
 		printf("打开文件失败");
 		exit(-2);
 	}
@@ -234,7 +185,7 @@ void write_info(struct info * head) {
     {
         printf(".");
 		head = head->next;
-        if(fwrite(head, sizeof(struct info), 1, fp)!=1) {
+        if(fwrite(head, sizeof(struct user), 1, fp)!=1) {
             printf("写入文件失败");
             exit(-2);
         }
@@ -244,26 +195,26 @@ void write_info(struct info * head) {
 	fclose(fp);
 }
 
-struct info * read_info() {
+struct user * read_user() {
 
 	int i=0;
 	FILE * fp;
-	struct info * head = NULL;
-	struct info * node = NULL;
-	struct info * tail = NULL;
+	struct user * head = NULL;
+	struct user * node = NULL;
+	struct user * tail = NULL;
 
-	//head=solo_info();
+	//head=solo_user();
 
-	if ((fp = fopen("info.txt", "r")) == NULL) {
+	if ((fp = fopen("user.txt", "r")) == NULL) {
 		system("cls");
 		printf("读取文件失败");
 		exit(-3);
 	}
-	tail=head=solo_info();
+	tail=head=solo_user();
 	while(!feof(fp)){
 
-		node=solo_info();
-		if(fread(node, sizeof(struct info),1 , fp)==1){
+		node=solo_user();
+		if(fread(node, sizeof(struct user),1 , fp)==1){
 			tail->next=node;
 			tail=node;
 		}
@@ -275,9 +226,9 @@ struct info * read_info() {
 	return head;
 }
 
-void free_info(struct info * head) {
+void free_user(struct user * head) {
     
-    struct info * p = NULL;
+    struct user * p = NULL;
     while (head!=NULL) {
         p = head->next;
         free(head);
@@ -286,54 +237,25 @@ void free_info(struct info * head) {
     return ;
 }
 
-void print_info(struct info * node) {
+void print_user(struct user * node) {
 
 	int i;
 	system("mode con cols=80 lines=1000");
 	
 	printf("正在读取数据...\n");
 	if (node==NULL) {
-		printf("当前题库为空!");
+		printf("没有任何学生信息!");
 	}else{
-		struct info * p = node;
+		struct user * p = node;
 		while (p!=NULL) {
-			printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
-			printf(" no:%3d ",p->no);
-			printf(" lever:%2d ",p->lever);
-			printf(" score:%d ",p->score);
-			printf("\n statement:\n\t%s\n\n",p->statement);
 
-			printf(" keyWords:");
-			for(i=0;i<5;i++)
-				if(p->keyWords[i][0]!='@')
-					printf("%s ",p->keyWords[i]);
-				else
-					break;
-			printf("\n");
 
-			printf(" A:%s\t",p->options[0]);
-			printf(" B:%s\n",p->options[1]);
-			printf(" C:%s\t",p->options[2]);
-			printf(" D:%s\n",p->options[3]);
-			//printf("rightAnswer:%c",'A'+p->rightAnswer);
-			printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
-			for(i=0;i<4;i++) {
-				if(i==p->rightAnswer)
-					continue;
-				printf(" %c wrong,because %s\n",'A'+i,p->answers[i]);
-			}
-			printf(" timeAdd:   ");
-			print_time(p->timeAdd);
-			printf(" timeModify:");
-			print_time(p->timeModify);
-
-			p=p->next;
 		}
 	}
 }
 
 
-void print_info_solo(struct info * node) {
+void print_user_solo(struct user * node) {
 
 	int i;
 
@@ -341,38 +263,12 @@ void print_info_solo(struct info * node) {
 	if (node==NULL) {
 		printf("当前结点为空!");
 	}else{
-		struct info * p = node;
+		struct user * p = node;
 		
 			printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 			printf(" no:%3d ",p->no);
 			printf(" lever:%2d ",p->lever);
-			printf(" score:%d ",p->score);
-			printf("\n statement:\n\t%s\n\n",p->statement);
-
-			printf(" keyWords:");
-			for(i=0;i<5;i++)
-				if(p->keyWords[i][0]!='@')
-					printf("%s ",p->keyWords[i]);
-				else
-					break;
-			printf("\n");
-
-			printf(" A:%s\t",p->options[0]);
-			printf(" B:%s\n",p->options[1]);
-			printf(" C:%s\t",p->options[2]);
-			printf(" D:%s\n",p->options[3]);
-			//printf("rightAnswer:%c",'A'+p->rightAnswer);
-			printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
-			for(i=0;i<4;i++) {
-				if(i==p->rightAnswer)
-					continue;
-				printf(" %c wrong,because %s\n",'A'+i,p->answers[i]);
-			}
-			printf(" timeAdd:   ");
-			print_time(p->timeAdd);
-			printf(" timeModify:");
-			print_time(p->timeModify);			
-		
+			
 	}
 }
 

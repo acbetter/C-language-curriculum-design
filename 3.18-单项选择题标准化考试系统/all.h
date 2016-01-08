@@ -32,8 +32,8 @@ struct info {
 
 struct user {
 
-	int no;//用户学号
-	int password;//用户密码
+	char no[15];//用户学号
+	char password[30];//用户密码
 
 	int exercise;//用户练习题数目
 	int exerciseTime;//用户练习次数
@@ -54,7 +54,7 @@ struct user {
 	int errorTime[300];//易错点栽了几次跟头
 	char error[300][40];//每错一道题,题目的几个关键字会自动算入用户易错点
 	
-	struct info * next;
+	struct user * next;
 };
 
 
@@ -70,7 +70,7 @@ void goto_pos(int x, int y);
 void admin();
 void question_admin();
 void auto_paper();
-void user_admin();
+void admin_user();
 void situation_analysis();
 void menuPrint_2(int a);
 struct info * find_info_num(struct info * head,int num);
@@ -106,6 +106,24 @@ void find_info_next(struct info * node);
 struct info * find_info_lever(struct info * head);
 struct info * find_info_score(struct info * head);
 struct info * find_info_time(struct info * head);
+
+
+//admin_user.cpp
+void admin_user();
+void menuPrint_5(int a);
+
+struct user * solo_user();
+void input_user(struct user * head);
+void write_user(struct user * head);
+struct user * read_user();
+void free_user(struct user * head);
+void print_user(struct user * node);
+void print_user_solo(struct user * node);
+
+
+
+
+
 
 
 

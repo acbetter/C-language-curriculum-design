@@ -93,7 +93,7 @@ void admin() {
 			//1.
 			case 1:question_admin();continue;
 			case 2:auto_paper();continue;
-			case 3:user_admin();continue;
+			case 3:admin_user();continue;
 			case 4:situation_analysis();continue;
 			case 6:;continue;
 			case 0:
