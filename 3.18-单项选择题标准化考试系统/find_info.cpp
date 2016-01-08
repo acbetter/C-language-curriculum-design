@@ -31,6 +31,7 @@ struct info * find_info(struct info * head) {
 	return find;
 }
 
+
 /*
                查找试题界面       admin
 

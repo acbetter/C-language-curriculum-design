@@ -163,8 +163,9 @@ void input_user(struct user * head) {
 			printf("注册成功!");
 			{
 				//开始初始化学生个人信息
-
-
+				node->timeAdd=time(NULL);
+				node->timeLogin=node->timeAdd;
+				node->timeLogout=node->timeAdd;
 
 			}
 			Sleep(1800);
@@ -255,7 +256,6 @@ void print_user(struct user * node) {
 	if (node==NULL) {
 		printf("没有任何学生信息!");
 	}else{
-		printf("\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 		struct user * p = node;
 		while (p!=NULL) {
 			print_user_solo(p);
@@ -271,45 +271,68 @@ void print_user_solo(struct user * node) {
 	if (node==NULL) {
 		printf("当前结点为空!");
 	}else{
+		int i;
 		struct user * p = node;
-		{	//基本信息		
-			printf(" 学号:%s ",p->no);
-			printf(" password:%s ",p->password);
+		{	//基本信息
 			printf("\n");
+			printf("---------------------");
+			printf("|学号:%s |",p->no);
+			printf("---------------------");
+			//printf(" password:%s ",p->password);
+			printf("\n\n");
 		}
 		{	//练习信息
-			printf("用户练习次数:%d\t",p->exerciseTime);
+			printf("练习次数:%d\t",p->exerciseTime);
 			printf("总计练习题目数量:%d\t",p->exercise);
 			printf("正确数量:%d\t",p->exerciseRight);
-			printf("正确率:%.1f%%\t",((p->exerciseRight+0.0)/p->exercise)*100);
+			printf("正确率:%.f%%\n",((p->exerciseRight+0.0)/(p->exercise+0.00001))*100);
 		}
 		{	//考试信息
-			printf("用户考试次数:%d\t",p->examTime);
+			printf("考试次数:%d\t",p->examTime);
 			printf("总计考试题目数量:%d\t",p->exam);
 		
-		int right,i;
-		for(i=0,right=0;(p->examRight[i][0]+p->examRight[i][1])!=0;i++){
-			right+=p->examRight[i][0];
-		}
+			int right;
+			for(i=0,right=0;(p->examRight[i][0]+p->examRight[i][1])!=0;i++)
+				right+=p->examRight[i][0];
+		
 			printf("正确数量:%d\t",right);
-			printf("正确率:%.1f%%\t",((right+0.0)/p->exam)*100);
+			printf("正确率:%.f%%\n",((right+0.0)/(p->exam+0.00001))*100);
 
-			printf("用户历次考试分数:\n");
-		int j
-		for(i=0;
-			int examScore[300];//用户考试每次考试分数
-	
-
-			time_t timeAdd;//用户注册时间
-			time_t timeOnline;//用户在线时间
-			time_t timeLogin;//用户最后登录时间
-			time_t timeLogout;//用户最后登出时间
-			int last;//最后一次访问的是练习系统还是考试系统,练习为1,考试为2
-			
-			int errorHistory[300];//错误历史题号
-			int errorTime[300];//易错点栽了几次跟头
-			char error[300][40];//每错一道题,题目的几个关键字会自动算入用户易错点
-			
+			printf("历次考试分数:\n");
+			for(i=0;(p->examScore[i]+p->examScore[i]+p->examScore[i])!=0;i++) {
+				printf("%d\t",p->examScore[i]);
+				if(i!=0&&i%10==0)
+					printf("\n");
+			}
+			if(i==0)
+				printf("暂无考试历史...\n");
+		}
+		{
+			printf("注册时间:");print_time(p->timeAdd);
+			printf("最后登录时间:");print_time(p->timeLogin);
+			printf("最后登出时间:");print_time(p->timeLogout);
+			switch(p->last){
+				case 1:printf("上次访问:练习系统\n");break;
+				case 2:printf("上次访问:考试系统\n");break;
+				default:printf("暂无上次访问数据...\n");break;
+			}
+			printf("---累计在线时间:%lf---",p->timeOnline);
+		}
+		{
+			printf("\n---历史错误题号---:\n");
+			for(i=0;(p->errorHistory[i]+p->errorHistory[i]+p->errorHistory[i])!=0;i++) {
+				printf("%d\t",p->errorHistory[i]);
+				if(i!=0&&i%10==0)
+					printf("\n");
+			}
+			printf("\n---易错点及错误次数---:\n");
+			for(i=0;p->error[i][0]!='\0';i++) {
+				printf("%s %d",p->error[i],p->errorTime[i]);
+				if(i!=0&&i%10==0)
+					printf("\n");
+			}
+		}
+		printf("\n\n");
 	}
 }
 

@@ -25,6 +25,7 @@ void main(void) {
 
 	srand((unsigned)time(NULL));
 	int a;
+	struct user * head = NULL;
 	
 	while (1) {
 
@@ -34,9 +35,18 @@ void main(void) {
 		a = move_1(6,menuPrint);
 		switch (a) {
 			//1.
-			case 1:admin();continue;
-			case 2:;continue;
-			case 3:;continue;
+			case 1:
+				admin();
+				continue;
+			case 2:
+				;
+				continue;
+			case 3:
+				head=read_user();
+				input_user(head);
+				write_user(head);
+				free_user(head);
+				continue;
 			case 6:;continue;
 			case 0:exit(0);
 			default:break;

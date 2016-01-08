@@ -210,6 +210,7 @@ int second(void) {
 	
 	// ‰»Î¥˙¬Î
 
+	system("mode con cols=100 lines=3000");
 	int i,j;
 	int quit = 1;
 	char ch=' ';
@@ -442,12 +443,12 @@ int move() {
 
 int main(void) {
 
-
+	
 	system("color 0A");
 	int i=1;
 	
 	while(1) {
-		
+		system("mode con cols=49 lines=17");
 		menuPrint(i);
 		i=move();
 		if(i==1)
