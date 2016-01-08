@@ -86,6 +86,10 @@ SOURCE=.\admin.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\admin_user.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\all.h
 # End Source File
 # Begin Source File

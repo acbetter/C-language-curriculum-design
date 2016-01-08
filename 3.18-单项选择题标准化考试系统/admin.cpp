@@ -157,52 +157,81 @@ void auto_paper() {
 	
 	struct info * head = NULL;
 	head=read_info();
-	struct info * node = head;
+	head=head->next;
 	struct info * temp = NULL;
-	if(node==NULL) {
+	if(head==NULL) {
 		printf("当前题库为空!");
 		return ;
 	}
 
 	fflush(stdin);
 	int num,score;
+	int i,j,count;
+	int *no;
+
 	printf("请输入题目数:");
 	scanf("%2d",&num);
-	printf("请输入总分:");
-	scanf("%3d",&score);
-
-	int i,j;
-	int *no;
 	no=(int *)malloc(sizeof(int)*num);
 	if(no==NULL)
 		exit(-1);
-	int count,success=1,time=0;
-	while(success){
-		time++;//尝试生成次数
-		i=0,j=0,count=0;//count为随机生成的题号
-		while(i<sum)
-		{
-			while(j<=score-5)
-			{
-				count++;
-				if(rand()%2==0)
-					if( (temp=find_info_num(head,count))!=NULL )
-					{
-						no[i++]=temp->no;
-						j+=temp->score;
-					}
-			}
 
-		}
-		if(i==num&&j==score)
-			success=0;
+	printf("请输入总分:");
+	scanf("%3d",&score);
+	float solo=(float)((score+0.0)/num);
+	
+	for(i=0,j=0,count=0;i<num;)
+	{
+		count++;
+		if(rand()%2==0)
+			if( (temp=find_info_num(head,count))!=NULL&&temp->no!=0 )
+				no[i++]=temp->no;
+			else
+				j++;
+		if(j>10000)
+			break;
 	}
 
-	FILE * fp;
-	fp=fopen("paper.txt","r");
-	if(fp==NULL) {
-		printf("cannot open %s\n",name);
-		exit (0);
+	if(i==num){
+		printf("出卷成功!正在保存为本地文件...");
+		FILE * fp;
+		fp=fopen("paper.txt","w");
+		if(fp==NULL) {
+			printf("cannot write %s\n","paper.txt");
+			exit (0);
+		}
+		FILE * fq;
+		fq=fopen("answer.txt","w");
+		if(fq==NULL) {
+			printf("cannot write %s\n","answer.txt");
+			exit (0);
+		}
+		for(i=0;i<num;i++){
+			temp=find_info_num(head,no[i]);
+			fprintf(fp,"%s","题号");
+			fprintf(fp,"%3d",i+1);
+			fprintf(fp,"%s","\n");
+			fprintf(fp,"%s",temp->statement);
+			fprintf(fp,"%.1f",solo);
+			fprintf(fp,"%s","分\n");
+
+			fprintf(fq,"%s","题号");
+			fprintf(fq,"%3d",i+1);
+			fprintf(fq,"%s"," 正确的选项是");
+			fprintf(fq,"%c",temp->rightAnswer+'A');
+			fprintf(fq,"%s","\n");
+			for(j=0;j<4;j++){
+				fprintf(fq,"%c",j+'A');
+				fprintf(fq,"%s",":");
+				fprintf(fq,"%s",temp->answers[j]);
+			}
+			fprintf(fq,"%s","\n");
+		}
+		fclose(fp);
+		fclose(fq);
+	}else{
+		printf("题目数量不足以完成出卷任务...出卷失败!\n");
+		printf("正在返回主菜单...");
+		Sleep(1500);
 	}
 
 }
