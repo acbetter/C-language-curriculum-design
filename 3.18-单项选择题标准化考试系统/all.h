@@ -33,7 +33,9 @@ struct info {
 struct user {
 
 	char no[15];//用户学号
+	char name[30];//用户名
 	char password[30];//用户密码
+	
 
 	int exercise;//用户练习题数目
 	int exerciseTime;//用户练习次数

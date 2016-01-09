@@ -140,7 +140,7 @@ void input_user(struct user * head) {
 		printf("     --------------------------\n");
 		printf("     | 学号: |                |\n");
 		printf("     --------------------------\n");
-		printf("\n");
+		printf("     | 姓名: |                |\n");
 		printf("     --------------------------\n");
 		printf("     | 密码: |                |\n");
 		printf("     --------------------------\n");
@@ -154,6 +154,9 @@ void input_user(struct user * head) {
 		fflush(stdin);
 		goto_pos(16,6);
 		scanf("%20s",node->no);
+		fflush(stdin);
+		goto_pos(16,8);
+		scanf("%20s",node->name);
 		fflush(stdin);
 		goto_pos(16,10);
 		scanf("%30s",node->password);
@@ -187,7 +190,7 @@ void input_user(struct user * head) {
 void write_user(struct user * head) {
 
 	FILE * fp;
-	if ((fp = fopen("user.txt", "w")) == NULL) {
+	if ((fp = fopen("user.use", "w")) == NULL) {
 		printf("打开文件失败");
 		exit(-2);
 	}
@@ -216,7 +219,7 @@ struct user * read_user() {
 
 	//head=solo_user();
 
-	if ((fp = fopen("user.txt", "r")) == NULL) {
+	if ((fp = fopen("user.use", "r")) == NULL) {
 		system("cls");
 		printf("读取文件失败");
 		exit(-3);
@@ -276,7 +279,11 @@ void print_user_solo(struct user * node) {
 		{	//基本信息
 			printf("\n");
 			printf("---------------------");
-			printf("|学号:%s |",p->no);
+			printf("|学号:%s ",p->no);
+			printf("---------------------");
+			printf("\n");
+			printf("---------------------");
+			printf("|姓名:%s\t",p->name);
 			printf("---------------------");
 			//printf(" password:%s ",p->password);
 			printf("\n\n");
@@ -316,7 +323,7 @@ void print_user_solo(struct user * node) {
 				case 2:printf("上次访问:考试系统\n");break;
 				default:printf("暂无上次访问数据...\n");break;
 			}
-			printf("---累计在线时间:%lf---",p->timeOnline);
+			printf("---累计在线时间:%.f s---",p->timeOnline);
 		}
 		{
 			printf("\n---历史错误题号---:\n");
