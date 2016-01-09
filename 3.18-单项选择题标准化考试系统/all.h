@@ -43,7 +43,7 @@ struct user {
 
 	int exam;//用户考试题数目
 	int examTime;//用户考试次数
-	int examScore[300];//用户考试每次考试分数
+	float examScore[300];//用户考试每次考试分数
 	int examRight[300][2];//用户考试正确/错误数目	
 
 	time_t timeAdd;//用户注册时间
@@ -150,3 +150,5 @@ void exam(struct user * node);
 void execrise(struct user * node);
 void color(const unsigned short color1);
 int isQusetion(struct info * node,char *p);
+int errorsNum(struct user * node);
+void answerWrong(struct user * node,struct info * temp);

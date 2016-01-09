@@ -298,15 +298,15 @@ void print_user_solo(struct user * node) {
 			printf("总计考试题目数量:%d\t",p->exam);
 		
 			int right;
-			for(i=0,right=0;(p->examRight[i][0]+p->examRight[i][1])!=0;i++)
+			for(i=0,right=0;i<p->examTime;i++)
 				right+=p->examRight[i][0];
 		
 			printf("正确数量:%d\t",right);
 			printf("正确率:%.f%%\n",((right+0.0)/(p->exam+0.00001))*100);
 
 			printf("历次考试分数:\n");
-			for(i=0;(p->examScore[i]+p->examScore[i]+p->examScore[i])!=0;i++) {
-				printf("%d\t",p->examScore[i]);
+			for(i=0;i<p->examTime;i++) {
+				printf("%g\t",p->examScore[i]);
 				if(i!=0&&i%10==0)
 					printf("\n");
 			}
@@ -314,7 +314,7 @@ void print_user_solo(struct user * node) {
 				printf("暂无考试历史...\n");
 		}
 		{
-			printf("注册时间:");print_time(p->timeAdd);
+			printf("\n注册时间:");print_time(p->timeAdd);
 			printf("最后登录时间:");print_time(p->timeLogin);
 			printf("最后登出时间:");print_time(p->timeLogout);
 			switch(p->last){
@@ -333,7 +333,7 @@ void print_user_solo(struct user * node) {
 			}
 			printf("\n---易错点及错误次数---:\n");
 			for(i=0;p->error[i][0]!='\0';i++) {
-				printf("%s %d",p->error[i],p->errorTime[i]);
+				printf("%s %d次 ",p->error[i],p->errorTime[i]);
 				if(i!=0&&i%10==0)
 					printf("\n");
 			}

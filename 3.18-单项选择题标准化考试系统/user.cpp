@@ -183,17 +183,17 @@ void color(const unsigned short color1)
 
 void exam(struct user * node) {
 
-	int i=0,lever=100;
-	float num,right=0,score=0;
+	int key,num;
+	int i=0,lever=100,right=0;
+	float score=0;
 	time_t begin,temp,end;
 	char ch[20];
-	int key;
-	system("mode con cols=80 lines=300");
 
+	system("mode con cols=80 lines=300");
 	printf("---------考试---------\n");
 	printf("请输入题目数量: ");
 	fflush(stdin);
-	scanf("%f",&num);
+	scanf("%d",&num);
 	printf("请输入考试内容(如基础,拔高,数组,指针.无要求请直接按@+回车): ");
 	fflush(stdin);
 	scanf("%20s",ch);
@@ -203,18 +203,24 @@ void exam(struct user * node) {
 
 	printf("考生须知:在作答过程中,按 0 放弃作答当前题目,按Esc则放弃剩余所有题目并交卷!\n");
 	printf("按任意键考试开始!\n");
+	
+	node->examTime++;//用户考试次数++
 	begin=time(NULL);
 	key=getch();
 	if(key==0||key==224||key==-32)
 		key=getch();
 	//开始
-	while(i<num&&p!=NULL)
+	while(i<num)
 	{
+		if(p==NULL){
+			i=-1;
+			break;
+		}
 		if(isQusetion(p,ch))
 		{
 			temp=time(NULL);
 			printf("\n---------当前分数:%g 分---经过时间:%ld 秒------\n",score,temp-begin);
-			printf("\n---第%d题:",i);
+			printf("\n---第%d题:",i+1);
 			printf("\n statement:\n\t%s\n\n",p->statement);
 			printf(" A:%s\t",p->options[0]);
 			printf(" B:%s\n",p->options[1]);
@@ -225,26 +231,41 @@ void exam(struct user * node) {
 			key=getch();
 			if(key==0||key==224||key==-32)
 				key=getch();
-			else if(key>=97&&key<=100)
+			else if(key>=97&&key<=100){
+				printf(" %c ",'A'+key-97);
 				if((key-97)==p->rightAnswer){
 					right++;
+					node->examRight[node->examTime-1][0]++;//用户考试正确数目
+					score+=(float)(100.0/num);
 					printf("答案正确!\n");
-				}else
+				}else{
+					node->errorHistory[errorsNum(node)]=p->no;
+					node->examRight[node->examTime-1][1]++;//用户考试错误数目
+					answerWrong(node,p);
 					printf("答案错误!\n");
-			else if(key==27)
-				return ;//结算
-			else
+				}
+			}else if(key==27)
+				break;//结算
+			else{
+				node->errorHistory[errorsNum(node)]=p->no;
+				node->examRight[node->examTime-1][1]++;//用户考试错误数目
 				printf("答案错误!\n");
+			}
 			i++;
+			node->exam++;//用户考试题数目++
 		}
 		p=p->next;
 	}//while
-	if(i!=num)
+	if(i==-1)
 		printf("当前题库数量有限,敬请谅解\n");
 	else{
 		end=time(NULL);
 		printf("考试完成!\n");
-		printf("你答对题目%g道,正确率为%g%%\n",right,right*100.0/num);
+		printf("你的分数是:%g\n",score);
+		node->examScore[node->examTime-1]=score;//用户考试每次考试分数
+		printf("你答对题目%d道,正确率为%g%%\n",right,right*100.0/num);
+		node->examRight[node->examTime-1][0]=right;//用户考试正确数目
+		node->examRight[node->examTime-1][1]=num-right;//用户考试错误数目
 		printf("总计用时间 %ld minutes %ld seconds",(end-begin)/60,(end-begin)%60);
 	}
 	system("pause");
@@ -272,71 +293,42 @@ int isQusetion(struct info * node,char *p) {
 	return 1;
 }
 
+int errorsNum(struct user * node) {
+	int i,sum=0;
+	for(i=0;i<300;i++)
+		sum+=node->examRight[i][1];
+	return node->exercise-node->exerciseRight+sum;
+}
+
+void answerWrong(struct user * node,struct info * temp) {
+
+	int i,j,max;
+	for(i=0;i<300;i++)
+		if(node->error[i][0]=='\0'){
+			max=i+1;
+			break;
+		}
+	for(i=0;i<5;i++)
+	{
+		if(temp->keyWords[i][0]!='@'&&temp->keyWords[i][0]!='\0') {
+
+			for(j=0;j<max;j++) {
+				if(strcmp(node->error[j],temp->answers[i])==0) {
+					node->errorTime[j]++;
+					break;
+				}
+			}
+
+			if(j==max) {
+				strcpy(node->error[max-1],temp->keyWords[i]);
+				node->errorTime[max-1]++;
+			}
+
+		}else
+			break;
+	}//for
+}
+
 void execrise(struct user * node) {
 
-	int i=0,lever=100;
-	float num,right=0,score=0;
-	time_t begin,temp,end;
-	char ch[20];
-	int key;
-	system("mode con cols=80 lines=300");
-
-	printf("---------考试---------\n");
-	printf("请输入题目数量: ");
-	fflush(stdin);
-	scanf("%f",&num);
-	printf("请输入考试内容(如基础,拔高,数组,指针.无要求请直接按@+回车): ");
-	fflush(stdin);
-	scanf("%20s",ch);
-
-	struct info * head = read_info();
-	struct info * p = head->next;
-
-	printf("考生须知:在作答过程中,按 0 放弃作答当前题目,按Esc则放弃剩余所有题目并交卷!\n");
-	printf("按任意键考试开始!\n");
-	begin=time(NULL);
-	key=getch();
-	if(key==0||key==224||key==-32)
-		key=getch();
-	//开始
-	while(i<num&&p!=NULL)
-	{
-		if(isQusetion(p,ch))
-		{
-			temp=time(NULL);
-			printf("\n---------当前分数:%g 分---经过时间:%ld 秒------\n",score,temp-begin);
-			printf("\n---第%d题:",i);
-			printf("\n statement:\n\t%s\n\n",p->statement);
-			printf(" A:%s\t",p->options[0]);
-			printf(" B:%s\n",p->options[1]);
-			printf(" C:%s\t",p->options[2]);
-			printf(" D:%s\n",p->options[3]);
-			printf("***请作答: ");
-			fflush(stdin);
-			key=getch();
-			if(key==0||key==224||key==-32)
-				key=getch();
-			else if(key>=97&&key<=100)
-				if((key-97)==p->rightAnswer){
-					right++;
-					printf("答案正确!\n");
-				}else
-					printf("答案错误!\n");
-			else if(key==27)
-				return ;//结算
-			else
-				printf("答案错误!\n");
-			i++;
-		}
-		p=p->next;
-	}//while
-	if(i!=num)
-		printf("当前题库数量有限,敬请谅解\n");
-	else{
-		end=time(NULL);
-		printf("考试完成!\n");
-		printf("你答对题目%g道,正确率为%g%%\n",right,right*100.0/num);
-		printf("总计用时间 %ld minutes %ld seconds",(end-begin)/60,(end-begin)%60);
-	}
-	system("pause");
 }
