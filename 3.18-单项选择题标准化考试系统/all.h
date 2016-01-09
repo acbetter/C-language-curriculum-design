@@ -143,8 +143,10 @@ struct user * find_user_time(struct user * head);
 
 //user.cpp
 void user();
-
-
-
-
-
+void user_login(struct user * head,struct user * node);
+void menuPrint_7(int a);
+void printRectangle(int x, int y);
+void exam(struct user * node);
+void execrise(struct user * node);
+void color(const unsigned short color1);
+int isQusetion(struct info * node,char *p);

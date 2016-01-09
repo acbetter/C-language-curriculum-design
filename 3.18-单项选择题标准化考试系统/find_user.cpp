@@ -219,7 +219,6 @@ void change_user(struct user * node) {
 
 	int s = 2;
 	char ch[30];
-	node=node->next;
 	while (s!=0) {
 
 		printf("\n 请输入相应的数字,按回车结束...\n");
@@ -288,7 +287,7 @@ void find_user_next(struct user * node) {
 		fflush(stdin);
 		scanf("%d", &s);
 		switch (s) {
-			case 1:change_user(node); break;
+			case 1:change_user(node->next); break;
 			case 2:delete_user_no(node); break;
 			default:break;
 		}

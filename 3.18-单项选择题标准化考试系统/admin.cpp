@@ -258,7 +258,6 @@ void change_admin_password() {
 	system("color 3A");
 
 	int i;
-	//char name[10]={"admin"},password[10]={"admin"};
 	char name[20]={"1"},password[20]={"1"};
 
 	FILE *fp;
