@@ -98,6 +98,10 @@ SOURCE=.\find_info.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\find_user.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\main.cpp
 # End Source File
 # Begin Source File

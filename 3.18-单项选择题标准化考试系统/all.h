@@ -66,7 +66,7 @@ int move_1(int num,void (*p)(int) );
 void menuPrint(int a);
 void printLaugh(int x, int y);
 void goto_pos(int x, int y);
-
+int fuzzy_search(char str[],char str2[]);
 
 //admin.cpp
 void admin();
@@ -100,7 +100,7 @@ void print_time(long lt);
 struct info * find_info(struct info * head);
 void menuPrint_4(int a);
 struct info * find_info_key(struct info * head);
-int fuzzy_search(char str[] , char str2[]);
+
 void delete_info_no(struct info * find);
 struct info * find_info_no(struct info * head);
 void change_info(struct info * node);
@@ -122,7 +122,20 @@ void free_user(struct user * head);
 void print_user(struct user * node);
 void print_user_solo(struct user * node);
 
+//find_user.cpp
+struct user * find_user(struct user * head);
+void menuPrint_6(int a);
+struct user * find_user_name_key(struct user * head);
 
+void delete_user_no(struct user * find);
+struct user * find_user_no(struct user * head);
+void change_user(struct user * node);
+void find_user_next(struct user * node);
+/*
+struct user * find_user_lever(struct user * head);
+struct user * find_user_score(struct user * head);
+*/
+struct user * find_user_time(struct user * head);
 
 
 

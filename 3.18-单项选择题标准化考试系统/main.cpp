@@ -140,3 +140,31 @@ void goto_pos(int x, int y) {
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 
 }
+
+int fuzzy_search(char str[],char str2[]) {
+
+	//char str[]为源字符串
+	//char str2[]为查找的关键字
+	char *res;
+	res=(char *)memchr(str,str2[0],strlen(str));
+	//根据要查找的字符串第一个字符，切割源字符串
+	if (res==NULL)
+		return 0;
+	//如果连被查找字符串的第一个字符都没有找到...
+
+	int n;
+	while (1) {
+		n=memcmp(res,str2,strlen(str2)-1); //比较
+		if(n != 0) {
+			if(strlen(res)<=strlen(str2))//切割出的字符串小于要查找字符串的长度
+				return 0;
+			else{  
+				//根据要查找的第一个字符继续切割
+				res=(char *)memchr(res+1,str2[0],strlen(res));  
+				if(res==NULL)
+					return 0;
+			}
+		}else//如果n = 0，找到
+			return 1;
+	}
+}

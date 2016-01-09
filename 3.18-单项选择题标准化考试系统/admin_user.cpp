@@ -23,11 +23,10 @@ void admin_user() {
 
 		a = move_1(6,menuPrint_5);
 		switch (a) {
-			//1.
-			//case 1:find_user(head);continue;
+			case 1:find_user(head);continue;
 			case 2:input_user(head);continue;
-			//case 3:find_user(head);continue;
-			//case 4:find_user(head);continue;
+			case 3:find_user(head);continue;
+			case 4:find_user(head);continue;
 			case 5:
 				system("cls");
 				print_user(head->next);
