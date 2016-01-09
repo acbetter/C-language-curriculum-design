@@ -39,7 +39,7 @@ void main(void) {
 				admin();
 				continue;
 			case 2:
-				;
+				user();
 				continue;
 			case 3:
 				head=read_user();

@@ -141,6 +141,9 @@ struct user * find_user_score(struct user * head);
 struct user * find_user_time(struct user * head);
 
 
+//user.cpp
+void user();
+
 
 
 

@@ -507,6 +507,7 @@ void resetting() {
 	saved.low=1;//下限为1
 	saved.high=13;//上限为13
 	saved.saveSettings=0;//是否保存当前设置
+	N=24;
 }
 
 void read_settings() {
