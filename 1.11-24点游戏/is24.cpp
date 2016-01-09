@@ -163,7 +163,7 @@ int move() {
 
 		fflush(stdin); //Çå³ı»º´æÊı¾İ 
 		key = getch();
-		if(key==0||key==-32)
+		if(key==0||key==-32||key==224)
 			key = getch();
 		if (key==72)
 			settings.mode--;//...

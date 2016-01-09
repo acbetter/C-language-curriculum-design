@@ -24,6 +24,17 @@ int sign_in() {
 	int i;
 	//char name[10]={"admin"},password[10]={"admin"};
 	char name[10]={"1"},password[10]={"1"};
+
+	FILE *fp;
+	fp=fopen("password","r");
+
+	if(fp==NULL)
+		strcpy(password,"admin");
+	else{
+		fread(password,sizeof(char)*10,1,fp);
+		fclose(fp);
+	}	
+
 	char get_1[10],get_2[10];
 	for(i=0;i<3;i++) {
 		system("cls");
@@ -55,8 +66,7 @@ int sign_in() {
 			Sleep(1300);
 		}
 	}
-
-	return -1;
+	exit(-1);
 }
 
 /*
@@ -67,9 +77,9 @@ int sign_in() {
 
                2.组卷功能           
 
-               3.用户账号管理
+               3.用户账号及答题情况管理
 
-               4.用户答题情况管理
+               4.修改管理员密码
 
                ---------------     
 
@@ -93,8 +103,8 @@ void admin() {
 			//1.
 			case 1:question_admin();continue;
 			case 2:auto_paper();continue;
-			case 3:admin_user();continue;
-			case 4:situation_analysis();continue;
+			case 3:user_admin();continue;
+			case 4:change_admin_password();continue;
 			case 6:;continue;
 			case 0:
 			default:break;
@@ -238,11 +248,63 @@ void auto_paper() {
 
 void user_admin() {
 
+	admin_user();
 
 }
 
-void situation_analysis() {
+void change_admin_password() {
 
+	system("mode con cols=30 lines=22");
+	system("color 3A");
+
+	int i;
+	//char name[10]={"admin"},password[10]={"admin"};
+	char name[20]={"1"},password[20]={"1"};
+
+	FILE *fp;
+	fp=fopen("password","r");
+
+	if(fp==NULL)
+		strcpy(password,"admin");
+	else{
+		fread(password,sizeof(char)*10,1,fp);
+		fclose(fp);
+	}
+
+	char get_2[10];
+	for(i=0;i<3;i++) {
+		system("cls");
+		printf("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n\n");
+		printf("      管理员密码修改界面\n\n");
+		printf("     ---------------------\n");
+		printf("     |原密码:|           |\n");
+		printf("     ---------------------\n");
+		printf("\n");
+		printf("     ---------------------\n");
+		printf("     |新密码:|           |\n");
+		printf("     ---------------------\n");
+		printf("\n\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+		goto_pos(16,7);
+		printf("%s",password);
+		fflush(stdin);
+		goto_pos(16,11);
+		scanf("%10s",get_2);
+		if(strlen(get_2)>6){
+			goto_pos(11,17);
+			strcpy(password,get_2);
+			fp=fopen("password","w");
+			fwrite(password,sizeof(char)*10,1,fp);
+			fclose(fp);
+			printf("修改成功!");
+			Sleep(800);
+			return ;
+		}else{
+			goto_pos(9,17);
+			printf("密码过于简单\n    请重新输入 (剩余次数:%d)",2-i);
+			Sleep(1300);
+		}
+	}
+	exit(-1);
 
 }
 

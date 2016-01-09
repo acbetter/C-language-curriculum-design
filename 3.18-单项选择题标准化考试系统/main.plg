@@ -6,28 +6,6 @@
 --------------------Configuration: main - Win32 Debug--------------------
 </h3>
 <h3>Command Lines</h3>
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSPEEF5.tmp" with contents
-[
-/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"Debug/main.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
-"D:\C语言之课程设计\3.18-单项选择题标准化考试系统\find_user.cpp"
-]
-Creating command line "cl.exe @C:\Users\Reign\AppData\Local\Temp\RSPEEF5.tmp" 
-Creating temporary file "C:\Users\Reign\AppData\Local\Temp\RSPEEF6.tmp" with contents
-[
-kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /incremental:yes /pdb:"Debug/main.pdb" /debug /machine:I386 /out:"Debug/main.exe" /pdbtype:sept 
-".\Debug\admin.obj"
-".\Debug\admin_user.obj"
-".\Debug\find_info.obj"
-".\Debug\main.obj"
-".\Debug\question.obj"
-".\Debug\time.obj"
-".\Debug\find_user.obj"
-]
-Creating command line "link.exe @C:\Users\Reign\AppData\Local\Temp\RSPEEF6.tmp"
-<h3>Output Window</h3>
-Compiling...
-find_user.cpp
-Linking...
 
 
 

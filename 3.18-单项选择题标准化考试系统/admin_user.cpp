@@ -278,7 +278,7 @@ void print_user_solo(struct user * node) {
 		{	//基本信息
 			printf("\n");
 			printf("---------------------");
-			printf("|学号:%s ",p->no);
+			printf("|学号:%s\t",p->no);
 			printf("---------------------");
 			printf("\n");
 			printf("---------------------");

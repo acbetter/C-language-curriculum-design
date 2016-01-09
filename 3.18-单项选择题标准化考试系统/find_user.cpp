@@ -17,8 +17,8 @@ struct user * find_user(struct user * head) {
 		switch (a) {
 			//1.
 			case 1:find=find_user_name_key(head);break;
-			//case 2:find=find_user_no(head);break;
-			//case 3:find=find_user_lever(head);break;
+			case 2:find=find_user_no_key(head);break;
+			case 3:find=find_user_name(head);break;
 			case 4:find=find_user_no(head);break;
 			case 5:find=find_user_time(head);break;
 			case 0:
@@ -124,6 +124,43 @@ struct user * find_user_name_key(struct user * head) {
 }
 
 
+struct user * find_user_no_key(struct user * head) {
+
+	int count=0,sign=0;
+	struct user * node = head;
+	struct user * find = NULL;
+	char key[20];
+	memset(key,0,sizeof(char)*20);
+
+	system("cls");
+	printf(" ---按学生学号(模糊)查找---\n 请输入关键字:\n");
+	fflush(stdin);
+	scanf("%19s",key);
+	printf(" 正在查找...\n");
+	system("mode con cols=80 lines=1000");
+	while(node->next!=NULL){
+		if(fuzzy_search(node->next->no,key)){
+			print_user_solo(node->next);
+			find=node;
+			sign++;
+		}
+		count++;
+		node=node->next;
+	}
+	printf("\n 查找完毕!累计查找%d次,查找结果%d条\n",count,sign);
+	if(sign==1)
+		return find;
+	else if(sign>1)
+		return find_user_no(head);
+	else{
+		printf(" 没有找到结果,正在返回上一级菜单...");
+		Sleep(3000);
+		return NULL;
+	}
+	return NULL;
+}
+
+
 
 void delete_user_no(struct user * find) {
 
@@ -151,6 +188,30 @@ struct user * find_user_no(struct user * head) {
 		}
 		node=node->next;
 	}
+	printf(" 没有找到结果,正在返回上一级菜单...");
+	Sleep(3000);
+	return NULL;
+}
+
+struct user * find_user_name(struct user * head) {
+
+	char num[11];
+	struct user * node = head;
+
+	printf(" 请输入名字以查找单个学生(输入0则退出):\n");
+	fflush(stdin);
+	scanf("%s",num);
+	printf(" 正在定位...\n");
+	system("mode con cols=80 lines=30");
+	while(node->next!=NULL){
+		if( strcmp(node->next->name,num)==0 ){
+			print_user_solo(node->next);
+			return node;
+		}
+		node=node->next;
+	}
+	printf(" 没有找到结果,正在返回上一级菜单...");
+	Sleep(3000);
 	return NULL;
 }
 
@@ -179,9 +240,11 @@ void change_user(struct user * node) {
 				if(strlen(ch)==11){
 					strcpy(node->no,ch);
 					printf("---修改成功!\n");
+					s=0;
 				}else{
 					printf("---修改失败! 原因:输入的学号不是10位\n");
 					Sleep(1300);
+					s=0;
 				}
 				break;
 			case 2:
@@ -190,15 +253,18 @@ void change_user(struct user * node) {
 				if(strlen(ch)>=6){
 					strcpy(node->password,ch);
 					printf("---修改成功!\n");
+					s=0;
 				}else{
 					printf("---修改失败! 原因:密码过于简单\n");
 					Sleep(1300);
+					s=0;
 				}
 				break;
 			case 3:
 				printf("请输入新的名字: ");
 				scanf("%20s",node->name);
-				printf("---修改成功!\n");				
+				printf("---修改成功!\n");
+				s=0;
 				break;
 			default:
 				break;

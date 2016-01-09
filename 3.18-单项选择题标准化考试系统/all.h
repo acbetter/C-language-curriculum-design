@@ -69,14 +69,16 @@ void goto_pos(int x, int y);
 int fuzzy_search(char str[],char str2[]);
 
 //admin.cpp
+int sign_in();
 void admin();
+void menuPrint_2(int a);
 void question_admin();
 void auto_paper();
-void admin_user();
-void situation_analysis();
-void menuPrint_2(int a);
+void user_admin();
+void change_admin_password();
 struct info * find_info_num(struct info * head,int num);
 struct info * find_info_score_num(struct info * head,int lev);
+
 
 //question.cpp
 void question();
@@ -126,9 +128,10 @@ void print_user_solo(struct user * node);
 struct user * find_user(struct user * head);
 void menuPrint_6(int a);
 struct user * find_user_name_key(struct user * head);
-
+struct user * find_user_no_key(struct user * head);
 void delete_user_no(struct user * find);
 struct user * find_user_no(struct user * head);
+struct user * find_user_name(struct user * head);
 void change_user(struct user * node);
 void find_user_next(struct user * node);
 /*
