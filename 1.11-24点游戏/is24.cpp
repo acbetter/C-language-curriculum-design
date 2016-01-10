@@ -86,7 +86,7 @@ void exitGame(void);
 
 void main(void) {
 
-	system("mode con cols=67 lines=29");
+	
 	system("color 3E");
 	resetting();
 	read_settings();
@@ -96,15 +96,31 @@ void main(void) {
 	
 	while (1) {
 
+		system("mode con cols=67 lines=29");
 		menuPrint();
 		a=move();
 		switch (a) {
 			//1.帮我计算 2.练习模式 3.天梯模式 4.双人模式 5.设置 6.帮助 0.exit
-			case 1:userGet();continue;
-			case 2:exercise();continue;
-			case 3:tianti();continue;
-			case 4:pk();continue;
-			case 5:print_settings();continue;
+			case 1:
+				system("mode con cols=50 lines=30");
+				userGet();
+				continue;
+			case 2:
+				system("mode con cols=50 lines=17");
+				exercise();
+				continue;
+			case 3:
+				system("mode con cols=50 lines=17");
+				tianti();
+				continue;
+			case 4:
+				system("mode con cols=50 lines=17");
+				pk();
+				continue;
+			case 5:
+				system("mode con cols=67 lines=17");
+				print_settings();
+				continue;
 			case 6:help();continue;
 			default:break;
 		}
@@ -339,7 +355,10 @@ void pk() {
 
 	while (1) {
 
-		printf("当前分数 A:%d B:%d\n",a,b);
+		system("cls");
+		printf("   ------------------\n");
+		printf("当前分数 %s:%d %s:%d\n",A,a,B,b);
+		printf("   ------------------\n");
 
 		randomGet();
 		fflush(stdin);
@@ -362,13 +381,23 @@ void pk() {
 		} else
 			;
 
+		printf("   ------------------\n");
+		printf("当前分数 %s:%d %s:%d\n",A,a,B,b);
+		printf("   ------------------\n");
 		printf("要继续PK吗?继续请按空格或回车,结束PK请按其他键\n");
 		key=getch();
 		if(key==13||key==32)
 			;
-		else
+		else{
+			if(a>b)
+				printf("恭喜%s获胜\n",A);
+			else if(a==b)
+				printf("平局哦!\n");
+			else
+				printf("恭喜%s获胜\n",B);
+			system("pause");
 			break;
-
+		}
 	}
 }
 

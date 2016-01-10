@@ -92,7 +92,7 @@ struct info * read_info(void);
 void free_info(struct info * head);
 void print_info(struct info * head);
 void print_info_solo(struct info * node);
-
+void fprint_info_solo(FILE *fp,struct info * node);
 
 //time.cpp
 void print_time(long lt);

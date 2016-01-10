@@ -375,3 +375,41 @@ void print_info_solo(struct info * node) {
 		
 	}
 }
+
+void fprint_info_solo(FILE *fp,struct info * node) {
+
+	int i;
+	
+	if (node==NULL) {
+		printf("当前结点为空!");
+	}else{
+		struct info * p = node;
+		
+			fprintf(fp,"%s","\n ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+			fprintf(fp," no:%3d ",p->no);
+			fprintf(fp," lever:%2d ",p->lever);
+			fprintf(fp," score:%d ",p->score);
+			fprintf(fp,"\n statement:\n\t%s\n\n",p->statement);
+
+			fprintf(fp,"%s"," keyWords:");
+			for(i=0;i<5;i++)
+				if(p->keyWords[i][0]!='@')
+					fprintf(fp,"%s ",p->keyWords[i]);
+				else
+					break;
+			fprintf(fp,"%s","\n");
+
+			fprintf(fp," A:%s\t",p->options[0]);
+			fprintf(fp," B:%s\n",p->options[1]);
+			fprintf(fp," C:%s\t",p->options[2]);
+			fprintf(fp," D:%s\n",p->options[3]);
+			
+			fprintf(fp," %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
+			for(i=0;i<4;i++) {
+				if(i==p->rightAnswer)
+					continue;
+				fprintf(fp," %c wrong,because %s\n",'A'+i,p->answers[i]);
+			}		
+		
+	}
+}

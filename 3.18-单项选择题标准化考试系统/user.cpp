@@ -54,10 +54,12 @@ void user() {
 void user_login(struct user * head,struct user * node) {
 		
 	int a;
+	time_t in,out;
+	in=time(NULL);
 	system("color 07");
 	while (1) {
 
-		system("mode con cols=70 lines=30");
+		system("mode con cols=70 lines=22");
 		a = move_1(5,menuPrint_7);
 
 		switch (a) {
@@ -79,6 +81,8 @@ void user_login(struct user * head,struct user * node) {
 		}
 		break;
 	}
+	out=time(NULL);
+	node->timeOnline+=(out-in);
 	write_user(head);
 	free_user(head);  //save
 }
@@ -183,11 +187,26 @@ void color(const unsigned short color1)
 
 void exam(struct user * node) {
 
-	int key,num;
+	int key,num,a,b=strlen(node->name);
 	int i=0,lever=100,right=0;
 	float score=0;
 	time_t begin,temp,end;
 	char ch[20];
+
+	FILE *fp = NULL;
+	char n[40];
+	strcpy(n,node->name);
+	for(a=0;a<b;a++)
+		if(n[a]=='.')
+			break;
+	if(a==b)
+		strcpy(&n[b],".txt");
+		
+	fp=fopen(n,"a+");
+	if(fp==NULL) {
+		printf("cannot attach %s\n",n);
+		exit (0);
+	}
 
 	system("mode con cols=80 lines=300");
 	printf("---------考试---------\n");
@@ -226,13 +245,16 @@ void exam(struct user * node) {
 			printf(" B:%s\n",p->options[1]);
 			printf(" C:%s\t",p->options[2]);
 			printf(" D:%s\n",p->options[3]);
+			fprint_info_solo(fp,p);
 			printf("***请作答: ");
+			fprintf(fp,"%s","我的答案是: ");
 			fflush(stdin);
 			key=getch();
 			if(key==0||key==224||key==-32)
 				key=getch();
 			else if(key>=97&&key<=100){
 				printf(" %c ",'A'+key-97);
+				fprintf(fp," %c \n",'A'+key-97);
 				if((key-97)==p->rightAnswer){
 					right++;
 					node->examRight[node->examTime-1][0]++;//用户考试正确数目
@@ -268,6 +290,7 @@ void exam(struct user * node) {
 		node->examRight[node->examTime-1][1]=num-right;//用户考试错误数目
 		printf("总计用时间 %ld minutes %ld seconds",(end-begin)/60,(end-begin)%60);
 	}
+	printf("\n");
 	system("pause");
 }
 
@@ -331,4 +354,75 @@ void answerWrong(struct user * node,struct info * temp) {
 
 void execrise(struct user * node) {
 
+	int key;
+	int i=0,lever=100,right=0,a=1;
+	float score=0;
+	char ch[20];
+
+	system("mode con cols=80 lines=300");
+	printf("---------练习---------\n");
+	printf("请输入练习内容(如基础,拔高,数组,指针.无要求请直接按@+回车): ");
+	fflush(stdin);
+	scanf("%20s",ch);
+
+	struct info * head = read_info();
+	struct info * p = head->next;
+
+	printf("练习提升:在作答过程中,按 0 放弃作答当前题目并查看当前题目答案,按Esc则返回主菜单!\n");
+	printf("按任意键练习开始!\n");
+	
+	node->exerciseTime++;//用户练习次数++
+	key=getch();
+	if(key==0||key==224||key==-32)
+		key=getch();
+	//开始
+	while(a)
+	{
+		if(p==NULL){
+			a=-1;
+			break;
+		}
+		if(isQusetion(p,ch))
+		{
+			printf("\n---第%d题---:",i+1);
+			printf("\n statement:\n\t%s\n\n",p->statement);
+			printf(" A:%s\t",p->options[0]);
+			printf(" B:%s\n",p->options[1]);
+			printf(" C:%s\t",p->options[2]);
+			printf(" D:%s\n",p->options[3]);
+			printf("***请作答: ");
+			fflush(stdin);
+			key=getch();
+			if(key==0||key==224||key==-32)
+				key=getch();
+			else if(key>=97&&key<=100){
+				printf(" %c ",'A'+key-97);
+				if((key-97)==p->rightAnswer){
+					node->exerciseRight++;
+					printf("答案正确!\n");
+				}else{
+					answerWrong(node,p);
+					printf("答案错误!\n");
+					printf(" %c right,because %s\n",'A'+p->rightAnswer,p->answers[p->rightAnswer]);
+					for(i=0;i<4;i++) {
+						if(i==p->rightAnswer)
+							continue;
+						printf(" %c wrong,because %s\n",'A'+i,p->answers[i]);
+					}
+				}
+			}else if(key==27)
+				break;//结算
+			else
+				printf("输入有误\n");
+			i++;
+			node->exercise++;//用户考试题数目++
+		}
+		p=p->next;
+	}//while
+	if(a==-1)
+		printf("当前题库数量有限,敬请谅解\n");
+	else
+		printf("总计练习%d道题~,继续努力");
+	printf("\n");
+	system("pause");
 }

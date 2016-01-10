@@ -47,7 +47,14 @@ void main(void) {
 				write_user(head);
 				free_user(head);
 				continue;
-			case 6:;continue;
+			case 4:
+				system("cls");
+				printf("上下键控制光标移动\n输入序号或回车可进入相应选项\n一定要切成英文输入法!!!\n");
+				system("pause");
+				continue;
+			case 5:
+				ShellExecute(NULL, "open", "http://reigning.github.io/", NULL, NULL, SW_MAXIMIZE);
+				;continue;
 			case 0:exit(0);
 			default:break;
 		}

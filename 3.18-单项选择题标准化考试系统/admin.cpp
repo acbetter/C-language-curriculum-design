@@ -23,7 +23,7 @@ int sign_in() {
 
 	int i;
 	//char name[10]={"admin"},password[10]={"admin"};
-	char name[10]={"1"},password[10]={"1"};
+	char name[10]={"admin"},password[10]={"1"};
 
 	FILE *fp;
 	fp=fopen("password","r");
@@ -217,6 +217,8 @@ void auto_paper() {
 		}
 		for(i=0;i<num;i++){
 			temp=find_info_num(head,no[i]);
+			if(temp==NULL)
+				continue;
 			fprintf(fp,"%s","ÌâºÅ");
 			fprintf(fp,"%3d",i+1);
 			fprintf(fp,"%s","\n");
