@@ -187,20 +187,20 @@ void color(const unsigned short color1)
 
 void exam(struct user * node) {
 
-	int key,num,a,b=strlen(node->name);
+	int key,num,a,b;
 	int i=0,lever=100,right=0;
 	float score=0;
 	time_t begin,temp,end;
-	char ch[20];
+	char ch[100];
 
 	FILE *fp = NULL;
-	char n[40];
+	char n[100];
+	memset(n,0,sizeof(char)*100);
 	strcpy(n,node->name);
-	for(a=0;a<b;a++)
-		if(n[a]=='.')
-			break;
-	if(a==b)
-		strcpy(&n[b],".txt");
+	a=strlen(n);
+	sprint_time(&n[a]);
+	b=strlen(n);
+	strcpy(&n[b],".txt");
 		
 	fp=fopen(n,"a+");
 	if(fp==NULL) {

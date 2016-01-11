@@ -8,3 +8,9 @@ void print_time(long lt) {
 	printf("%4dÄê%02dÔÂ%02dÈÕ %02d:%02d:%02d\n",t->tm_year+1900,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
 }
 
+void sprint_time(char * buf) {
+	struct tm *t;
+	long lt=time(NULL);
+	t=localtime(&lt);
+	sprintf(buf,"_%4d-%02d-%02d_%02d-%02d-%02d",t->tm_year+1900,t->tm_mon+1,t->tm_mday,t->tm_hour,t->tm_min,t->tm_sec);
+}

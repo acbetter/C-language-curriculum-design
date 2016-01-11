@@ -96,7 +96,7 @@ void fprint_info_solo(FILE *fp,struct info * node);
 
 //time.cpp
 void print_time(long lt);
-
+void sprint_time(char * buf);
 
 //find_info.cpp
 struct info * find_info(struct info * head);
