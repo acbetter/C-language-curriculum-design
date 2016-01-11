@@ -45,40 +45,40 @@ float con[4]={0};//con用来存放原始数据
 
 //------------------------------------------函数列表
 
-void goto_pos(int x, int y);
-void tianti();
-int zhabi();
-float cal_value(char exp[]);
-void translate(char str[],char exp[]);
-char key_to_char(int key);
-void read_settings();
-void save_settings();
-void print_settings();
-float poker_to_number(char *poker);
-void resetting();
-char* number_to_poker(float number);
-void initSettings_temp();
-float calc(float n1, float n2, char o);
-void initAllFromCon();
-void randomGet();
-void userGet();
-int userGetIn();
-void printResult_1(int a,int b,int c);
-void printResult_2(int a,int b,int c);
-void initArrFromCur();
-void exercise();
-void change_settings(int num);
-void help();
 
-void pk();
-int s_first(int isPrint);	//模拟平衡二叉树之单挂
-int s_second(int isPrint);	//模拟平衡二叉树之双链
-
-int test(void);
-void menuPrint();
-
-int move();
-void exitGame(void);
+void main(void);//程序入口
+void menuPrint();//显示菜单并根据settings.mode的值显示光标
+int move();//根据键盘的输入,显示菜单和光标,如果点击回车或数字则进入相应下一级函数
+void exitGame(void);//退出程序
+void userGet();//与userGetIn()配合使用,直到用户正确输入四张牌才退出死循环
+void exercise();//练习模式核心函数
+void tianti();//天梯模式核心函数
+void pk();//pk模式核心函数
+void print_settings();//设置界面核心函数
+void help();//帮助界面核心函数
+void change_settings(int num);//设置界面二级函数,传入要修改设置的内容序号,修改相应的设置
+void save_settings();//保存设置到本地文件
+void initSettings_temp();//初始化菜单光标 指向 1.帮我计算
+void resetting();//重置所有设置
+void read_settings();//读取上次保存的设置.第一次打开游戏时显示帮助界面
+char * number_to_poker(float number);//把读入的数字变成扑克(字符数组)
+float poker_to_number(char *poker);//把扑克(字符数组)变成浮点数
+void initAllFromCon();//恢复堆栈数组(从原始数组中)
+void initArrFromCur();//恢复临时数组
+float calc(float n1, float n2, char o);//传入数字n1.n2.和操作符(+-*/),返回一个浮点数
+void randomGet();//随机得到四个能计算出24点的扑克牌
+void printResult_1(int a,int b,int c);//传来三个操作符 读取数组cur[4]的四个数据 打印出来
+void printResult_2(int a,int b,int c);//等同于printResult_1
+int s_first(int isPrint);//模拟平衡二叉树之单挂 传入参数为1时输出正解 0则不输出
+int s_second(int isPrint);//模拟平衡二叉树之双链 这两个函数是核心算法 返回1时则是可以算出 返回0就是算不出24点
+int userGetIn();//帮我计算核心函数
+char * keyControl_to_charPointer(int key);//逗比函数 未完成的函数 多半是废了
+char key_to_char(int key);//读取键盘输入 返回字符型 多半也是废了
+int test(void);//测试函数
+void translate(char str[],char exp[]);//对堆栈的细节处理
+float cal_value(char exp[]);//一个使用堆栈的计算器 支持() + - * /
+int zhabi();//调用translate和cal_value函数
+void goto_pos(int x, int y);//光标移动函数
 
 
 //------------------------------------------主函数及菜单函数
@@ -545,7 +545,7 @@ void read_settings() {
 	resetting();
 	if( (fp=fopen("is24.set","r"))==NULL ) {
 		save_settings();
-		//未完成->显示帮助界面
+		help();//第一次打开游戏时显示帮助界面
 	} else {
 		if( (fread(&saved,sizeof(saved_set),1,fp) )!=1 )
 			resetting();

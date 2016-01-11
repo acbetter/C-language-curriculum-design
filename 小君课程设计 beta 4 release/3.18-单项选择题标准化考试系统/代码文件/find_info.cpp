@@ -300,7 +300,7 @@ struct info * find_info_score(struct info * head) {
 	int lev;
 
 	system("cls");
-	printf(" 请输入题目难度:\n");
+	printf(" 请输入题目分值:\n");
 	fflush(stdin);
 	scanf("%2d",&lev);
 	printf(" 正在查找...\n");

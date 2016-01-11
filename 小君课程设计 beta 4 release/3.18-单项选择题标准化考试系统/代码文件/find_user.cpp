@@ -281,7 +281,7 @@ void find_user_next(struct user * node) {
 
 		printf("\n 请输入相应的数字,按回车结束...\n");
 		printf(" 1.change -> 修改\n");
-		printf(" 2.delete -> 删除\n");
+		printf(" 2.delete -> 删除\n");//小bug 用户自己删除自己~~~2333
 		printf(" 0.return -> 返回菜单\n\t\t");
 
 		fflush(stdin);
