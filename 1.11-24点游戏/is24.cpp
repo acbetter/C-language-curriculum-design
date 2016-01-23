@@ -35,7 +35,6 @@ struct saved_set saved;
 int N = 24;
 
 
-
 char op[4]={'+','-','*','/'};
 
 float arr[4]={0};//arr用来存放计算结果
@@ -61,7 +60,7 @@ void save_settings();//保存设置到本地文件
 void initSettings_temp();//初始化菜单光标 指向 1.帮我计算
 void resetting();//重置所有设置
 void read_settings();//读取上次保存的设置.第一次打开游戏时显示帮助界面
-char * number_to_poker(float number);//把读入的数字变成扑克(字符数组)
+char * number_to_poker(float number,char *temp);//把读入的数字变成扑克(字符数组)
 float poker_to_number(char *poker);//把扑克(字符数组)变成浮点数
 void initAllFromCon();//恢复堆栈数组(从原始数组中)
 void initArrFromCur();//恢复临时数组
@@ -404,6 +403,7 @@ void pk() {
 
 void print_settings() {
 
+	char temp[4];//临时记录扑克牌
 	char isSave[2][10]={"否","是"};
 
 	int key=0;
@@ -415,8 +415,8 @@ void print_settings() {
 		printf("\t这个设置界面暂时不支持上下滑动及回车选中\n");
 		printf("\t也不支持更改当前主题\n");
 		printf("\t请输入1~9修改设置项,输入0即可回到主菜单\n\n");
-		printf("\t1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low)));
-		printf("\t2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high)));
+		printf("\t1.当前下限(最小的扑克牌):%s\n",number_to_poker(float(saved.low),temp));
+		printf("\t2.当前上限(最大的扑克牌):%s\n",number_to_poker(float(saved.high),temp));
 		printf("\t3.is %d点(该项设置不会在下次游戏开启时载入...)\n",N);
 		printf("\t8.重置所有设置(程序有bug时也可以重置)\n");
 		printf("\t9.下次运行游戏是否载入当前设置:%s\n",isSave[saved.saveSettings]);
@@ -544,6 +544,7 @@ void read_settings() {
 	FILE *fp;
 	resetting();
 	if( (fp=fopen("is24.set","r"))==NULL ) {
+		system("mode con cols=67 lines=29");
 		save_settings();
 		help();//第一次打开游戏时显示帮助界面
 	} else {
@@ -554,10 +555,10 @@ void read_settings() {
 }
 
 
-char * number_to_poker(float number) {
+char * number_to_poker(float number,char *temp) {
 
-	char temp[11];
-	memset(temp,0,sizeof(char)*11);
+	
+	memset(temp,0,sizeof(char)*4);
 
 	if(number==1)
 		return "A";
@@ -569,9 +570,10 @@ char * number_to_poker(float number) {
 		return "K";
 	else if(number==10)
 		return "10";
-	else if(number>1&&number<10)
-		return itoa((int)number,temp,10);
-	else
+	else if(number>1&&number<10){
+		temp[0]='0'+(int)number;
+		return temp;
+	}else
 		return NULL;
 }
 
