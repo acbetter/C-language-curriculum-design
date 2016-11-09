@@ -11,10 +11,10 @@
 我的博客 http://reigning.github.io/
 
 下载地址
-http://pan.baidu.com/s/1o6WDabC
+https://pan.baidu.com/s/1hsz9qok
 
 番外篇:
-小君_程序设计 答辩 001 大一上半学期期末 现场视频
+小君_程序设计 答辩 001 大一上半学期期末 现场视频 现在已经不能看了被和谐了。。。
 http://v.qq.com/page/q/x/q/q0180s3p7xq.html
 2016-1-10 早晨 Reigning(我)在1教202现场装比 虽然中间有个小bug 但是人类已经停不下来我装比的节奏了
 由于有点紧张 好多时候不知道该说些什么好 所以有好多停顿 浪费了不少时间
