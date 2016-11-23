@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <conio.h>
-int main(void) 
+int main(void)
 {
-	printf("\n\t\t\tËÀÑ­»·,ÍË³öÊ±ÇëÖ±½Ó²æµô\n\n\t\t\t\t");
-	int key=0;
-	while (1) {
-		key=getch();
-		printf("%d\n\t\t\t\t",key);
-	}
-	return 0;
+    printf("\n\t\t\tæ­»å¾ªç¯,é€€å‡ºæ—¶è¯·ç›´æ¥å‰æ‰\n\n\t\t\t\t");
+    int key = 0;
+    while (1)
+    {
+	key = getch();
+	printf("%d\n\t\t\t\t", key);
+    }
+    return 0;
 }

@@ -15,163 +15,187 @@
     管理员和用户分别通过密码登录，进行题目维护和答题操作。用户产生的答题文件，应以用户名+系统时间.txt的形式存储，以便于进行管理。
 */
 
-
 #include "all.h"
 
+void main(void)
+{
 
-void main(void) {
+    printf("正在载入程序,请稍候...");
 
-	printf("正在载入程序,请稍候...");
+    srand((unsigned)time(NULL));
+    int a;
+    struct user *head = NULL;
 
-	srand((unsigned)time(NULL));
-	int a;
-	struct user * head = NULL;
-	
-	while (1) {
+    while (1)
+    {
 
-		system("mode con cols=57 lines=20");
-		system("color 0A");
+	system("mode con cols=57 lines=20");
+	system("color 0A");
 
-		a = move_1(6,menuPrint);
-		switch (a) {
-			//1.
-			case 1:
-				admin();
-				continue;
-			case 2:
-				user();
-				continue;
-			case 3:
-				head=read_user();
-				input_user(head);
-				write_user(head);
-				free_user(head);
-				continue;
-			case 4:
-				system("cls");
-				printf("上下键控制光标移动\n输入序号或回车可进入相应选项\n一定要切成英文输入法!!!\n");
-				system("pause");
-				continue;
-			case 5:
-				ShellExecute(NULL, "open", "http://reigning.github.io/", NULL, NULL, SW_MAXIMIZE);
-				;continue;
-			case 0:exit(0);
-			default:break;
-		}
+	a = move_1(6, menuPrint);
+	switch (a)
+	{
+	//1.
+	case 1:
+	    admin();
+	    continue;
+	case 2:
+	    user();
+	    continue;
+	case 3:
+	    head = read_user();
+	    input_user(head);
+	    write_user(head);
+	    free_user(head);
+	    continue;
+	case 4:
+	    system("cls");
+	    printf("上下键控制光标移动\n输入序号或回车可进入相应选项\n一定要切成英文输入法!!!\n");
+	    system("pause");
+	    continue;
+	case 5:
+	    ShellExecute(NULL, "open", "http://reigning.github.io/", NULL, NULL, SW_MAXIMIZE);
+	    ;
+	    continue;
+	case 0:
+	    exit(0);
+	default:
+	    break;
 	}
+    }
 }
 
+int move_1(int num, void (*p)(int))
+{
 
-int move_1(int num,void (*p)(int) ) {
+    int a = 1;
+    int key = 1;
 
-	int a = 1;
-	int key = 1;
+    while (1)
+    {
 
-	while(1) {
+	(*p)(a);
+	fflush(stdin);
+	key = getch();
+	if (key == 244 || key == 0)
+	    key = getch();
+	if (key == 72)
+	    a--; //up
+	else if (key == 80)
+	    a++;
+	else if (key >= 48 && key <= 57)
+	    return key - 48;
+	else if (key == 27)
+	    return 0; //Esc
+	else if (key == 13)
+	    return a;
+	else
+	    ;
 
-		(*p)(a);
-		fflush(stdin);
-		key=getch();
-		if(key==244||key==0)
-			key=getch();
-		if(key==72)
-			a--;//up
-		else if(key==80)
-			a++;
-		else if(key>=48&&key<=57)
-			return key-48;
-		else if(key==27)
-			return 0;//Esc
-		else if(key==13)
-			return a;
-		else
-			;
-
-		if(a==num)
-			a=0;
-		if(a==-1)
-			a=num-1;
-	}
+	if (a == num)
+	    a = 0;
+	if (a == -1)
+	    a = num - 1;
+    }
 }
 
+void menuPrint(int a)
+{
 
-void menuPrint(int a) {
+    system("cls");
+    char name[15] = {"menu_1.txt"};
 
-	system("cls");
-	char name[15]={"menu_1.txt"};
+    char arr[1500]; //这里1000最为合适~2333
+    memset(arr, 0, sizeof(char) * 1500);
+    FILE *fp;
+    fp = fopen(name, "r");
 
-	
-	char arr[1500];//这里1000最为合适~2333
-	memset(arr,0,sizeof(char)*1500);
-	FILE *fp;
-	fp=fopen(name,"r");
+    if (fp == NULL)
+    {
+	printf("cannot open %s\n", name);
+	exit(0);
+    }
 
-	if(fp==NULL) {
-		printf("cannot open %s\n",name);
-		exit (0);
-	}
+    int h = 0;
+    while (!feof(fp))
+    {
+	fread(arr + h, sizeof(char), 1, fp);
+	h++;
+    }
+    printf("%s", arr);
 
-	int h=0;
-	while(!feof(fp)) {
-		fread(arr+h,sizeof(char),1,fp);
-		h++;
-	}
-	printf("%s",arr);
+    fclose(fp);
 
-	fclose(fp);
-
-	switch (a) {
-		//显示光标
-		case 1:printLaugh(32,6);break;
-		case 2:printLaugh(32,8);break;
-		case 3:printLaugh(32,10);break;
-		case 4:printLaugh(32,12);break;
-		case 5:printLaugh(32,14);break;
-		case 0:printLaugh(32,16);break;
-		default:break;
-	}
-	
+    switch (a)
+    {
+    //显示光标
+    case 1:
+	printLaugh(32, 6);
+	break;
+    case 2:
+	printLaugh(32, 8);
+	break;
+    case 3:
+	printLaugh(32, 10);
+	break;
+    case 4:
+	printLaugh(32, 12);
+	break;
+    case 5:
+	printLaugh(32, 14);
+	break;
+    case 0:
+	printLaugh(32, 16);
+	break;
+    default:
+	break;
+    }
 }
 
-void printLaugh(int x, int y) {
+void printLaugh(int x, int y)
+{
 
-	goto_pos(x,y);
-	printf("(*^_^*)");
-	goto_pos(x+3,y);
-
+    goto_pos(x, y);
+    printf("(*^_^*)");
+    goto_pos(x + 3, y);
 }
 
-void goto_pos(int x, int y) {
-	//(列,行)
-	COORD coord = {x,y};
-	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
-
+void goto_pos(int x, int y)
+{
+    //(列,行)
+    COORD coord = {x, y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
 }
 
-int fuzzy_search(char str[],char str2[]) {
+int fuzzy_search(char str[], char str2[])
+{
 
-	//char str[]为源字符串
-	//char str2[]为查找的关键字
-	char *res;
-	res=(char *)memchr(str,str2[0],strlen(str));
-	//根据要查找的字符串第一个字符，切割源字符串
-	if (res==NULL)
+    //char str[]为源字符串
+    //char str2[]为查找的关键字
+    char *res;
+    res = (char *)memchr(str, str2[0], strlen(str));
+    //根据要查找的字符串第一个字符，切割源字符串
+    if (res == NULL)
+	return 0;
+    //如果连被查找字符串的第一个字符都没有找到...
+
+    int n;
+    while (1)
+    {
+	n = memcmp(res, str2, strlen(str2) - 1); //比较
+	if (n != 0)
+	{
+	    if (strlen(res) <= strlen(str2)) //切割出的字符串小于要查找字符串的长度
 		return 0;
-	//如果连被查找字符串的第一个字符都没有找到...
-
-	int n;
-	while (1) {
-		n=memcmp(res,str2,strlen(str2)-1); //比较
-		if(n != 0) {
-			if(strlen(res)<=strlen(str2))//切割出的字符串小于要查找字符串的长度
-				return 0;
-			else{  
-				//根据要查找的第一个字符继续切割
-				res=(char *)memchr(res+1,str2[0],strlen(res));  
-				if(res==NULL)
-					return 0;
-			}
-		}else//如果n = 0，找到
-			return 1;
+	    else
+	    {
+		//根据要查找的第一个字符继续切割
+		res = (char *)memchr(res + 1, str2[0], strlen(res));
+		if (res == NULL)
+		    return 0;
+	    }
 	}
+	else //如果n = 0，找到
+	    return 1;
+    }
 }
